@@ -4,6 +4,126 @@
   --font-sans:
     "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji";
+
+  /* Primary Colors */
+  --color-primary-normal: #0077ff;
+  --color-primary-strong: #005eeb;
+  --color-primary-heavy: #0054d1;
+
+  /* Label Colors */
+  --color-label-normal: #171719;
+  --color-label-strong: #000000;
+  --color-label-neutral: #2e2f33e0;
+  --color-label-alternative: #37383c9c;
+  --color-label-assistive: #37383c47;
+  --color-label-disable: #37383c29;
+
+  /* Status Colors */
+  --color-status-positive: #00bf40;
+  --color-status-cautionary: #ff9200;
+  --color-status-negative: #ff4242;
+
+  /* Accent Background Colors */
+  --color-accent-bg-lime: #58cf04;
+  --color-accent-bg-cyan: #00bdde;
+  --color-accent-bg-light-blue: #00aeff;
+  --color-accent-bg-violet: #6541f2;
+  --color-accent-bg-purple: #cb59ff;
+  --color-accent-bg-pink: #f553da;
+  --color-accent-bg-red-orange: #ff5e00;
+
+  /* Accent Foreground Colors */
+  --color-accent-fg-red: #e52222;
+  --color-accent-fg-red-orange: #f55a00;
+  --color-accent-fg-orange: #d17600;
+  --color-accent-fg-lime: #429e00;
+  --color-accent-fg-green: #009632;
+  --color-accent-fg-cyan: #0098b2;
+  --color-accent-fg-light-blue: #008dcf;
+  --color-accent-fg-blue: #005eeb;
+  --color-accent-fg-violet: #5b37ed;
+  --color-accent-fg-purple: #ad36e3;
+  --color-accent-fg-pink: #e846cd;
+
+  /* Common Colors */
+  --color-common-0: #000000;
+  --color-common-100: #ffffff;
+
+  /* Cool Neutral Colors */
+  --color-cool-neutral-0: #000000;
+  --color-cool-neutral-10: #171719;
+  --color-cool-neutral-20: #292a2d;
+  --color-cool-neutral-30: #46474c;
+  --color-cool-neutral-40: #5a5c63;
+  --color-cool-neutral-50: #70737c;
+  --color-cool-neutral-60: #878a93;
+  --color-cool-neutral-70: #989ba2;
+  --color-cool-neutral-80: #aeb0b6;
+  --color-cool-neutral-90: #c2c4c8;
+  --color-cool-neutral-95: #dbdcdf;
+  --color-cool-neutral-96: #e1e2e4;
+  --color-cool-neutral-97: #eaebec;
+  --color-cool-neutral-98: #f4f4f5;
+  --color-cool-neutral-99: #f7f7f8;
+  --color-cool-neutral-100: #ffffff;
+
+  /* Red Colors */
+  --color-red-0: #000000;
+  --color-red-10: #3b0101;
+  --color-red-20: #730303;
+  --color-red-30: #b00c0c;
+  --color-red-40: #e52222;
+  --color-red-50: #ff4242;
+  --color-red-60: #ff6363;
+  --color-red-70: #ff8c8c;
+  --color-red-80: #ffb5b5;
+  --color-red-90: #fed5d5;
+  --color-red-95: #feecec;
+  --color-red-99: #fffafa;
+  --color-red-100: #ffffff;
+
+  /* Orange Colors */
+  --color-orange-0: #000000;
+  --color-orange-10: #361e00;
+  --color-orange-20: #663a00;
+  --color-orange-30: #9c5800;
+  --color-orange-39: #d17600;
+  --color-orange-40: #d47800;
+  --color-orange-50: #ff9200;
+  --color-orange-60: #ffa938;
+  --color-orange-70: #ffc06e;
+  --color-orange-80: #ffd49c;
+  --color-orange-90: #fee6c6;
+  --color-orange-95: #fef4e6;
+  --color-orange-99: #fffcf7;
+  --color-orange-100: #ffffff;
+
+  /* Green Colors */
+  --color-green-0: #000000;
+  --color-green-10: #00240c;
+  --color-green-20: #004517;
+  --color-green-30: #006e25;
+  --color-green-40: #009632;
+  --color-green-50: #00bf40;
+  --color-green-60: #1ed45a;
+  --color-green-70: #49e57d;
+  --color-green-80: #7df5a5;
+  --color-green-90: #acfcc7;
+  --color-green-95: #d9ffe6;
+  --color-green-99: #f2fff6;
+  --color-green-100: #ffffff;
+
+  /* Blue Colors */
+  --color-blue-0: #000000;
+  --color-blue-10: #001833;
+  --color-blue-30: #004390;
+  --color-blue-50: #0077ff;
+  --color-blue-70: #3e98ff;
+  --color-blue-80: #8cc2ff;
+  --color-blue-90: #bbdbff;
+  --color-blue-95: #dcecff;
+  --color-blue-99: #f3f8ff;
+  --color-blue-100: #ffffff;
 }
 
 html,
