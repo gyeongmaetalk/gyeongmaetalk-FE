@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
 /* Pretendard Variable 폰트 정의 */
 @font-face {
@@ -8,7 +9,6 @@
   font-style: normal;
   font-display: swap;
 }
-
 @theme {
   --font-sans:
     "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
@@ -133,6 +133,26 @@
   --color-blue-95: #dcecff;
   --color-blue-99: #f3f8ff;
   --color-blue-100: #ffffff;
+
+  /* shadcn 호환 색상 클래스들 */
+  --color-primary: var(--color-primary-normal);
+  --color-primary-foreground: var(--color-common-100);
+  --color-secondary: var(--color-cool-neutral-98);
+  --color-secondary-foreground: var(--color-label-normal);
+  --color-muted: var(--color-cool-neutral-98);
+  --color-muted-foreground: var(--color-cool-neutral-50);
+  --color-accent: var(--color-cool-neutral-98);
+  --color-accent-foreground: var(--color-label-normal);
+  --color-destructive: var(--color-status-negative);
+  --color-border: var(--color-cool-neutral-95);
+  --color-input: var(--color-cool-neutral-95);
+  --color-ring: var(--color-primary-normal);
+  --color-background: var(--color-common-100);
+  --color-foreground: var(--color-label-normal);
+  --color-card: var(--color-common-100);
+  --color-card-foreground: var(--color-label-normal);
+  --color-popover: var(--color-common-100);
+  --color-popover-foreground: var(--color-label-normal);
 
   /* Font 공통 */
   --font-family: "Pretendard Variable", "Inter";
@@ -681,11 +701,90 @@
   font-weight: var(--font-weight-regular);
 }
 
-html,
-body {
-  @apply bg-white dark:bg-gray-950;
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
 
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
+:root {
+  --radius: 0.625rem;
+
+  /* 기존 디자인 시스템을 shadcn 변수에 매핑 */
+  --background: var(--color-common-100);
+  --foreground: var(--color-label-normal);
+  --card: var(--color-common-100);
+  --card-foreground: var(--color-label-normal);
+  --popover: var(--color-common-100);
+  --popover-foreground: var(--color-label-normal);
+  --primary: var(--color-primary-normal);
+  --primary-foreground: var(--color-common-100);
+  --secondary: var(--color-cool-neutral-98);
+  --secondary-foreground: var(--color-label-normal);
+  --muted: var(--color-cool-neutral-98);
+  --muted-foreground: var(--color-cool-neutral-50);
+  --accent: var(--color-cool-neutral-98);
+  --accent-foreground: var(--color-label-normal);
+  --destructive: var(--color-status-negative);
+  --border: var(--color-cool-neutral-95);
+  --input: var(--color-cool-neutral-95);
+  --ring: var(--color-primary-normal);
+
+  /* 차트 색상 - 기존 액센트 색상 활용 */
+  --chart-1: var(--color-accent-bg-light-blue);
+  --chart-2: var(--color-accent-bg-cyan);
+  --chart-3: var(--color-accent-bg-violet);
+  --chart-4: var(--color-accent-bg-purple);
+  --chart-5: var(--color-accent-bg-pink);
+
+  /* 사이드바 색상 */
+  --sidebar: var(--color-cool-neutral-99);
+  --sidebar-foreground: var(--color-label-normal);
+  --sidebar-primary: var(--color-primary-normal);
+  --sidebar-primary-foreground: var(--color-common-100);
+  --sidebar-accent: var(--color-cool-neutral-98);
+  --sidebar-accent-foreground: var(--color-label-normal);
+  --sidebar-border: var(--color-cool-neutral-95);
+  --sidebar-ring: var(--color-primary-normal);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
