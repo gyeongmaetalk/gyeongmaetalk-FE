@@ -93,12 +93,6 @@ const buttonCompoundVariants = [
   } as const,
   {
     variant: "text",
-    theme: "secondary",
-    class:
-      "text-primary-normal hover:bg-label-assistive/60 active:bg-label-assistive/80 disabled:text-label-neutral/88",
-  } as const,
-  {
-    variant: "text",
     theme: "assistive",
     class: "text-label-neutral/88 hover:bg-label-assistive/60 active:bg-label-assistive/80",
   } as const,
@@ -121,10 +115,10 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "",
+        default: "border border-transparent",
         outlined:
           "border border-primary-normal bg-transparent text-primary-normal hover:bg-primary-normal/10 active:bg-primary-normal/20",
-        text: "bg-transparent text-primary-normal hover:bg-primary-normal/10 active:bg-primary-normal/20",
+        text: "border border-transparent bg-transparent text-primary-normal hover:bg-primary-normal/10 active:bg-primary-normal/20",
       },
       theme: {
         default: "",
@@ -199,6 +193,7 @@ function Button({
       )}
       data-slot="button"
       disabled={isDisabled}
+      aria-label={isDisabled ? "Disabled" : "Enabled"}
       {...restProps}
     >
       {childrenWithLoader}
