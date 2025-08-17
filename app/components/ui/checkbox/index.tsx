@@ -31,7 +31,7 @@ function Checkbox({ className, size = "default", ...props }: CheckboxProps) {
       <input
         type="checkbox"
         className={cn(
-          "peer border-cool-neutral-50/22 checked:border-primary-normal checked:bg-primary-normal hover:border-primary-strong group-active:bg-label-normal/12 appearance-none rounded-[5px] border-[1.5px] bg-white transition-all focus:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+          "peer border-cool-neutral-50/22 checked:border-primary-normal checked:bg-primary-normal hover:border-primary-strong appearance-none rounded-[5px] border-[1.5px] bg-white transition-all focus:outline-none disabled:cursor-not-allowed disabled:opacity-50",
           checkboxSize[size].input,
           className
         )}
@@ -39,7 +39,7 @@ function Checkbox({ className, size = "default", ...props }: CheckboxProps) {
       />
       <Check
         className={cn(
-          "pointer-events-none absolute text-white opacity-0 peer-checked:opacity-100",
+          "pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white opacity-0 peer-checked:opacity-100",
           checkboxSize[size].check
         )}
       />
