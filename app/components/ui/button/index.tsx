@@ -126,9 +126,9 @@ const buttonVariants = cva(
         assistive: "",
       },
       size: {
-        default: "px-7 py-3 rounded-[0.75rem] gap-1.5",
-        md: "px-5 py-[0.5625rem] rounded-[0.625rem] gap-[0.3125rem]",
-        sm: "px-3.5 py-[0.4375rem] rounded-[0.5rem] gap-1",
+        default: "px-7 py-3 rounded-[0.75rem] gap-1.5 font-body1-normal-bold",
+        md: "px-5 py-[0.5625rem] rounded-[0.625rem] gap-[0.3125rem] font-body2-normal-bold",
+        sm: "px-3.5 py-[0.4375rem] rounded-[0.5rem] gap-1 font-label2-bold",
       },
     },
     compoundVariants: buttonCompoundVariants,
@@ -150,11 +150,12 @@ function Button({
   LeftIcon,
   RightIcon,
   iconOnly,
+  disabled,
+  children,
   ...props
 }: ButtonProps) {
   const Comp = asChild ? Slot : "button";
 
-  const { disabled, children, ...restProps } = props;
   const isDisabled = disabled || loading;
 
   const childrenWithLoader = loading ? (
@@ -194,7 +195,7 @@ function Button({
       data-slot="button"
       disabled={isDisabled}
       aria-label={isDisabled ? "Disabled" : "Enabled"}
-      {...restProps}
+      {...props}
     >
       {childrenWithLoader}
     </Comp>
