@@ -30,6 +30,7 @@ export default defineConfig([
       ],
       "react/react-in-jsx-scope": "off",
       "no-empty-pattern": "off",
+      "@typescript-eslint/no-unused-vars": "warn",
     },
   },
 ]);
