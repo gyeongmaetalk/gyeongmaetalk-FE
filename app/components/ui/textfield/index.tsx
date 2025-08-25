@@ -26,6 +26,8 @@ function Textfield({ label, errorText, successText, helperText, ...props }: Text
   const isControlled = controlledValue !== undefined;
   const currentValue = isControlled ? controlledValue : internalValue;
 
+  const isHelperTextRender = errorText || successText || helperText;
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!isControlled) {
       setInternalValue(e.target.value);
@@ -49,9 +51,11 @@ function Textfield({ label, errorText, successText, helperText, ...props }: Text
 
   return (
     <div className="flex flex-col gap-2">
-      <label htmlFor={props.id} className="font-label1-normal-bold">
-        {label}
-      </label>
+      {label && (
+        <label htmlFor={props.id} className="font-label1-normal-bold">
+          {label}
+        </label>
+      )}
       <div
         ref={inputContainerRef}
         className={cn(
@@ -92,14 +96,16 @@ function Textfield({ label, errorText, successText, helperText, ...props }: Text
           <X className="mx-auto font-bold text-white" size={16} />
         </button>
       </div>
-      <p
-        className={cn(
-          "font-caption1-regular",
-          errorText ? "text-status-negative" : "text-label-alternative"
-        )}
-      >
-        {errorText || successText || helperText || null}
-      </p>
+      {isHelperTextRender && (
+        <p
+          className={cn(
+            "font-caption1-regular",
+            errorText ? "text-status-negative" : "text-label-alternative"
+          )}
+        >
+          {errorText || successText || helperText}
+        </p>
+      )}
     </div>
   );
 }
