@@ -6,14 +6,14 @@ import { Check } from "~/components/icons";
 import { useOutsideClick } from "~/hooks/use-outside-click";
 import { cn } from "~/lib/utils";
 
-interface TextFieldProps extends React.ComponentProps<"input"> {
+interface TextfieldProps extends React.ComponentProps<"input"> {
   label?: string;
   errorText?: string;
   successText?: string;
   helperText?: string;
 }
 
-function TextField({ label, errorText, successText, helperText, ...props }: TextFieldProps) {
+function Textfield({ label, errorText, successText, helperText, ...props }: TextfieldProps) {
   const { className, value: controlledValue, onChange: controlledOnChange, ...restProps } = props;
   const [internalValue, setInternalValue] = useState("");
   const [isFocused, setIsFocused] = useState(false);
@@ -104,4 +104,4 @@ function TextField({ label, errorText, successText, helperText, ...props }: Text
   );
 }
 
-export { TextField };
+export { Textfield };
