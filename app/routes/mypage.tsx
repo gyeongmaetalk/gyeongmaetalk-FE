@@ -1,6 +1,6 @@
-import { DefaultHeader } from "~/components/layout/header/header";
+import { WithLeftTitleHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
-import HomePage from "~/pages/home";
+import MyPagePage from "~/pages/mypage";
 
 import type { Route } from "../+types/root";
 
@@ -11,10 +11,10 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export default function HomeLayout() {
+export default function MyPageLayout() {
   return (
-    <PageLayout header={<DefaultHeader />} showNav>
-      <HomePage />
+    <PageLayout header={<WithLeftTitleHeader title="마이 페이지" />} showNav>
+      <MyPagePage />
     </PageLayout>
   );
 }
