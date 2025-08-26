@@ -1,6 +1,6 @@
 import { DefaultHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
-import HomePage from "~/pages/home";
+import ConsultPage from "~/pages/consult";
 
 import type { Route } from "../+types/root";
 
@@ -11,10 +11,10 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export default function HomeLayout() {
+export default function ConsultLayout() {
   return (
     <PageLayout header={<DefaultHeader />} showNav>
-      <HomePage />
+      <ConsultPage />
     </PageLayout>
   );
 }
