@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import type { SVGProps } from "react";
 const SvgLogoIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg

@@ -5,14 +5,17 @@ import { cn } from "~/lib/utils";
 function HeaderContainer({
   children,
   className,
+  safeArea = true,
 }: {
   children: React.ReactNode;
   className?: string;
+  safeArea?: boolean;
 }) {
   return (
     <header
       className={cn(
         "fixed top-0 right-0 left-0 flex h-11 items-center bg-white px-4 py-2.5",
+        safeArea && "mt-11",
         className
       )}
     >
@@ -86,11 +89,11 @@ export const Header = {
   Center: HeaderCenter,
   Right: HeaderRight,
   Logo: HeaderLogo,
-  BackButton: HeaderBackButton,
+  Back: HeaderBackButton,
   Title: HeaderTitle,
-  ShareButton: HeaderShareButton,
-  CloseButton: HeaderCloseButton,
-  AlarmButton: HeaderAlarmButton,
+  Share: HeaderShareButton,
+  Close: HeaderCloseButton,
+  Alarm: HeaderAlarmButton,
 };
 
 // 로고가 있는 기본 헤더
@@ -102,7 +105,7 @@ export function DefaultHeader() {
       </Header.Left>
       <Header.Center />
       <Header.Right>
-        <Header.AlarmButton />
+        <Header.Alarm />
       </Header.Right>
     </Header.Container>
   );
@@ -121,12 +124,12 @@ export function WithBackHeader({
   return (
     <Header.Container>
       <Header.Left>
-        <Header.BackButton onClick={onBack} />
+        <Header.Back onClick={onBack} />
       </Header.Left>
       <Header.Center>
         <Header.Title>{title}</Header.Title>
       </Header.Center>
-      <Header.Right>{onShare && <Header.ShareButton onClick={onShare} />}</Header.Right>
+      <Header.Right>{onShare && <Header.Share onClick={onShare} />}</Header.Right>
     </Header.Container>
   );
 }
@@ -138,7 +141,7 @@ export function WithCloseHeader({ title, onClose }: { title?: string; onClose: (
       <Header.Left />
       <Header.Center>{title && <Header.Title>{title}</Header.Title>}</Header.Center>
       <Header.Right>
-        <Header.CloseButton onClick={onClose} />
+        <Header.Close onClick={onClose} />
       </Header.Right>
     </Header.Container>
   );
@@ -152,7 +155,7 @@ export function WithLeftTitleHeader({ title, onAlarm }: { title: string; onAlarm
         <Header.Title position="left">{title}</Header.Title>
       </Header.Left>
       <Header.Center />
-      <Header.Right>{onAlarm && <Header.AlarmButton onClick={onAlarm} />}</Header.Right>
+      <Header.Right>{onAlarm && <Header.Alarm onClick={onAlarm} />}</Header.Right>
     </Header.Container>
   );
 }

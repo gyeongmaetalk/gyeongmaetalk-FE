@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import type { SVGProps } from "react";
 const SvgLogoText = (props: SVGProps<SVGSVGElement>) => (
   <svg
