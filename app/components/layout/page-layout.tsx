@@ -8,7 +8,6 @@ export type PageLayoutProps = {
   children: React.ReactNode;
   header?: React.ReactNode;
   showNav?: boolean;
-  safeArea?: { top?: boolean; bottom?: boolean };
   bgGradient?: boolean;
 };
 
@@ -16,7 +15,6 @@ export default function PageLayout({
   children,
   header,
   showNav = false,
-  safeArea = { top: true, bottom: true },
   bgGradient,
 }: PageLayoutProps) {
   return (
@@ -30,16 +28,10 @@ export default function PageLayout({
     >
       <div className={cn("relative flex w-full flex-col")}>
         {header && header}
-        <main
-          className={cn(
-            "mt-11 flex-1 overflow-y-auto",
-            safeArea.top && "mt-22",
-            safeArea.bottom && "mb-[34px]"
-          )}
-        >
+        <main className={cn("mt-[calc(2.75rem+var(--spacing-ios-top))] flex-1 overflow-y-auto")}>
           {children}
         </main>
-        {showNav && <Navigation safeArea={safeArea.bottom} />}
+        {showNav && <Navigation />}
       </div>
     </div>
   );

@@ -7,17 +7,14 @@ import { cn } from "~/lib/utils";
 function HeaderContainer({
   children,
   className,
-  safeArea = true,
 }: {
   children: React.ReactNode;
   className?: string;
-  safeArea?: boolean;
 }) {
   return (
     <header
       className={cn(
-        "max-w-mobile fixed top-0 right-0 left-0 mx-auto flex h-11 items-center bg-white px-4 py-2.5",
-        safeArea && "mt-11",
+        "max-w-mobile top-ios-top fixed right-0 left-0 mx-auto flex h-11 items-center bg-white px-4 py-2.5",
         className
       )}
     >

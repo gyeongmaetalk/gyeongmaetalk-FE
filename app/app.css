@@ -15,6 +15,8 @@
     "Segoe UI Symbol", "Noto Color Emoji";
 
   --spacing-mobile: 600px;
+  --spacing-ios-bottom: env(safe-area-inset-bottom);
+  --spacing-ios-top: env(safe-area-inset-top);
 
   /* Primary Colors */
   --color-primary-normal: #0077ff;

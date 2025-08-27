@@ -4,7 +4,7 @@ import { cn } from "~/lib/utils";
 
 import { NavAgency, NavConsult, NavHome, NavMypage } from "../../icons";
 
-const Navigation = ({ safeArea = true }: { safeArea?: boolean }) => {
+const Navigation = () => {
   const location = useLocation();
 
   const isActive = (path: string) => {
@@ -16,12 +16,7 @@ const Navigation = ({ safeArea = true }: { safeArea?: boolean }) => {
   };
 
   return (
-    <nav
-      className={cn(
-        "max-w-mobile border-cool-neutral-50/16 fixed right-0 bottom-0 left-0 mx-auto h-12 border-t bg-white",
-        safeArea && "mb-[34px]"
-      )}
-    >
+    <nav className="max-w-mobile border-cool-neutral-50/16 bottom-ios-bottom fixed right-0 left-0 mx-auto h-12 border-t bg-white">
       <ul className="grid h-full grid-cols-4 py-1">
         <li
           className={cn(

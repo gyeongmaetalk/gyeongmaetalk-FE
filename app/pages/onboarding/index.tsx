@@ -11,8 +11,8 @@ import {
   CarouselContent,
   CarouselItem,
 } from "~/components/ui/carousel";
-import { ONBOARDING_STEPS } from "~/constants/onboarding";
 import { cn } from "~/lib/utils";
+import { ONBOARDING_STEPS } from "~/routes/onboarding/constant";
 
 const OnboardingPage = () => {
   const [api, setApi] = useState<CarouselApi | null>(null);
@@ -30,8 +30,7 @@ const OnboardingPage = () => {
       api?.scrollNext();
     }
     if (isLastStep) {
-      // mode가 apply인 경우 상담 신청 페이지로 이동
-      const location = isApplyMode ? "/consulting/apply" : "/";
+      const location = isApplyMode ? "/consult/apply" : "/";
       navigate(location);
     }
   };
@@ -64,7 +63,12 @@ const OnboardingPage = () => {
           </Header.Left>
           {!isLastStep && (
             <Header.Right>
-              <Button variant="text" theme="assistive" onClick={onSkip}>
+              <Button
+                variant="text"
+                theme="assistive"
+                onClick={onSkip}
+                className="p-0 hover:bg-transparent active:bg-transparent"
+              >
                 건너뛰기
               </Button>
             </Header.Right>
@@ -73,7 +77,7 @@ const OnboardingPage = () => {
       }
       bgGradient
     >
-      <div className="flex h-full flex-col">
+      <div className="flex h-[calc(100%-5.625rem)] flex-col">
         <Carousel className="h-full" setApi={setApi}>
           <CarouselContent containerClassName="h-full" className="h-full">
             {ONBOARDING_STEPS.map((step) => (
@@ -102,8 +106,10 @@ const OnboardingPage = () => {
             />
           ))}
         </div>
-        <Button onClick={onNext}>{buttonText}</Button>
       </div>
+      <Button onClick={onNext} className="w-full">
+        {buttonText}
+      </Button>
     </PageLayout>
   );
 };
