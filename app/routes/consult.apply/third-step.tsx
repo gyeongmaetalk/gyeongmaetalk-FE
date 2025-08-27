@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import type { UseFormReturn } from "react-hook-form";
 import { useNavigate } from "react-router";
 
@@ -5,17 +7,30 @@ import FloatingContainer from "~/components/container/floating-container";
 import { Button } from "~/components/ui/button";
 import { type ApplyConsultForm } from "~/schemas/consult";
 
+import { SERVICE_OPTIONS } from "./constant";
+import Select from "./select";
+
 interface ThirdStepProps {
   form: UseFormReturn<ApplyConsultForm>;
 }
 
 const ThirdStep = ({ form }: ThirdStepProps) => {
+  const [service, setService] = useState<string | null>(form.getValues("service"));
+
   const navigate = useNavigate();
 
-  const service = form.watch("service");
   const nextDisabled = !service;
 
+  const onSelect = (value: string) => {
+    if (service === value) {
+      setService(null);
+    } else {
+      setService(value);
+    }
+  };
+
   const onNext = () => {
+    form.setValue("service", service);
     navigate("?step=4");
   };
 
@@ -24,8 +39,27 @@ const ThirdStep = ({ form }: ThirdStepProps) => {
   };
 
   return (
-    <section>
-      ThirdStep
+    <>
+      <section className="space-y-9 px-4">
+        <div className="space-y-2">
+          <p className="font-label2-bold text-primary-normal">3. 희망 서비스</p>
+          <p className="font-heading1-bold text-label-strong">
+            도움이 필요한 서비스 범위를
+            <br />
+            선택해 주세요
+          </p>
+        </div>
+        <div className="flex flex-col gap-3">
+          {SERVICE_OPTIONS.map((option) => (
+            <Select
+              key={option.value}
+              label={option.label}
+              isSelected={service === option.value}
+              onChange={() => onSelect(option.value)}
+            />
+          ))}
+        </div>
+      </section>
       <FloatingContainer className="flex gap-3">
         <Button onClick={onPrev} theme="assistive" className="flex-1 transition-none">
           이전
@@ -34,7 +68,7 @@ const ThirdStep = ({ form }: ThirdStepProps) => {
           다음
         </Button>
       </FloatingContainer>
-    </section>
+    </>
   );
 };
 
