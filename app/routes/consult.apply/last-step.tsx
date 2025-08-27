@@ -1,9 +1,11 @@
 import { useState } from "react";
 
+import { Loader2 } from "lucide-react";
 import type { UseFormReturn } from "react-hook-form";
 import { useNavigate } from "react-router";
 
 import FloatingContainer from "~/components/container/floating-container";
+import Modal from "~/components/modal";
 import { Button } from "~/components/ui/button";
 import { type ApplyConsultForm } from "~/routes/consult.apply/schema";
 
@@ -17,6 +19,9 @@ interface LastStepProps {
 const LastStep = ({ form }: LastStepProps) => {
   const [name, setName] = useState<string | null>(form.getValues("name"));
   const [innerOption, setInnerOption] = useState("");
+
+  // form.formState.isSubmitting으로 대체하기
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const navigate = useNavigate();
 
@@ -48,7 +53,11 @@ const LastStep = ({ form }: LastStepProps) => {
       // TODO: 상담 신청 API 호출
       // data에 있는 name 말고 selectedValue 사용하기
       const selectedValue = name === "personal" ? innerOption : name;
+      setIsSubmitting(true);
       console.log(data);
+      setTimeout(() => {
+        setIsSubmitting(false);
+      }, 3000);
     },
     (errors) => {
       console.error(errors);
@@ -102,6 +111,16 @@ const LastStep = ({ form }: LastStepProps) => {
           완료
         </Button>
       </FloatingContainer>
+      {isSubmitting && (
+        <Modal className="flex flex-col items-center justify-center gap-7 bg-transparent">
+          <Loader2 className="size-20 animate-spin text-white" />
+          <Modal.Content className="font-heading1-bold text-white">
+            ‘OO’님에게 적합한
+            <br />
+            경매 전문를 찾고 있어요
+          </Modal.Content>
+        </Modal>
+      )}
     </>
   );
 };
