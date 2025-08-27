@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 import { useNavigate, useSearchParams } from "react-router";
 
-import FloatingContainer from "~/components/container/floating-container";
 import { Header } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 import { Button } from "~/components/ui/button/index";
@@ -12,11 +11,10 @@ import {
   CarouselContent,
   CarouselItem,
 } from "~/components/ui/carousel";
-import { ONBOARDING_STEPS } from "~/constants/onboarding";
 import { cn } from "~/lib/utils";
+import { ONBOARDING_STEPS } from "~/routes/onboarding/constant";
 
 const OnboardingPage = () => {
-  // 버튼 Floating으로 변경하기
   const [api, setApi] = useState<CarouselApi | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -109,11 +107,9 @@ const OnboardingPage = () => {
           ))}
         </div>
       </div>
-      <FloatingContainer>
-        <Button onClick={onNext} className="w-full">
-          {buttonText}
-        </Button>
-      </FloatingContainer>
+      <Button onClick={onNext} className="w-full">
+        {buttonText}
+      </Button>
     </PageLayout>
   );
 };
