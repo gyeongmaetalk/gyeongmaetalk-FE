@@ -39,14 +39,37 @@ export const SERVICE_OPTIONS = [
   },
   {
     value: "all",
-    label: "낙찰부터 명도까지 전반적으로 도와주세요.",
+    label: "낙찰부터 명도까지 전반적으로 도와주세요",
   },
   {
     value: "strategy",
-    label: "경매 전략 컨설팅을 받고 싶어요.",
+    label: "경매 전략 컨설팅을 받고 싶어요",
   },
   {
     value: "unknown",
-    label: "잘 모르겠어요. 관련해서 설명을 듣고 싶어요.",
+    label: "잘 모르겠어요. 관련해서 설명을 듣고 싶어요",
+  },
+];
+
+export const CATEGORY_OPTIONS = [
+  {
+    value: "building",
+    label: "상가/빌딩 경매",
+  },
+  {
+    value: "apartment",
+    label: "아파트 경매",
+  },
+  {
+    value: "land",
+    label: "유치권/임차권 등 권리 분석",
+  },
+  {
+    value: "post-auction",
+    label: "낙찰 후 명도",
+  },
+  {
+    value: "unknown",
+    label: "아직 잘 모르겠어요",
   },
 ];

@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import type { UseFormReturn } from "react-hook-form";
 import { useNavigate } from "react-router";
 
@@ -5,17 +7,30 @@ import FloatingContainer from "~/components/container/floating-container";
 import { Button } from "~/components/ui/button";
 import { type ApplyConsultForm } from "~/schemas/consult";
 
+import { CATEGORY_OPTIONS } from "./constant";
+import Select from "./select";
+
 interface FourthStepProps {
   form: UseFormReturn<ApplyConsultForm>;
 }
 
 const FourthStep = ({ form }: FourthStepProps) => {
+  const [category, setCategory] = useState<string | null>(form.getValues("category"));
+
   const navigate = useNavigate();
 
-  const category = form.watch("category");
   const nextDisabled = !category;
 
+  const onSelect = (value: string) => {
+    if (category === value) {
+      setCategory(null);
+    } else {
+      setCategory(value);
+    }
+  };
+
   const onNext = () => {
+    form.setValue("category", category);
     navigate("?step=5");
   };
 
@@ -24,8 +39,23 @@ const FourthStep = ({ form }: FourthStepProps) => {
   };
 
   return (
-    <section>
-      FourthStep
+    <>
+      <section className="space-y-9 px-4">
+        <div className="space-y-2">
+          <p className="font-label2-bold text-primary-normal">4. 궁금한 분야</p>
+          <p className="font-heading1-bold text-label-strong">궁금하신 분야가 있으신가요?</p>
+        </div>
+        <div className="flex flex-col gap-3">
+          {CATEGORY_OPTIONS.map((option) => (
+            <Select
+              key={option.value}
+              label={option.label}
+              isSelected={category === option.value}
+              onChange={() => onSelect(option.value)}
+            />
+          ))}
+        </div>
+      </section>
       <FloatingContainer className="flex gap-3">
         <Button onClick={onPrev} theme="assistive" className="flex-1 transition-none">
           이전
@@ -34,7 +64,7 @@ const FourthStep = ({ form }: FourthStepProps) => {
           다음
         </Button>
       </FloatingContainer>
-    </section>
+    </>
   );
 };
 
