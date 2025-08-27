@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router";
+
 import { Alarm, Back, Close, LogoIcon, LogoText, Share } from "~/components/icons";
 import { cn } from "~/lib/utils";
 
@@ -50,7 +52,9 @@ function HeaderLogo() {
 
 // 뒤로가기 버튼
 function HeaderBackButton({ onClick }: { onClick?: () => void }) {
-  return <Back onClick={onClick} className="cursor-pointer" />;
+  const navigate = useNavigate();
+
+  return <Back onClick={() => onClick?.() || navigate(-1)} className="cursor-pointer" />;
 }
 
 // 헤더 타이틀
@@ -117,7 +121,7 @@ export function WithBackHeader({
   onBack,
   onShare,
 }: {
-  title: string;
+  title?: string;
   onBack?: () => void;
   onShare?: () => void;
 }) {
