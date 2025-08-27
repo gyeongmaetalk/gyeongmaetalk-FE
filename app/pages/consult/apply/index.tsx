@@ -5,10 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router";
 
-import FloatingContainer from "~/components/container/floating-container";
 import { WithCloseHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
-import { Button } from "~/components/ui/button";
 import ApplyConsultError from "~/routes/consult.apply/error";
 import FirstStep from "~/routes/consult.apply/first-step";
 import FourthStep from "~/routes/consult.apply/fourth-step";
@@ -30,8 +28,6 @@ const ConsultApplyPage = () => {
   const [searchParams] = useSearchParams();
 
   const currentStep = Number(searchParams.get("step") || "1");
-  const isFirstStep = currentStep === 1;
-  const isLastStep = currentStep === 5;
 
   const form = useForm<ApplyConsultForm>({
     resolver: zodResolver(applyConsultFormSchema),
@@ -39,19 +35,6 @@ const ConsultApplyPage = () => {
   });
 
   const navigate = useNavigate();
-
-  const onNext = () => {
-    if (isLastStep) {
-      // TODO: 상담 신청 API 호출
-      return;
-    }
-
-    navigate(`?step=${Number(currentStep) + 1}`);
-  };
-
-  const onPrev = () => {
-    navigate(`?step=${Number(currentStep) - 1}`);
-  };
 
   const onResetError = () => {
     form.reset();
@@ -100,22 +83,6 @@ const ConsultApplyPage = () => {
   ) : (
     <PageLayout header={<WithCloseHeader title="상담 신청" onClose={() => {}} />}>
       {renderStep()}
-      <FloatingContainer className="flex gap-3">
-        {isFirstStep ? (
-          <Button onClick={onNext} className="w-full transition-none">
-            다음
-          </Button>
-        ) : (
-          <>
-            <Button onClick={onPrev} theme="assistive" className="flex-1 transition-none">
-              이전
-            </Button>
-            <Button onClick={onNext} className="flex-1 transition-none">
-              {isLastStep ? "완료" : "다음"}
-            </Button>
-          </>
-        )}
-      </FloatingContainer>
     </PageLayout>
   );
 };
