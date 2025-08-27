@@ -1,17 +1,29 @@
 import { cn } from "~/lib/utils";
 
 interface SelectProps {
+  variant?: "default" | "inner";
   label: string;
   isSelected: boolean;
   onChange: () => void;
 }
 
-const Select = ({ label, isSelected, onChange }: SelectProps) => {
+const defaultStyles = {
+  default: "border border-cool-neutral-95",
+  inner: "bg-cool-neutral-50/16",
+};
+
+const selectedStyles = {
+  default: "border-primary-normal text-primary-normal",
+  inner: "bg-primary-normal/8",
+};
+
+const Select = ({ variant = "default", label, isSelected, onChange }: SelectProps) => {
   return (
     <button
       className={cn(
-        "border-cool-neutral-95 flex h-20 flex-col justify-center gap-2 rounded-[12px] border px-4 transition-colors",
-        isSelected && "border-primary-normal text-primary-normal"
+        "flex h-20 w-full flex-col justify-center gap-2 rounded-[12px] px-4 transition-colors",
+        defaultStyles[variant],
+        isSelected && selectedStyles[variant]
       )}
       onClick={onChange}
     >

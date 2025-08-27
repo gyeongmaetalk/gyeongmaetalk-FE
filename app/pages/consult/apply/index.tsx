@@ -11,10 +11,10 @@ import ApplyConsultError from "~/routes/consult.apply/error";
 import FirstStep from "~/routes/consult.apply/first-step";
 import FourthStep from "~/routes/consult.apply/fourth-step";
 import LastStep from "~/routes/consult.apply/last-step";
+import { type ApplyConsultForm, applyConsultFormSchema } from "~/routes/consult.apply/schema";
 import SecondStep from "~/routes/consult.apply/second-step";
 import Stepper from "~/routes/consult.apply/stepper";
 import ThirdStep from "~/routes/consult.apply/third-step";
-import { type ApplyConsultForm, applyConsultFormSchema } from "~/schemas/consult";
 
 const DEFAULT_VALUES: ApplyConsultForm = {
   purpose: null,

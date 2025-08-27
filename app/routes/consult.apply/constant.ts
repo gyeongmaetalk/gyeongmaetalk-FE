@@ -73,3 +73,28 @@ export const CATEGORY_OPTIONS = [
     label: "아직 잘 모르겠어요",
   },
 ];
+
+export const LAST_STEP_OPTIONS = [
+  {
+    value: "personal",
+    label: "개인",
+    options: [
+      {
+        value: "personal-business",
+        label: "감면 목적 등으로\n개인 사업자로 진행을 고려 중이에요",
+      },
+      {
+        value: "personal-business-no",
+        label: "개인 사업자 진행은 계획이 없어요",
+      },
+    ],
+  },
+  {
+    value: "company",
+    label: "법인",
+  },
+  {
+    value: "unknown",
+    label: "아직 정하지 못했어요",
+  },
+];

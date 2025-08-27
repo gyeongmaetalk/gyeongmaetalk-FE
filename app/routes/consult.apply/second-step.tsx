@@ -6,7 +6,7 @@ import { useNavigate } from "react-router";
 import FloatingContainer from "~/components/container/floating-container";
 import { Button } from "~/components/ui/button";
 import { Textfield } from "~/components/ui/textfield";
-import { type ApplyConsultForm } from "~/schemas/consult";
+import { type ApplyConsultForm } from "~/routes/consult.apply/schema";
 
 import { REGION_OPTIONS } from "./constant";
 import Select from "./select";
@@ -17,7 +17,7 @@ interface SecondStepProps {
 
 const SecondStep = ({ form }: SecondStepProps) => {
   const [region, setRegion] = useState<string | null>(form.getValues("region"));
-  const [customRegion, setCustomRegion] = useState<string>("");
+  const [customRegion, setCustomRegion] = useState("");
 
   const navigate = useNavigate();
 

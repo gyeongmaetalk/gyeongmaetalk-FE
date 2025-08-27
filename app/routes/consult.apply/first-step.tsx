@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 
 import FloatingContainer from "~/components/container/floating-container";
 import { Button } from "~/components/ui/button";
-import { type ApplyConsultForm } from "~/schemas/consult";
+import { type ApplyConsultForm } from "~/routes/consult.apply/schema";
 
 import { PURPOSE_OPTIONS } from "./constant";
 import Select from "./select";
