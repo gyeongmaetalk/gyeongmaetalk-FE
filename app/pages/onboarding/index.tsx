@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { useNavigate, useSearchParams } from "react-router";
 
+import FloatingContainer from "~/components/container/floating-container";
 import { Header } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 import { Button } from "~/components/ui/button/index";
@@ -15,6 +16,7 @@ import { ONBOARDING_STEPS } from "~/constants/onboarding";
 import { cn } from "~/lib/utils";
 
 const OnboardingPage = () => {
+  // 버튼 Floating으로 변경하기
   const [api, setApi] = useState<CarouselApi | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -30,8 +32,7 @@ const OnboardingPage = () => {
       api?.scrollNext();
     }
     if (isLastStep) {
-      // mode가 apply인 경우 상담 신청 페이지로 이동
-      const location = isApplyMode ? "/consulting/apply" : "/";
+      const location = isApplyMode ? "/consult/apply" : "/";
       navigate(location);
     }
   };
@@ -64,7 +65,12 @@ const OnboardingPage = () => {
           </Header.Left>
           {!isLastStep && (
             <Header.Right>
-              <Button variant="text" theme="assistive" onClick={onSkip}>
+              <Button
+                variant="text"
+                theme="assistive"
+                onClick={onSkip}
+                className="p-0 hover:bg-transparent active:bg-transparent"
+              >
                 건너뛰기
               </Button>
             </Header.Right>
@@ -73,7 +79,7 @@ const OnboardingPage = () => {
       }
       bgGradient
     >
-      <div className="flex h-full flex-col">
+      <div className="flex h-[calc(100%-5.625rem)] flex-col">
         <Carousel className="h-full" setApi={setApi}>
           <CarouselContent containerClassName="h-full" className="h-full">
             {ONBOARDING_STEPS.map((step) => (
@@ -102,8 +108,12 @@ const OnboardingPage = () => {
             />
           ))}
         </div>
-        <Button onClick={onNext}>{buttonText}</Button>
       </div>
+      <FloatingContainer>
+        <Button onClick={onNext} className="w-full">
+          {buttonText}
+        </Button>
+      </FloatingContainer>
     </PageLayout>
   );
 };
