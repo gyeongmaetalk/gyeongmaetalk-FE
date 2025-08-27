@@ -15,7 +15,7 @@ interface FirstStepProps {
 }
 
 const FirstStep = ({ form }: FirstStepProps) => {
-  const [purpose, setPurpose] = useState<string | null>(null);
+  const [purpose, setPurpose] = useState<string | null>(form.getValues("purpose"));
 
   const navigate = useNavigate();
 

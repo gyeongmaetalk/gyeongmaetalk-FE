@@ -12,3 +12,22 @@ export const PURPOSE_OPTIONS = [
     label: "아직 잘 모르겠어요",
   },
 ];
+
+export const REGION_OPTIONS = [
+  {
+    value: "capital",
+    label: "수도권",
+  },
+  {
+    value: "province",
+    label: "지방 광역시",
+  },
+  {
+    value: "unknown",
+    label: "아직 잘 모르겠어요",
+  },
+  {
+    value: "custom",
+    label: "직접 입력",
+  },
+];
