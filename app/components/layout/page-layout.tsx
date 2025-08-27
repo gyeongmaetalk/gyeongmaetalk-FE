@@ -28,7 +28,9 @@ export default function PageLayout({
     >
       <div className={cn("relative flex w-full flex-col")}>
         {header && header}
-        <main className={cn("mt-11 flex-1 overflow-y-auto")}>{children}</main>
+        <main className={cn("mt-[calc(2.75rem+var(--spacing-ios-top))] flex-1 overflow-y-auto")}>
+          {children}
+        </main>
         {showNav && <Navigation />}
       </div>
     </div>
