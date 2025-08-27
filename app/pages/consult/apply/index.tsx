@@ -12,6 +12,7 @@ import FirstStep from "~/routes/consult.apply/first-step";
 import FourthStep from "~/routes/consult.apply/fourth-step";
 import LastStep from "~/routes/consult.apply/last-step";
 import SecondStep from "~/routes/consult.apply/second-step";
+import Stepper from "~/routes/consult.apply/stepper";
 import ThirdStep from "~/routes/consult.apply/third-step";
 import { type ApplyConsultForm, applyConsultFormSchema } from "~/schemas/consult";
 
@@ -62,18 +63,22 @@ const ConsultApplyPage = () => {
     const isOutOfRange = currentStep > 5 || currentStep < 1;
 
     // 이전 스텝의 값이 null이라면 잘못된 접근
-    const isSecondStepValid = currentStep === 2 && form.getValues("purpose") !== null;
-    const isThirdStepValid = currentStep === 3 && form.getValues("region") !== null;
-    const isFourthStepValid = currentStep === 4 && form.getValues("service") !== null;
-    const isFifthStepValid = currentStep === 5 && form.getValues("category") !== null;
+    const isStepValid = (() => {
+      switch (currentStep) {
+        case 2:
+          return form.getValues("purpose") !== null;
+        case 3:
+          return form.getValues("region") !== null;
+        case 4:
+          return form.getValues("service") !== null;
+        case 5:
+          return form.getValues("category") !== null;
+        default:
+          return true;
+      }
+    })();
 
-    if (
-      isOutOfRange ||
-      isSecondStepValid ||
-      isThirdStepValid ||
-      isFourthStepValid ||
-      isFifthStepValid
-    ) {
+    if (isOutOfRange || !isStepValid) {
       setIsError(true);
     }
   }, [currentStep]);
@@ -82,6 +87,7 @@ const ConsultApplyPage = () => {
     <ApplyConsultError onResetError={onResetError} />
   ) : (
     <PageLayout header={<WithCloseHeader title="상담 신청" onClose={() => {}} />}>
+      <Stepper currentStep={currentStep} />
       {renderStep()}
     </PageLayout>
   );
