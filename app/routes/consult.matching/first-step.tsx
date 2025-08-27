@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router";
+
 import complete from "~/assets/complete.png";
 import ConsultantCard from "~/components/card/consultant-card";
 import FloatingContainer from "~/components/container/floating-container";
@@ -6,6 +8,12 @@ import PageLayout from "~/components/layout/page-layout";
 import { Button } from "~/components/ui/button";
 
 const FirstStep = () => {
+  const navigate = useNavigate();
+
+  const onMakeReservation = () => {
+    navigate("?mode=reservation");
+  };
+
   return (
     <>
       <PageLayout
@@ -28,7 +36,9 @@ const FirstStep = () => {
         <Button theme="assistive" className="flex-1 transition-none">
           다시 매칭 (0/1)
         </Button>
-        <Button className="flex-1 transition-none">상담일정 선택</Button>
+        <Button onClick={onMakeReservation} className="flex-1 transition-none">
+          상담일정 선택
+        </Button>
       </FloatingContainer>
     </>
   );

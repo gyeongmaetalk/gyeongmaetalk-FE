@@ -1,6 +1,7 @@
 export { default as Alarm } from "./Alarm";
 export { default as Apple } from "./Apple";
 export { default as Back } from "./Back";
+export { default as Calendar } from "./Calendar";
 export { default as Check } from "./Check";
 export { default as Close } from "./Close";
 export { default as Kakao } from "./Kakao";
@@ -10,6 +11,7 @@ export { default as NavAgency } from "./NavAgency";
 export { default as NavConsult } from "./NavConsult";
 export { default as NavHome } from "./NavHome";
 export { default as NavMypage } from "./NavMypage";
+export { default as Person } from "./Person";
 export { default as Share } from "./Share";
 export { default as Star } from "./Star";
 export { default as Verified } from "./Verified";
