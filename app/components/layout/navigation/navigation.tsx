@@ -18,7 +18,7 @@ const Navigation = ({ safeArea = true }: { safeArea?: boolean }) => {
   return (
     <nav
       className={cn(
-        "max-w-mobile fixed right-0 bottom-0 left-0 mx-auto h-12 bg-white",
+        "max-w-mobile border-cool-neutral-50/16 fixed right-0 bottom-0 left-0 mx-auto h-12 border-t bg-white",
         safeArea && "mb-[34px]"
       )}
     >

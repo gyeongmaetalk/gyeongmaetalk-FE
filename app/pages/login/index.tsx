@@ -3,7 +3,7 @@ import { Button } from "~/components/ui/button";
 
 const LoginPage = () => {
   return (
-    <div className="flex h-full flex-col bg-white">
+    <div className="flex h-full flex-col">
       <section className="flex flex-2 flex-col items-center justify-center">
         <div className="flex items-center gap-1.5">
           <LogoIcon className="h-11" />

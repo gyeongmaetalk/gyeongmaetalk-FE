@@ -58,7 +58,7 @@ const OnboardingPage = () => {
   return (
     <PageLayout
       header={
-        <Header.Container>
+        <Header.Container className="bg-transparent">
           <Header.Left>
             <Header.Back onClick={onPrev} />
           </Header.Left>
@@ -71,8 +71,9 @@ const OnboardingPage = () => {
           )}
         </Header.Container>
       }
+      bgGradient
     >
-      <div className="flex h-full flex-col bg-white">
+      <div className="flex h-full flex-col">
         <Carousel className="h-full" setApi={setApi}>
           <CarouselContent containerClassName="h-full" className="h-full">
             {ONBOARDING_STEPS.map((step) => (
