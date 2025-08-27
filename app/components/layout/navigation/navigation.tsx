@@ -16,7 +16,7 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="max-w-mobile border-cool-neutral-50/16 fixed right-0 bottom-0 left-0 mx-auto h-12 border-t bg-white">
+    <nav className="max-w-mobile border-cool-neutral-50/16 bottom-ios-bottom fixed right-0 left-0 mx-auto h-12 border-t bg-white">
       <ul className="grid h-full grid-cols-4 py-1">
         <li
           className={cn(
