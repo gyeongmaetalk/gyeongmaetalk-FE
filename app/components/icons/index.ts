@@ -11,3 +11,5 @@ export { default as NavConsult } from "./NavConsult";
 export { default as NavHome } from "./NavHome";
 export { default as NavMypage } from "./NavMypage";
 export { default as Share } from "./Share";
+export { default as Star } from "./Star";
+export { default as Verified } from "./Verified";

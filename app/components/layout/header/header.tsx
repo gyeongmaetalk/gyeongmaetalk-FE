@@ -136,9 +136,17 @@ export function WithBackHeader({
 }
 
 // 닫기 버튼이 있는 헤더
-export function WithCloseHeader({ title, onClose }: { title?: string; onClose: () => void }) {
+export function WithCloseHeader({
+  className,
+  title,
+  onClose,
+}: {
+  className?: string;
+  title?: string;
+  onClose: () => void;
+}) {
   return (
-    <Header.Container>
+    <Header.Container className={className}>
       <Header.Left />
       <Header.Center>{title && <Header.Title>{title}</Header.Title>}</Header.Center>
       <Header.Right>
@@ -149,9 +157,17 @@ export function WithCloseHeader({ title, onClose }: { title?: string; onClose: (
 }
 
 // 타이틀이 왼쪽에 있는 헤더
-export function WithLeftTitleHeader({ title, onAlarm }: { title: string; onAlarm?: () => void }) {
+export function WithLeftTitleHeader({
+  className,
+  title,
+  onAlarm,
+}: {
+  className?: string;
+  title: string;
+  onAlarm?: () => void;
+}) {
   return (
-    <Header.Container>
+    <Header.Container className={className}>
       <Header.Left>
         <Header.Title position="left">{title}</Header.Title>
       </Header.Left>
