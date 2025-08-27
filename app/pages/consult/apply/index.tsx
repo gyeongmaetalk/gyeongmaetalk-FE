@@ -7,6 +7,7 @@ import { useNavigate, useSearchParams } from "react-router";
 
 import { WithCloseHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
+import CancelApplyConsult from "~/components/modal/cancel-apply-consult";
 import ApplyConsultError from "~/routes/consult.apply/error";
 import FirstStep from "~/routes/consult.apply/first-step";
 import FourthStep from "~/routes/consult.apply/fourth-step";
@@ -26,6 +27,8 @@ const DEFAULT_VALUES: ApplyConsultForm = {
 
 const ConsultApplyPage = () => {
   const [isError, setIsError] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [searchParams] = useSearchParams();
 
   const currentStep = Number(searchParams.get("step") || "1");
@@ -86,9 +89,10 @@ const ConsultApplyPage = () => {
   return isError ? (
     <ApplyConsultError onResetError={onResetError} />
   ) : (
-    <PageLayout header={<WithCloseHeader title="상담 신청" onClose={() => {}} />}>
+    <PageLayout header={<WithCloseHeader title="상담 신청" onClose={() => setIsModalOpen(true)} />}>
       <Stepper currentStep={currentStep} />
       {renderStep()}
+      <CancelApplyConsult isOpen={isModalOpen} onCancel={() => setIsModalOpen(false)} />
     </PageLayout>
   );
 };
