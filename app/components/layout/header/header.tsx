@@ -16,7 +16,7 @@ function HeaderContainer({
   return (
     <header
       className={cn(
-        "fixed top-0 right-0 left-0 flex h-11 items-center bg-white px-4 py-2.5",
+        "max-w-mobile fixed top-0 right-0 left-0 mx-auto flex h-11 items-center bg-white px-4 py-2.5",
         safeArea && "mt-11",
         className
       )}

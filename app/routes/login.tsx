@@ -2,7 +2,7 @@ import { WithBackHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 import LoginPage from "~/pages/login";
 
-import type { Route } from "../+types/root";
+import type { Route } from "./+types/login";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -11,7 +11,7 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export default function AgencyLayout() {
+export default function LoginLayout() {
   return (
     <PageLayout header={<WithBackHeader />}>
       <LoginPage />
