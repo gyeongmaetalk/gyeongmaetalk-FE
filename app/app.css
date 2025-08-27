@@ -154,6 +154,8 @@
   --color-popover: var(--color-common-100);
   --color-popover-foreground: var(--color-label-normal);
 
+  --color-kakao: #fee500;
+
   /* Font 공통 */
   --font-family: "Pretendard Variable", "Inter";
   --font-weight-bold: 700;
