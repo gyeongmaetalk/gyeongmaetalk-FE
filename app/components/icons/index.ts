@@ -1,7 +1,9 @@
 export { default as Alarm } from "./Alarm";
+export { default as Apple } from "./Apple";
 export { default as Back } from "./Back";
 export { default as Check } from "./Check";
 export { default as Close } from "./Close";
+export { default as Kakao } from "./Kakao";
 export { default as LogoIcon } from "./LogoIcon";
 export { default as LogoText } from "./LogoText";
 export { default as NavAgency } from "./NavAgency";

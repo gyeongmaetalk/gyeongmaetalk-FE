@@ -168,21 +168,14 @@ function Button({
     </>
   );
 
-  const isOnlyTextContent =
-    !iconOnly && React.Children.toArray(children).every((ch) => typeof ch === "string");
   const isOnlyIconContent =
     iconOnly && React.Children.toArray(children).every((ch) => typeof ch === "object");
-  const isValidChildren = isOnlyTextContent || isOnlyIconContent;
 
-  if (!isValidChildren) {
+  if (!isOnlyIconContent) {
     if (iconOnly) {
       // 아이콘 전용 버튼인 경우는 아이콘 컴포넌트만 사용 가능
       // ex) <Button iconOnly><PlusIcon /></Button>
       throw new Error("Button이 iconOnly 모드일 때 텍스트 컨텐츠는 사용할 수 없습니다.");
-    } else {
-      // 아이콘 전용 버튼이 아닌 경우는 텍스트 컨텐츠만 사용 가능
-      // ex) <Button>Click me</Button>
-      throw new Error("Button이 iconOnly 모드가 아닐 때는 텍스트만 사용할 수 있습니다.");
     }
   }
 

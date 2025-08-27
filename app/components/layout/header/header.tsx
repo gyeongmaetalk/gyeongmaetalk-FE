@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router";
+
 import { Alarm, Back, Close, LogoIcon, LogoText, Share } from "~/components/icons";
 import { cn } from "~/lib/utils";
 
@@ -14,7 +16,7 @@ function HeaderContainer({
   return (
     <header
       className={cn(
-        "fixed top-0 right-0 left-0 flex h-11 items-center bg-white px-4 py-2.5",
+        "max-w-mobile fixed top-0 right-0 left-0 mx-auto flex h-11 items-center bg-white px-4 py-2.5",
         safeArea && "mt-11",
         className
       )}
@@ -50,7 +52,9 @@ function HeaderLogo() {
 
 // 뒤로가기 버튼
 function HeaderBackButton({ onClick }: { onClick?: () => void }) {
-  return <Back onClick={onClick} className="cursor-pointer" />;
+  const navigate = useNavigate();
+
+  return <Back onClick={() => onClick?.() || navigate(-1)} className="cursor-pointer" />;
 }
 
 // 헤더 타이틀
@@ -117,7 +121,7 @@ export function WithBackHeader({
   onBack,
   onShare,
 }: {
-  title: string;
+  title?: string;
   onBack?: () => void;
   onShare?: () => void;
 }) {
