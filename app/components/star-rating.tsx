@@ -4,7 +4,7 @@ import { Star } from "./icons";
 
 interface StarRatingProps {
   rating: number;
-  size: "md" | "lg";
+  size?: "md" | "lg";
   setRating?: (rating: number) => void;
 }
 
