@@ -4,10 +4,13 @@ import { Star } from "./icons";
 
 interface StarRatingProps {
   rating: number;
+  size: "md" | "lg";
   setRating?: (rating: number) => void;
 }
 
-const StarRating = ({ rating, setRating }: StarRatingProps) => {
+const StarRating = ({ rating, size = "md", setRating }: StarRatingProps) => {
+  const isLarge = size === "lg";
+
   const onClickRating = (rating: number) => {
     if (setRating) {
       setRating(rating);
@@ -15,11 +18,15 @@ const StarRating = ({ rating, setRating }: StarRatingProps) => {
   };
 
   return (
-    <div className="flex items-center gap-0.5">
+    <div className={cn("flex items-center gap-0.5", isLarge && "gap-2")}>
       {Array.from({ length: 5 }).map((_, index) => (
-        <button key={index} onClick={() => onClickRating(index + 1)}>
+        <button type="button" key={index} onClick={() => onClickRating(index + 1)}>
           <Star
-            className={cn("text-orange-60 size-4", index >= rating && "text-label-assistive")}
+            className={cn(
+              "text-orange-60 size-4",
+              isLarge && "size-8",
+              index >= rating && "text-label-assistive"
+            )}
           />
         </button>
       ))}
