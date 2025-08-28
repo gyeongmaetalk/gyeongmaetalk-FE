@@ -54,8 +54,9 @@ const LastStep = ({ form }: LastStepProps) => {
       // data에 있는 name 말고 selectedValue 사용하기
       const selectedValue = name === "personal" ? innerOption : name;
       setIsSubmitting(true);
-      console.log(data);
+
       setTimeout(() => {
+        navigate("/consult/matching");
         setIsSubmitting(false);
       }, 3000);
     },
