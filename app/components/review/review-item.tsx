@@ -1,9 +1,7 @@
 import { Link } from "react-router";
 
-import ReviewItemMenu from "./review-item-menu";
+import ReviewItemHeader from "./review-item-header";
 import { Verified } from "../icons";
-import StarRating from "../star-rating";
-import { Badge } from "../ui/badge";
 
 interface ReviewItemProps {
   reviewId: number;
@@ -14,22 +12,7 @@ interface ReviewItemProps {
 const ReviewItem = ({ reviewId, isMyReview, isConsultantReview }: ReviewItemProps) => {
   return (
     <div className="space-y-3">
-      <div className="flex items-center justify-between">
-        <div className="space-y-1.5">
-          <div className="font-label2-regular flex items-center gap-1">
-            {isMyReview && (
-              <Badge theme="accent" size="xs">
-                내글
-              </Badge>
-            )}
-            <p className="text-label-strong">dkd****</p>
-            <div className="bg-label-alternative size-[3px]" />
-            <p className="text-label-alternative">25.07.22</p>
-          </div>
-          <StarRating rating={4} />
-        </div>
-        <ReviewItemMenu reviewId={reviewId} isMyReview={isMyReview} />
-      </div>
+      <ReviewItemHeader isMyReview={isMyReview} reviewId={reviewId} />
       {isConsultantReview && (
         <div className="bg-cool-neutral-99 flex items-center gap-1.5 rounded-[12px] px-3 py-2">
           <div className="flex items-center gap-0.5">

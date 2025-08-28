@@ -18,6 +18,8 @@
   --spacing-ios-bottom: env(safe-area-inset-bottom);
   --spacing-ios-top: env(safe-area-inset-top);
 
+  --aspect-image: 3 / 2;
+
   /* Primary Colors */
   --color-primary-normal: #0077ff;
   --color-primary-strong: #005eeb;

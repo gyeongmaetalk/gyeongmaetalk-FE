@@ -6,6 +6,8 @@ export function meta({}: Route.MetaArgs) {
   return [{ title: "상담 리뷰 상세" }, { name: "description", content: "상담 리뷰 상세" }];
 }
 
-export default function ConsultReviewsDetailLayout() {
-  return <ConsultReviewsDetailPage />;
+export default function ConsultReviewsDetailLayout({ params }: Route.ComponentProps) {
+  const { id } = params;
+
+  return <ConsultReviewsDetailPage reviewId={id} />;
 }
