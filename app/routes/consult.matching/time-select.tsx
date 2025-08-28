@@ -1,6 +1,7 @@
 import { cn } from "~/lib/utils";
 
 interface TimeSelectProps {
+  selectedDate: Date;
   selectedTime: string;
   onTimeSelect: (time: string) => void;
 }
@@ -40,7 +41,7 @@ const afternoonSlots: TimeSlot[] = [
   { time: "20:30", label: "8:30" },
 ];
 
-const TimeSelect = ({ selectedTime, onTimeSelect }: TimeSelectProps) => {
+const TimeSelect = ({ selectedDate, selectedTime, onTimeSelect }: TimeSelectProps) => {
   const isSelected = (time: string) => {
     return selectedTime === time;
   };
@@ -50,11 +51,11 @@ const TimeSelect = ({ selectedTime, onTimeSelect }: TimeSelectProps) => {
   };
 
   const isPastTime = (time: string) => {
-    const [hours, minutes] = time.split(":").map(Number);
-    const timeDate = new Date(selectedTime);
-    timeDate.setHours(hours, minutes, 0, 0);
-
     const now = new Date();
+    const timeDate = new Date(
+      `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()} ${time}`
+    );
+
     return timeDate.getTime() < now.getTime();
   };
 

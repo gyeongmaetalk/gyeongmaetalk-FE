@@ -71,7 +71,11 @@ const SecondStep = () => {
             {selectedDate && (
               <>
                 <Divider className="bg-cool-neutral-97" />
-                <TimeSelect selectedTime={selectedTime} onTimeSelect={setSelectedTime} />
+                <TimeSelect
+                  selectedDate={selectedDate}
+                  selectedTime={selectedTime}
+                  onTimeSelect={setSelectedTime}
+                />
               </>
             )}
           </div>
