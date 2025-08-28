@@ -8,11 +8,12 @@ import { DragCarousel } from "~/components/ui/carousel/drag-carousel";
 import { DragCarouselItem } from "~/components/ui/carousel/drag-carousel";
 
 interface ConsultReviewsDetailPageProps {
-  images?: string[];
   reviewId: string;
 }
 
-const ConsultReviewsDetailPage = ({ reviewId, images }: ConsultReviewsDetailPageProps) => {
+const ConsultReviewsDetailPage = ({ reviewId }: ConsultReviewsDetailPageProps) => {
+  const images: string[] = [];
+
   return (
     <>
       <PageLayout header={<WithBackHeader title="상담 상세" />} withFloating>
