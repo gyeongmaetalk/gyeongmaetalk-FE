@@ -11,6 +11,7 @@ export { default as NavAgency } from "./NavAgency";
 export { default as NavConsult } from "./NavConsult";
 export { default as NavHome } from "./NavHome";
 export { default as NavMypage } from "./NavMypage";
+export { default as Pencil } from "./Pencil";
 export { default as Person } from "./Person";
 export { default as Share } from "./Share";
 export { default as Star } from "./Star";

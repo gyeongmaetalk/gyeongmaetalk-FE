@@ -18,7 +18,7 @@ const FirstStep = () => {
     <>
       <PageLayout
         header={<WithCloseHeader className="bg-transparent" onClose={() => {}} />}
-        bgGradient
+        className="from-blue-gradient-start bg-gradient-to-b to-white to-10%"
       >
         <div className="flex flex-col items-center gap-4 text-center">
           <img src={complete} alt="complete" className="size-[52px]" />

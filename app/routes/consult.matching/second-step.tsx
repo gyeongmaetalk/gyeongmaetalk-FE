@@ -1,5 +1,8 @@
 import { useState } from "react";
 
+import { useNavigate } from "react-router";
+
+import Divider from "~/components/divider";
 import { Verified } from "~/components/icons";
 import { Calendar as CalendarIcon, Person } from "~/components/icons";
 import { Header } from "~/components/layout/header/header";
@@ -15,7 +18,14 @@ const SecondStep = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState("");
 
+  const navigate = useNavigate();
+
   const reservationDisabled = !selectedDate || !selectedTime;
+
+  const onReservation = () => {
+    // TODO: 예약 로직 구현
+    navigate("?mode=complete");
+  };
 
   return (
     <>
@@ -50,7 +60,7 @@ const SecondStep = () => {
             </div>
           </div>
         </section>
-        <div className="bg-cool-neutral-99 h-2 w-full" />
+        <Divider className="h-2" />
         <section className="space-y-4 px-4 py-6">
           <div className="flex items-center gap-1">
             <CalendarIcon className="text-primary-normal" />
@@ -60,13 +70,13 @@ const SecondStep = () => {
             <Calendar selectedDate={selectedDate} onDateSelect={setSelectedDate} />
             {selectedDate && (
               <>
-                <div className="bg-cool-neutral-97 h-px w-full" />
+                <Divider className="bg-cool-neutral-97" />
                 <TimeSelect selectedTime={selectedTime} onTimeSelect={setSelectedTime} />
               </>
             )}
           </div>
           <div className="mt-6 pt-2 pb-6">
-            <Button className="w-full" disabled={reservationDisabled}>
+            <Button onClick={onReservation} className="w-full" disabled={reservationDisabled}>
               예약 하기
             </Button>
           </div>
