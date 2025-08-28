@@ -75,7 +75,9 @@ const OnboardingPage = () => {
           )}
         </Header.Container>
       }
-      bgGradient
+      style={{
+        background: "linear-gradient(225.28deg, #D8EAFF 22.13%, #F5F7FF 68.11%)",
+      }}
     >
       <div className="flex h-[calc(100%-5.625rem)] flex-col">
         <Carousel className="h-full" setApi={setApi}>
