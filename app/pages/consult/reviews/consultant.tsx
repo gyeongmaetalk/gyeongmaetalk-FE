@@ -19,7 +19,7 @@ const ConsultReviewsConsultantPage = () => {
   return (
     <PageLayout header={<WithBackHeader title="이정훈 상담사 후기" />}>
       <section className="px-4 pt-3 pb-6">
-        <ConsultantReviewCard />
+        <ConsultantReviewCard date="25.6.23 18:00" />
       </section>
       <ReviewList consultantId={consultantId} sort={sort} />
     </PageLayout>

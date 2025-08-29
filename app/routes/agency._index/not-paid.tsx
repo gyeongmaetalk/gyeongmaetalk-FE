@@ -10,7 +10,7 @@ export default function NotPaid() {
           경매톡과 함께 경매를 진행해보세요!
         </p>
       </div>
-      <ConsultantReviewCard />
+      <ConsultantReviewCard date="25.6.23 18:00" />
       <Button className="w-full">결제 후 대행 시작하기</Button>
     </div>
   );

@@ -8,7 +8,7 @@ export default function Consulted() {
         <br />
         경매 대행를 진행해 보세요.
       </p>
-      <ConsultantReviewCard />
+      <ConsultantReviewCard date="25.6.23 18:00" />
     </div>
   );
 }
