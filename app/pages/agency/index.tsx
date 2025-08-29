@@ -1,8 +1,8 @@
 import Divider from "~/components/divider";
-import AuctionExample from "~/routes/agency/auction-example";
-// import Consulted from "~/routes/agency/consulted";
-import NotConsulted from "~/routes/agency/not-consulted";
-// import NotPaid from "~/routes/agency/not-paid";
+import AuctionExample from "~/routes/agency._index/auction-example";
+// import Consulted from "~/routes/agency._index/consulted";
+import NotConsulted from "~/routes/agency._index/not-consulted";
+// import NotPaid from "~/routes/agency._index/not-paid";
 
 type ConsultStatus = "not-consulted" | "consulted" | "not-paid";
 
