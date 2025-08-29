@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router";
+
 import insideBuilding from "~/assets/agency-recommend/inside-building.png";
 import outsideBuilding from "~/assets/agency-recommend/outside-building.png";
 import { Badge } from "~/components/ui/badge";
@@ -10,7 +12,14 @@ interface AgencyRecommendItemProps {
 }
 
 export default function AgencyRecommendItem({ status }: AgencyRecommendItemProps) {
+  const navigate = useNavigate();
+
   const isBuy = status === "buy";
+
+  const onRouteToApplyRecommendDetail = (id: string) => {
+    if (!isBuy) return;
+    navigate(`/agency/recommend/${id}`);
+  };
 
   return (
     <div className="space-y-3">
@@ -22,7 +31,7 @@ export default function AgencyRecommendItem({ status }: AgencyRecommendItemProps
         <div className="flex items-center justify-between">
           <p className="font-caption1-regular text-label-alternative">25.6.23 업데이트 매물</p>
           <p className="font-caption1-bold text-primary-normal">
-            {isBuy ? "구매완료" : `${formatPrice(20000)}원`}
+            {isBuy ? "구매완료" : formatPrice(20000)}
           </p>
         </div>
       </div>
@@ -66,7 +75,11 @@ export default function AgencyRecommendItem({ status }: AgencyRecommendItemProps
           <p className="font-label2-regular text-label-alternative">2.4억</p>
         </div>
       </div>
-      <Button className="w-full" theme={isBuy ? "assistive" : "default"}>
+      <Button
+        className="w-full"
+        theme={isBuy ? "assistive" : "default"}
+        onClick={() => onRouteToApplyRecommendDetail("2024타경12345")}
+      >
         {isBuy ? "자세히 보기" : "구매하기"}
       </Button>
     </div>

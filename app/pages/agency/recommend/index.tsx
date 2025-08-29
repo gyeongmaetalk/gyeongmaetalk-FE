@@ -1,8 +1,9 @@
 import { useSearchParams } from "react-router";
 
 import ConsultantReviewCard from "~/components/card/consultant-review-card";
-import AgencyRecommendItem from "~/routes/agency.recommend/agency-recommend-item";
-import StatusNav from "~/routes/agency.recommend/status-nav";
+import Divider from "~/components/divider";
+import AgencyRecommendItem from "~/routes/agency.recommend._index/agency-recommend-item";
+import StatusNav from "~/routes/agency.recommend._index/status-nav";
 
 const AgencyRecommendPage = () => {
   const [searchParams] = useSearchParams();
@@ -14,8 +15,9 @@ const AgencyRecommendPage = () => {
         <ConsultantReviewCard />
       </section>
       <StatusNav status={status} />
-      <section className="px-4 py-6">
+      <section className="space-y-6 px-4 py-6">
         <AgencyRecommendItem status="buy" />
+        <Divider className="bg-cool-neutral-98" />
         <AgencyRecommendItem status="not-buy" />
       </section>
     </div>
