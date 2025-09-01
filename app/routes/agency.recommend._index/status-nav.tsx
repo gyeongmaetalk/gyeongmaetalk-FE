@@ -22,12 +22,19 @@ const STATUS_LIST = [
 ];
 
 export default function StatusNav({ status }: StatusNavProps) {
+  const getParms = (value: string) => {
+    if (value) {
+      return `?status=${value}`;
+    }
+    return "?";
+  };
+
   return (
     <div className="font-headline2-bold text-label-assistive border-b-label-disable mx-5 flex items-center gap-2 gap-6 border-b">
       {STATUS_LIST.map((item) => (
         <Link
           key={item.value}
-          to={`?status=${item.value}`}
+          to={getParms(item.value)}
           className={cn(
             "py-3",
             status === item.value && "text-label-strong border-b-label-normal border-b-2"
