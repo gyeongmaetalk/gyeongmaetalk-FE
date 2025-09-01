@@ -55,7 +55,7 @@ const FilterDropdown = ({ consultantId, sort }: FilterDropdownProps) => {
         <ArrowDown />
       </button>
       {isOpen && (
-        <div className="font-body1-normal-regular border-cool-neutral-97 shadow-input absolute top-full right-0 mt-2 flex w-[140px] flex-col rounded-[12px] border bg-white p-2">
+        <div className="font-body1-normal-regular border-cool-neutral-97 shadow-input absolute top-full right-0 z-100 mt-2 flex w-[140px] flex-col rounded-[12px] border bg-white p-2">
           {FILTER_OPTIONS.map((option) => (
             <button
               key={option.value}

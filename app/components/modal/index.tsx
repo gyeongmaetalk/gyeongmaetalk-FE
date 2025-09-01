@@ -17,7 +17,7 @@ function useModalContext() {
 function Modal({ children, className, ...props }: React.ComponentPropsWithRef<"div">) {
   return createPortal(
     <ModalContext.Provider value={true}>
-      <div className="bg-cool-neutral-10/52 fixed inset-0 z-[9999] flex items-center justify-center">
+      <div className="bg-cool-neutral-10/52 fixed inset-0 z-[99999] flex items-center justify-center">
         <div
           className={cn(
             "max-w-mobile m-5 flex w-full flex-col gap-2 rounded-[12px] bg-white p-5",
@@ -36,7 +36,7 @@ function Modal({ children, className, ...props }: React.ComponentPropsWithRef<"d
 function ModalHeader({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   useModalContext();
   return (
-    <div className={cn("font-headline2-bold text-label-strong text-center", className)} {...props}>
+    <div className={cn("font-heading2-bold text-label-strong text-center", className)} {...props}>
       {children}
     </div>
   );

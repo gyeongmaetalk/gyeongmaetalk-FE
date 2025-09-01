@@ -64,7 +64,7 @@ const buttonCompoundVariants = [
     variant: "default",
     theme: "assistive",
     class:
-      "bg-label-assistive/12 text-label-neutral/88 hover:bg-label-assistive/60 active:bg-label-assistive/80",
+      "bg-cool-neutral-50/8 text-label-neutral/88 hover:bg-label-assistive/60 active:bg-label-assistive/80",
   } as const,
   // outlined variant + theme combinations
   {

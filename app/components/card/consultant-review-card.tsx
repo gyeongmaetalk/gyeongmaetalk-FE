@@ -1,7 +1,11 @@
 import Divider from "../divider";
 import { Verified } from "../icons";
 
-const ConsultantReviewCard = () => {
+interface ConsultantReviewCardProps {
+  date?: string;
+}
+
+const ConsultantReviewCard = ({ date }: ConsultantReviewCardProps) => {
   return (
     <div className="bg-cool-neutral-99 space-y-2.5 rounded-lg p-3">
       <div className="flex items-center gap-3">
@@ -14,11 +18,15 @@ const ConsultantReviewCard = () => {
           <p className="font-label2-regular text-label-neutral">10년차 경매지도사</p>
         </div>
       </div>
-      <Divider className="bg-cool-neutral-50/22" />
-      <div className="flex items-center gap-1">
-        <p className="font-caption1-bold w-12">진행일</p>
-        <p className="font-label2-regular text-label-alternative">25.6.23 18:00 상담완료</p>
-      </div>
+      {date && (
+        <>
+          <Divider className="bg-cool-neutral-50/22" />
+          <div className="flex items-center gap-1">
+            <p className="font-caption1-bold w-12">진행일</p>
+            <p className="font-label2-regular text-label-alternative">{date} 상담완료</p>
+          </div>
+        </>
+      )}
     </div>
   );
 };

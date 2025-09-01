@@ -1,8 +1,8 @@
-import { DefaultHeader } from "~/components/layout/header/header";
+import { WithLeftTitleHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
-import AgencyPage from "~/pages/agency/agencyPage";
+import AgencyPage from "~/pages/agency";
 
-import type { Route } from "../+types/root";
+import type { Route } from "./+types/route";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -13,7 +13,7 @@ export function meta({}: Route.MetaArgs) {
 
 export default function AgencyLayout() {
   return (
-    <PageLayout header={<DefaultHeader />} showNav>
+    <PageLayout header={<WithLeftTitleHeader title="경매대행" onAlarm={() => {}} />} showNav>
       <AgencyPage />
     </PageLayout>
   );
