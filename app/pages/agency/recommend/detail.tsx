@@ -5,7 +5,7 @@ import Divider from "~/components/divider";
 import { Header } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 import { Badge } from "~/components/ui/badge";
-import { Button } from "~/components/ui/button";
+import RequestBidButton from "~/routes/agency.recommend._index/request-bid-button";
 import GyeongmaeMap from "~/routes/agency.recommend.$id/gyeongmae-map";
 import ListingCarousel from "~/routes/agency.recommend.$id/listing-carousel";
 import { formatPrice } from "~/utils/format";
@@ -27,7 +27,6 @@ const AgencyRecommendDetailPage = () => {
     navigator.clipboard.writeText(id).then(defaultSuccess).catch(defaultFailure);
   };
 
-  //   매물 상세 하단 퍼블리싱하기
   return (
     <PageLayout
       header={
@@ -174,7 +173,7 @@ const AgencyRecommendDetailPage = () => {
           </p>
           <GyeongmaeMap />
         </div>
-        <Button className="mt-5 w-full">입찰 요청하기</Button>
+        <RequestBidButton />
       </section>
     </PageLayout>
   );

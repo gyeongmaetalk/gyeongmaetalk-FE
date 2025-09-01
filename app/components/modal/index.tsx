@@ -36,7 +36,7 @@ function Modal({ children, className, ...props }: React.ComponentPropsWithRef<"d
 function ModalHeader({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   useModalContext();
   return (
-    <div className={cn("font-headline2-bold text-label-strong text-center", className)} {...props}>
+    <div className={cn("font-heading2-bold text-label-strong text-center", className)} {...props}>
       {children}
     </div>
   );

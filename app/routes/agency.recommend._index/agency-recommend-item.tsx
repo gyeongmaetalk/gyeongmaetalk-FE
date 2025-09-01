@@ -17,6 +17,7 @@ export default function AgencyRecommendItem({ status }: AgencyRecommendItemProps
   const isBuy = status === "buy";
 
   const onRouteToApplyRecommendDetail = (id: string) => {
+    // 구매하기 버튼이라면 토스 페이먼츠로 이동
     if (!isBuy) return;
     navigate(`/agency/recommend/${id}`);
   };
