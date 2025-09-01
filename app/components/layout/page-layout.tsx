@@ -26,7 +26,7 @@ export default function PageLayout({
           className={cn(
             "mt-[calc(2.75rem+var(--spacing-ios-top))] flex-1 overflow-y-auto",
             withFloating && "pb-[90px]",
-            showNav && "pb-12"
+            showNav && "mb-[calc(2.75rem+var(--spacing-ios-bottom))]"
           )}
         >
           {children}

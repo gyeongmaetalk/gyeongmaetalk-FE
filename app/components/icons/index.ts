@@ -6,6 +6,7 @@ export { default as Calendar } from "./Calendar";
 export { default as Check } from "./Check";
 export { default as Close } from "./Close";
 export { default as Document } from "./Document";
+export { default as Dot } from "./Dot";
 export { default as Kakao } from "./Kakao";
 export { default as LogoIcon } from "./LogoIcon";
 export { default as LogoText } from "./LogoText";
