@@ -32,13 +32,13 @@ const AgencyRecommendDetailPage = () => {
       header={
         <Header.Container>
           <Header.Left>
-            <Header.Close />
+            <Header.Back />
           </Header.Left>
           <Header.Center>
             <Header.Title>{id}</Header.Title>
           </Header.Center>
           <Header.Right>
-            <Header.Close />
+            <Header.Alarm />
           </Header.Right>
         </Header.Container>
       }
