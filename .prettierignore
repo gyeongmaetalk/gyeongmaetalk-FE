@@ -4,3 +4,4 @@
 node_modules
 public
 .react-router
+./app/components/icons
