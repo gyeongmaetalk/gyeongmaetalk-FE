@@ -15,7 +15,14 @@ export default defineConfig([
   tseslint.configs.recommended,
   pluginReact.configs.flat.recommended,
   {
-    ignores: [".github", ".husky", "node_modules", ".react-router", "**/*.cjs"],
+    ignores: [
+      ".github",
+      ".husky",
+      "node_modules",
+      ".react-router",
+      "**/*.cjs",
+      "./app/components/icons",
+    ],
   },
   {
     plugins: {

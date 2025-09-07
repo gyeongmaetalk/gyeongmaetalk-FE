@@ -1,8 +1,13 @@
 import * as React from "react";
-
 import type { SVGProps } from "react";
 const SvgVerified = (props: SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" height={20} fill="none" viewBox="0 0 20 20" {...props}>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height={20}
+    fill="none"
+    viewBox="0 0 20 20"
+    {...props}
+  >
     <mask
       id="verified_svg__a"
       width={20}
