@@ -6,6 +6,7 @@ import complete from "~/assets/complete.png";
 import Modal from "~/components/modal";
 import { Button } from "~/components/ui/button";
 import { useOutsideClick } from "~/hooks/use-outside-click";
+import { successToast } from "~/utils/toast";
 
 export default function RequestBidButton() {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,13 +17,18 @@ export default function RequestBidButton() {
     setIsOpen(false);
   });
 
+  const onRequestBid = () => {
+    setIsOpen(true);
+    successToast("입찰 요청이 완료 되었습니다.");
+  };
+
   const onRouteToRecommendList = () => {
     navigate("/agency/recommend");
   };
 
   return (
     <>
-      <Button className="mt-5 w-full" onClick={() => setIsOpen(true)}>
+      <Button className="mt-5 w-full" onClick={onRequestBid}>
         입찰 요청하기
       </Button>
       {isOpen && (

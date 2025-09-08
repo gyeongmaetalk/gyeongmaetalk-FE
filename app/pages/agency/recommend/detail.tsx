@@ -21,8 +21,8 @@ const AgencyRecommendDetailPage = () => {
   const onCopy = (e: React.MouseEvent) => {
     e.stopPropagation();
 
-    const defaultSuccess = () => successToast("복사에 성공했어요.");
-    const defaultFailure = () => errorToast("복사에 실패했어요.");
+    const defaultSuccess = () => successToast("복사 완료");
+    const defaultFailure = () => errorToast("복사 실패");
 
     navigator.clipboard.writeText(id).then(defaultSuccess).catch(defaultFailure);
   };
