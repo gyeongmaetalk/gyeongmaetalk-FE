@@ -11,10 +11,24 @@ interface TextfieldProps extends React.ComponentProps<"input"> {
   errorText?: string;
   successText?: string;
   helperText?: string;
+  additionalText?: string;
 }
 
-function Textfield({ label, errorText, successText, helperText, ...props }: TextfieldProps) {
-  const { className, value: controlledValue, onChange: controlledOnChange, ...restProps } = props;
+function Textfield({
+  label,
+  errorText,
+  successText,
+  helperText,
+  additionalText,
+  ...props
+}: TextfieldProps) {
+  const {
+    className,
+    value: controlledValue,
+    onChange: controlledOnChange,
+    required,
+    ...restProps
+  } = props;
   const [internalValue, setInternalValue] = useState("");
   const [isFocused, setIsFocused] = useState(false);
 
@@ -53,13 +67,13 @@ function Textfield({ label, errorText, successText, helperText, ...props }: Text
     <div className="flex flex-col gap-2">
       {label && (
         <label htmlFor={props.id} className="font-label1-normal-bold">
-          {label}
+          {label} {required && <span className="text-status-negative">*</span>}
         </label>
       )}
       <div
         ref={inputContainerRef}
         className={cn(
-          "placeholder:text-label-assistive focus-within:border-primary font-body1-normal-regular border-cool-neutral-50/16 shadow-input flex items-center gap-2 rounded-[12px] border p-3 transition-colors outline-none focus-within:border-2",
+          "placeholder:text-label-assistive focus-within:border-primary font-body1-normal-regular border-cool-neutral-50/16 shadow-input flex flex-1 items-center gap-2 rounded-[12px] border p-3 transition-colors outline-none focus-within:border-2",
           errorText && "focus-within:border-status-negative/43 border-status-negative/28",
           restProps.disabled && "bg-cool-neutral-50/8",
           className
@@ -95,12 +109,19 @@ function Textfield({ label, errorText, successText, helperText, ...props }: Text
         >
           <X className="mx-auto font-bold text-white" size={16} />
         </button>
+        {additionalText && (
+          <p className="text-label-assistive font-body1-normal-medium">{additionalText}</p>
+        )}
       </div>
       {isHelperTextRender && (
         <p
           className={cn(
             "font-caption1-regular",
-            errorText ? "text-status-negative" : "text-label-alternative"
+            errorText
+              ? "text-status-negative"
+              : successText
+                ? "text-primary-normal"
+                : "text-label-alternative"
           )}
         >
           {errorText || successText || helperText}

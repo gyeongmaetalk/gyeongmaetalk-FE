@@ -77,13 +77,13 @@ const buttonCompoundVariants = [
     variant: "outlined",
     theme: "secondary",
     class:
-      "border-label-assistive text-primary-normal hover:bg-label-assistive/60 active:bg-label-assistive/80 disabled:text-label-neutral/88",
+      "border-cool-neutral-50/16 text-primary-normal hover:bg-label-assistive/60 active:bg-label-assistive/80 disabled:text-label-neutral/38",
   } as const,
   {
     variant: "outlined",
     theme: "assistive",
     class:
-      "border-label-assistive text-label-neutral/88 hover:bg-label-assistive/60 active:bg-label-assistive/80",
+      "border-cool-neutral-50/16 text-label-neutral/88 hover:bg-label-assistive/60 active:bg-label-assistive/80",
   } as const,
   // text variant + theme combinations
   {
@@ -111,7 +111,7 @@ const iconOnlySize = {
 };
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 disabled:pointer-events-none whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 aria-invalid:border-destructive cursor-pointer",
+  "inline-flex items-center justify-center disabled:opacity-50 gap-2 disabled:pointer-events-none whitespace-nowrap rounded-md text-sm font-medium transition-all  [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 aria-invalid:border-destructive cursor-pointer",
   {
     variants: {
       variant: {
@@ -182,8 +182,9 @@ function Button({
   return (
     <Comp
       className={cn(
-        buttonVariants({ variant, size, theme, className }),
-        iconOnly && `${iconOnlySize[size ?? "default"]} p-0`
+        buttonVariants({ variant, size, theme }),
+        iconOnly && `${iconOnlySize[size ?? "default"]} p-0`,
+        className
       )}
       data-slot="button"
       disabled={isDisabled}
