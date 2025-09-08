@@ -1,8 +1,13 @@
 import * as React from "react";
-
 import type { SVGProps } from "react";
 const SvgKakao = (props: SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" height={19} fill="none" viewBox="0 0 18 19" {...props}>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height={19}
+    fill="none"
+    viewBox="0 0 18 19"
+    {...props}
+  >
     <g clipPath="url(#kakao_svg__a)">
       <path
         fill="#000"

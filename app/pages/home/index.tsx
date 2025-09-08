@@ -10,13 +10,14 @@ import TitleSection from "~/routes/_index/title-section";
 
 export default function HomePage() {
   const navigate = useNavigate();
+  // const status: Status = "notLoggedIn";
   const status: Status = "reservation";
+  // const status: Status = "notReservation";
 
   return (
     <PageLayout header={<DefaultHeader />} showNav>
       <div className="flex h-full flex-col bg-blue-200">
         <TitleSection status={status} />
-
         <div className="flex h-full flex-col gap-18 rounded-t-[20px] rounded-b-none bg-[#FFF] px-4 py-6 shadow-[0_0_16px_0_rgba(8,89,193,0.2)]">
           {status === "reservation" && (
             <SectionField title={HOME_SECTION_TITLES.RESERVATION} viewMore viewMoreLink="/">

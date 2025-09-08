@@ -1,8 +1,13 @@
 import * as React from "react";
-
 import type { SVGProps } from "react";
 const SvgShare = (props: SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" {...props}>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={24}
+    height={24}
+    fill="none"
+    {...props}
+  >
     <path
       fill="#171719"
       d="M12 14.902a.9.9 0 0 1-.9-.9V3.622L9 5.649a.9.9 0 1 1-1.25-1.295l3.6-3.476a.897.897 0 0 1 1.3 0l3.6 3.476A.9.9 0 1 1 15 5.65l-2.1-2.027v10.38a.9.9 0 0 1-.9.9"

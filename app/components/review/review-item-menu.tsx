@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useOutsideClick } from "~/hooks/use-outside-click";
 
 import { Menu } from "../icons";
+import ReviewReport from "./review-report";
 
 const OTHER_ITEM_OPTIONS = [
   {
@@ -65,15 +66,30 @@ const ReviewItemMenu = ({ reviewId, isMyReview }: ReviewItemMenuProps) => {
       </button>
       {isOpen && (
         <div className="font-body1-normal-regular border-cool-neutral-97 shadow-input absolute top-full right-0 mt-2 flex w-[140px] flex-col rounded-[12px] border bg-white p-2">
-          {menuOptions.map((option) => (
-            <button
-              key={option.value}
-              className="active:bg-cool-neutral-97 rounded-[12px] px-3 py-2 text-start"
-              onClick={() => onClickMenu(option.value)}
-            >
-              {option.label}
-            </button>
-          ))}
+          {menuOptions.map((option) =>
+            // 신고 버튼 클릭시 신고 바텀시트 노출
+            option.value === "report" ? (
+              <ReviewReport
+                key={option.value}
+                trigger={
+                  <button
+                    className="active:bg-cool-neutral-97 rounded-[12px] px-3 py-2 text-start"
+                    // onClick={() => onClickMenu(option.value)}
+                  >
+                    {option.label}
+                  </button>
+                }
+              />
+            ) : (
+              <button
+                key={option.value}
+                className="active:bg-cool-neutral-97 rounded-[12px] px-3 py-2 text-start"
+                onClick={() => onClickMenu(option.value)}
+              >
+                {option.label}
+              </button>
+            )
+          )}
         </div>
       )}
     </div>
