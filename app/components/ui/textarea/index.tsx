@@ -20,7 +20,13 @@ function Textarea({
   additionalText,
   ...props
 }: TextareaProps) {
-  const { className, value: controlledValue, onChange: controlledOnChange, ...restProps } = props;
+  const {
+    className,
+    value: controlledValue,
+    onChange: controlledOnChange,
+    required,
+    ...restProps
+  } = props;
   const [internalValue, setInternalValue] = useState("");
 
   // controlled 또는 uncontrolled 상태에 따라 value 결정
@@ -42,7 +48,7 @@ function Textarea({
     <div className="flex flex-col gap-2">
       {label && (
         <label htmlFor={props.id} className="font-label1-normal-bold">
-          {label}
+          {label} {required && <span className="text-status-negative">*</span>}
         </label>
       )}
       <div
