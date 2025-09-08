@@ -50,14 +50,6 @@ export default function SignupPage() {
     setValue(id, value);
   };
 
-  const onPhoneChange = (value: string) => {
-    setValue("phone", value);
-  };
-
-  const onCodeChange = (value: string) => {
-    setValue("code", value);
-  };
-
   const onVerificationComplete = (isVerified: boolean) => {
     setIsCodeVerified(isVerified);
   };
@@ -86,8 +78,8 @@ export default function SignupPage() {
         <PhoneVerification
           phone={phone}
           code={code}
-          onPhoneChange={onPhoneChange}
-          onCodeChange={onCodeChange}
+          onPhoneChange={(e) => onChangeNumber(e, "phone")}
+          onCodeChange={(e) => setValue("code", e.target.value)}
           onVerificationComplete={onVerificationComplete}
         />
         <FloatingContainer>

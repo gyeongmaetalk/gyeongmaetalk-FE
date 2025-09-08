@@ -10,8 +10,8 @@ import { errorToast } from "~/utils/toast";
 interface PhoneVerificationProps {
   phone: string;
   code: string;
-  onPhoneChange: (value: string) => void;
-  onCodeChange: (value: string) => void;
+  onPhoneChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onCodeChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onVerificationComplete: (isVerified: boolean) => void;
 }
 
@@ -90,7 +90,7 @@ export default function PhoneVerification({
             className="rounded-r-none"
             maxLength={11}
             value={phone}
-            onChange={(e) => onPhoneChange(e.target.value)}
+            onChange={onPhoneChange}
           />
         </div>
         <Button
@@ -114,7 +114,7 @@ export default function PhoneVerification({
             successText={successText}
             errorText={errorText}
             value={code}
-            onChange={(e) => onCodeChange(e.target.value)}
+            onChange={onCodeChange}
             additionalText={formatRemainingTime(remainingTime)}
           />
         </div>
