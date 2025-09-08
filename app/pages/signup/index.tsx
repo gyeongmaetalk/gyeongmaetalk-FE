@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -7,9 +7,11 @@ import { useForm } from "react-hook-form";
 import FloatingContainer from "~/components/container/floating-container";
 import { Button } from "~/components/ui/button";
 import { Textfield } from "~/components/ui/textfield";
+import { cn } from "~/lib/utils";
 import { STATUS } from "~/routes/signup._index/constant";
 import { type SignupForm, signupFormSchema } from "~/routes/signup._index/schema";
-import { errorToast, infoToast, successToast } from "~/utils/toast";
+import { formatRemainingTime } from "~/routes/signup._index/util";
+import { errorToast } from "~/utils/toast";
 
 const DEFAULT_VALUES: SignupForm = {
   name: "",
@@ -24,6 +26,10 @@ export default function SignupPage() {
   // 추후 인증번호 인증 API의 상태로 수정
   const [isCodeVerified, setIsCodeVerified] = useState(false);
   const [successText, setSuccessText] = useState("");
+  const [errorText, setErrorText] = useState("");
+  const [remainingTime, setRemainingTime] = useState<number | null>(null);
+
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const { formState, watch, register, handleSubmit, setValue } = useForm<SignupForm>({
     resolver: zodResolver(signupFormSchema),
@@ -36,15 +42,30 @@ export default function SignupPage() {
   const code = watch("code");
 
   const isCodeVerifyDisabled = !isPhoneVerified || !code;
+  const isCheckCodeDisabled = !isPhoneVerified || !remainingTime;
   const isSubmitDisabled =
     !name || !birth || !phone || !code || !isCodeVerified || formState.isSubmitting;
 
   const onRequestCode = () => {
     // TODO: true인 경우는 재전송, false인 경우는 확인
-    successToast("휴대폰 번호 인증 버튼을 눌러주세요.");
-    infoToast("휴대폰 번호 인증 버튼을 눌러주세요.");
-    errorToast("휴대폰 번호 인증 버튼을 눌러주세요.");
     setIsPhoneVerified(true);
+
+    setRemainingTime(5);
+
+    intervalRef.current = setInterval(() => {
+      setRemainingTime((prev) => {
+        if (prev && prev > 1) {
+          return prev - 1;
+        }
+        if (intervalRef.current) {
+          errorToast("전화번호와 인증 번호가 초기화 되었습니다.\n다시 시도해주세요.");
+          clearInterval(intervalRef.current as NodeJS.Timeout);
+          intervalRef.current = null;
+          setErrorText(STATUS.CODE_EXPIRED);
+        }
+        return null;
+      });
+    }, 1000);
   };
 
   const onChangeNumber = (e: React.ChangeEvent<HTMLInputElement>, id: keyof SignupForm) => {
@@ -76,6 +97,9 @@ export default function SignupPage() {
      */
     setIsCodeVerified(true);
     setSuccessText(STATUS.VALID_CODE);
+
+    // 성공했을 때만 clearInterval
+    clearInterval(intervalRef.current as NodeJS.Timeout);
   };
 
   const onSubmit = handleSubmit((data) => {
@@ -131,11 +155,13 @@ export default function SignupPage() {
               required
               label="인증번호"
               placeholder="인증번호를 입력해주세요."
-              className="rounded-r-none"
-              disabled={!isPhoneVerified}
+              className={cn(!successText && "rounded-r-none")}
+              disabled={isCheckCodeDisabled}
               {...register("code")}
               successText={successText}
+              errorText={errorText}
               value={code}
+              additionalText={formatRemainingTime(remainingTime)}
             />
           </div>
           {!isCodeVerified && (
@@ -143,7 +169,10 @@ export default function SignupPage() {
               variant="outlined"
               theme="secondary"
               disabled={isCodeVerifyDisabled}
-              className="disabled:bg-cool-neutral-50/8 self-end rounded-l-none border-l-0 disabled:opacity-100"
+              className={cn(
+                "disabled:bg-cool-neutral-50/8 self-end rounded-l-none border-l-0 disabled:opacity-100",
+                errorText && "mt-1 self-center"
+              )}
               onClick={onRequestCodeVerify}
             >
               인증
