@@ -1,17 +1,14 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useForm } from "react-hook-form";
 
 import FloatingContainer from "~/components/container/floating-container";
+import PhoneVerification from "~/components/phone-verification";
 import { Button } from "~/components/ui/button";
 import { Textfield } from "~/components/ui/textfield";
-import { cn } from "~/lib/utils";
-import { STATUS } from "~/routes/signup._index/constant";
 import { type SignupForm, signupFormSchema } from "~/routes/signup._index/schema";
-import { formatRemainingTime } from "~/routes/signup._index/util";
-import { errorToast } from "~/utils/toast";
 
 const DEFAULT_VALUES: SignupForm = {
   name: "",
@@ -21,15 +18,7 @@ const DEFAULT_VALUES: SignupForm = {
 };
 
 export default function SignupPage() {
-  // 추후 휴대번호 인증번호 요청 API의 상태로 수정
-  const [isPhoneVerified, setIsPhoneVerified] = useState(false);
-  // 추후 인증번호 인증 API의 상태로 수정
   const [isCodeVerified, setIsCodeVerified] = useState(false);
-  const [successText, setSuccessText] = useState("");
-  const [errorText, setErrorText] = useState("");
-  const [remainingTime, setRemainingTime] = useState<number | null>(null);
-
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const { formState, watch, register, handleSubmit, setValue } = useForm<SignupForm>({
     resolver: zodResolver(signupFormSchema),
@@ -41,32 +30,8 @@ export default function SignupPage() {
   const phone = watch("phone");
   const code = watch("code");
 
-  const isCodeVerifyDisabled = !isPhoneVerified || !code;
-  const isCheckCodeDisabled = !isPhoneVerified || !remainingTime;
   const isSubmitDisabled =
     !name || !birth || !phone || !code || !isCodeVerified || formState.isSubmitting;
-
-  const onRequestCode = () => {
-    // TODO: true인 경우는 재전송, false인 경우는 확인
-    setIsPhoneVerified(true);
-
-    setRemainingTime(5);
-
-    intervalRef.current = setInterval(() => {
-      setRemainingTime((prev) => {
-        if (prev && prev > 1) {
-          return prev - 1;
-        }
-        if (intervalRef.current) {
-          errorToast("전화번호와 인증 번호가 초기화 되었습니다.\n다시 시도해주세요.");
-          clearInterval(intervalRef.current as NodeJS.Timeout);
-          intervalRef.current = null;
-          setErrorText(STATUS.CODE_EXPIRED);
-        }
-        return null;
-      });
-    }, 1000);
-  };
 
   const onChangeNumber = (e: React.ChangeEvent<HTMLInputElement>, id: keyof SignupForm) => {
     const value = e.target.value;
@@ -85,21 +50,16 @@ export default function SignupPage() {
     setValue(id, value);
   };
 
-  const onRequestCodeVerify = () => {
-    /**
-     * 인증번호가 올바르지 않다면
-     * STATUS.INVALID_CODE
-     * 인증번호가 만료되었다면
-     * STATUS.CODE_EXPIRED
-     * 인증번호가 올바르다면
-     * STATUS.VALID_CODE
-     * 로 설정
-     */
-    setIsCodeVerified(true);
-    setSuccessText(STATUS.VALID_CODE);
+  const onPhoneChange = (value: string) => {
+    setValue("phone", value);
+  };
 
-    // 성공했을 때만 clearInterval
-    clearInterval(intervalRef.current as NodeJS.Timeout);
+  const onCodeChange = (value: string) => {
+    setValue("code", value);
+  };
+
+  const onVerificationComplete = (isVerified: boolean) => {
+    setIsCodeVerified(isVerified);
   };
 
   const onSubmit = handleSubmit((data) => {
@@ -123,62 +83,13 @@ export default function SignupPage() {
           value={birth}
           onChange={(e) => onChangeNumber(e, "birth")}
         />
-        <div className="flex">
-          <div className="flex-1">
-            <Textfield
-              label="휴대폰 번호"
-              required
-              placeholder="번호를 입력해주세요.(ex.01012345678)"
-              className="rounded-r-none"
-              maxLength={11}
-              value={phone}
-              onChange={(e) => onChangeNumber(e, "phone")}
-            />
-          </div>
-          <Button
-            type="button"
-            variant="outlined"
-            theme="secondary"
-            className="self-end rounded-l-none border-l-0"
-            onClick={onRequestCode}
-          >
-            {isPhoneVerified ? "재전송" : "확인"}
-          </Button>
-        </div>
-        <div className="flex">
-          <div className="flex-1">
-            {/* 
-              인증번호 입력 대기할 때
-              additionalText 필드에 남은 시간 넣기
-             */}
-            <Textfield
-              required
-              label="인증번호"
-              placeholder="인증번호를 입력해주세요."
-              className={cn(!successText && "rounded-r-none")}
-              disabled={isCheckCodeDisabled}
-              {...register("code")}
-              successText={successText}
-              errorText={errorText}
-              value={code}
-              additionalText={formatRemainingTime(remainingTime)}
-            />
-          </div>
-          {!isCodeVerified && (
-            <Button
-              variant="outlined"
-              theme="secondary"
-              disabled={isCodeVerifyDisabled}
-              className={cn(
-                "disabled:bg-cool-neutral-50/8 self-end rounded-l-none border-l-0 disabled:opacity-100",
-                errorText && "mt-1 self-center"
-              )}
-              onClick={onRequestCodeVerify}
-            >
-              인증
-            </Button>
-          )}
-        </div>
+        <PhoneVerification
+          phone={phone}
+          code={code}
+          onPhoneChange={onPhoneChange}
+          onCodeChange={onCodeChange}
+          onVerificationComplete={onVerificationComplete}
+        />
         <FloatingContainer>
           <Button type="submit" className="w-full" disabled={isSubmitDisabled}>
             완료
