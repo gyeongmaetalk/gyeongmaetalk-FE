@@ -71,6 +71,8 @@ export default function PhoneVerification({
     setIsCodeVerified(true);
     setSuccessText(STATUS.VALID_CODE);
     onVerificationComplete(true);
+    setErrorText("");
+    setRemainingTime(null);
 
     // 성공했을 때만 clearInterval
     if (intervalRef.current) {
