@@ -93,5 +93,10 @@
       "extensions": "svg",
       "quiet": false
     }
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }
