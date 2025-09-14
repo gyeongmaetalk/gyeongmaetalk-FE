@@ -98,9 +98,9 @@ export const Header = {
 };
 
 // 로고가 있는 기본 헤더
-export function DefaultHeader() {
+export function DefaultHeader({ className }: { className?: string }) {
   return (
-    <Header.Container>
+    <Header.Container className={className}>
       <Header.Left>
         <Header.Logo />
       </Header.Left>

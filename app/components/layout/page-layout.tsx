@@ -8,6 +8,7 @@ export interface PageLayoutProps extends React.HTMLAttributes<HTMLDivElement> {
   header?: React.ReactNode;
   showNav?: boolean;
   withFloating?: boolean;
+  mainClassName?: string;
 }
 
 export default function PageLayout({
@@ -15,6 +16,7 @@ export default function PageLayout({
   showNav = false,
   withFloating = false,
   children,
+  mainClassName,
   className,
   ...props
 }: PageLayoutProps) {
@@ -26,7 +28,8 @@ export default function PageLayout({
           className={cn(
             "mt-[calc(2.75rem+var(--spacing-ios-top))] flex-1 overflow-y-auto",
             withFloating && "pb-[90px]",
-            showNav && "mb-[calc(2.75rem+var(--spacing-ios-bottom))]"
+            showNav && "mb-[calc(2.75rem+var(--spacing-ios-bottom))]",
+            mainClassName
           )}
         >
           {children}

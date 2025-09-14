@@ -20,9 +20,9 @@ export default function HomePage() {
   // const status: Status = "notReservation";
 
   return (
-    <PageLayout header={<DefaultHeader />} showNav>
+    <PageLayout header={<DefaultHeader className="bg-transparent" />} showNav mainClassName="mt-0">
       <div
-        className="flex h-full flex-col bg-gray-300 bg-cover bg-center bg-no-repeat"
+        className="flex h-full flex-col bg-gray-300 bg-cover bg-center bg-no-repeat pt-[calc(2.75rem+var(--spacing-ios-top))]"
         style={{ backgroundImage: `url(${homeBg})` }}
       >
         <TitleSection status={status} />
