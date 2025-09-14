@@ -30,7 +30,10 @@ const MyPagePage = () => {
               {response.authType === "apple" && <Apple className="h-[15px] w-[15px]" />}
             </div>
           )}
-          <div className="font-headline1-bold ml-1">
+          <div
+            className="font-headline1-bold ml-1"
+            onClick={response.auth ? () => navigate("/mypage/userinfo") : () => navigate("/login")}
+          >
             {response.auth ? `${response.name} 님` : "로그인 및 회원가입"}
           </div>
           <Back className="h-3 w-[7px] -scale-x-100" />
