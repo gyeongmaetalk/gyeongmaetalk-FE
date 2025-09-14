@@ -28,8 +28,8 @@ export default function HomePage() {
         <TitleSection status={status} />
         <div className="flex h-full flex-col gap-18 rounded-t-[20px] rounded-b-none bg-[#FFF] px-4 py-6 shadow-[0_0_16px_0_rgba(8,89,193,0.2)]">
           {status === "reservation" && (
-            <SectionField title={HOME_SECTION_TITLES.RESERVATION} viewMore viewMoreLink="/">
-              <div className="flex flex-row items-center gap-2 rounded-[12px] bg-[rgba(0_119_255_/_0.05)] p-4">
+            <SectionField title={HOME_SECTION_TITLES.RESERVATION}>
+              <div className="flex cursor-pointer flex-row items-center gap-2 rounded-[12px] bg-[rgba(0_119_255_/_0.05)] p-4">
                 <div className="rounded-[111px] border-1 border-[rgba(18,18,19,0.5)] bg-[#FFF] px-2 py-[5px] text-[12px] font-bold text-[#07F]">
                   1일 전
                 </div>
@@ -41,7 +41,7 @@ export default function HomePage() {
               </div>
             </SectionField>
           )}
-          <SectionField title={HOME_SECTION_TITLES.A_TO_Z} viewMore viewMoreLink="/">
+          <SectionField title={HOME_SECTION_TITLES.A_TO_Z}>
             <DragCarousel>
               {contents.map((item) => (
                 <DragCarouselItem key={item.id} className="cursor-pointer">
