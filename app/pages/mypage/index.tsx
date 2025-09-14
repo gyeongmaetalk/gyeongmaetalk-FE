@@ -1,7 +1,8 @@
+import { useNavigate } from "react-router";
+
 import Divider from "~/components/divider";
 import { Apple, Back, Kakao } from "~/components/icons";
 import { cn } from "~/lib/utils";
-import { useNavigate } from "react-router";
 
 const response = {
   auth: true,
@@ -52,7 +53,10 @@ const MyPagePage = () => {
             <div className="font-body1-normal-regular text-label-normal cursor-pointer py-3">
               작성한 후기
             </div>
-            <div className="font-body1-normal-regular text-label-normal cursor-pointer py-3">
+            <div
+              className="font-body1-normal-regular text-label-normal cursor-pointer py-3"
+              onClick={() => navigate("/mypage/alarm")}
+            >
               알림
             </div>
             <Divider className="bg-cool-neutral-98 my-4" />
