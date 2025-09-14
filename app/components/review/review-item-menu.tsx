@@ -2,8 +2,8 @@ import { useState } from "react";
 
 import { useOutsideClick } from "~/hooks/use-outside-click";
 
-import { Menu } from "../icons";
 import ReviewReport from "./review-report";
+import { Menu } from "../icons";
 
 const OTHER_ITEM_OPTIONS = [
   {

@@ -1,5 +1,9 @@
 import { useNavigate } from "react-router";
 
+import homeBg from "~/assets/home-main.png";
+import thumbnail1 from "~/assets/home-thumbnail1.png";
+import thumbnail2 from "~/assets/home-thumbnail2.png";
+import thumbnail3 from "~/assets/home-thumbnail3.png";
 import Dot from "~/components/icons/Dot";
 import { DefaultHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
@@ -16,14 +20,17 @@ export default function HomePage() {
   // const status: Status = "notReservation";
 
   return (
-    <PageLayout header={<DefaultHeader />} showNav>
-      <div className="flex h-full flex-col bg-blue-200">
+    <PageLayout header={<DefaultHeader className="bg-transparent" />} showNav mainClassName="mt-0">
+      <div
+        className="flex h-full flex-col bg-gray-300 bg-cover bg-center bg-no-repeat pt-[calc(2.75rem+var(--spacing-ios-top))]"
+        style={{ backgroundImage: `url(${homeBg})` }}
+      >
         <TitleSection status={status} />
         <div className="flex h-full flex-col gap-18 rounded-t-[20px] rounded-b-none bg-[#FFF] px-4 py-6 shadow-[0_0_16px_0_rgba(8,89,193,0.2)]">
           {status === "reservation" && (
-            <SectionField title={HOME_SECTION_TITLES.RESERVATION} viewMore viewMoreLink="/">
-              <div className="flex flex-row items-center gap-2 rounded-[12px] bg-[rgba(0_119_255_/_0.05)] p-4">
-                <div className="rounded-[111px] border-1 border-[rgba(0_119_255_/_0.50)] bg-[#FFF] px-2 py-[5px] text-[12px] font-bold text-[#07F]">
+            <SectionField title={HOME_SECTION_TITLES.RESERVATION}>
+              <div className="flex cursor-pointer flex-row items-center gap-2 rounded-[12px] bg-[rgba(0_119_255_/_0.05)] p-4">
+                <div className="rounded-[111px] border-1 border-[rgba(18,18,19,0.5)] bg-[#FFF] px-2 py-[5px] text-[12px] font-bold text-[#07F]">
                   1일 전
                 </div>
                 <div className="flex flex-row items-center gap-1.5">
@@ -34,11 +41,17 @@ export default function HomePage() {
               </div>
             </SectionField>
           )}
-          <SectionField title={HOME_SECTION_TITLES.A_TO_Z} viewMore viewMoreLink="/">
+          <SectionField title={HOME_SECTION_TITLES.A_TO_Z}>
             <DragCarousel>
               {contents.map((item) => (
-                <DragCarouselItem key={item.id}>
-                  <div className="font-body1-normal-bold text-label-neutral h-60 w-45 rounded-[12px] bg-[rgb(247_247_248_/_0.5)] p-4 whitespace-pre-line">
+                <DragCarouselItem key={item.id} className="cursor-pointer">
+                  <div
+                    className="font-body1-normal-bold text-label-neutral h-60 w-45 rounded-[12px] bg-[rgb(247_247_248_/_0.5)] bg-cover bg-center bg-no-repeat p-4 whitespace-pre-line"
+                    style={{ backgroundImage: `url(${item.thumbnail})` }}
+                    onClick={() => {
+                      navigate(`/content/${item.id}`);
+                    }}
+                  >
                     {item.title}
                   </div>
                 </DragCarouselItem>
@@ -73,14 +86,17 @@ const contents = [
   {
     id: 1,
     title: "법원에서 \n부동산을 판다?\n경매, 진짜 뭔가요?",
+    thumbnail: thumbnail1,
   },
   {
     id: 2,
-    title: "법원경매\n경매에 올라오는 집은\n누가 왜 내놓을까?",
+    title: "경매를 위한 \n필수 용어를 살펴보자!",
+    thumbnail: thumbnail2,
   },
   {
     id: 3,
-    title: "법원경매\n법원 경매로 살아가는 사람들",
+    title: "경매는 무조건\n 싸게 살 수 있다?",
+    thumbnail: thumbnail3,
   },
 ];
 

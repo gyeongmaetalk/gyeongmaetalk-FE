@@ -20,7 +20,7 @@ export default function SectionField({
       <div className="flex items-center justify-between">
         <div className="text-label-strong font-headline1-bold">{title}</div>
         <div
-          className="text-label-alternative font-label1-normal-medium"
+          className="text-label-alternative font-label1-normal-medium cursor-pointer"
           onClick={() => {
             if (viewMore) {
               navigate(viewMoreLink ?? "/");

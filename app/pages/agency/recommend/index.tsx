@@ -1,9 +1,7 @@
 import { useSearchParams } from "react-router";
 
 import ConsultantReviewCard from "~/components/card/consultant-review-card";
-import Divider from "~/components/divider";
 import { Document } from "~/components/icons";
-import AgencyRecommendItem from "~/routes/agency.recommend._index/agency-recommend-item";
 import StatusNav from "~/routes/agency.recommend._index/status-nav";
 
 const STATUS_LIST = [
