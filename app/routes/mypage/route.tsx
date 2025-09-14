@@ -2,7 +2,7 @@ import { WithLeftTitleHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 import MyPagePage from "~/pages/mypage";
 
-import type { Route } from "../+types/root";
+import type { Route } from "./+types/route";
 
 export function meta({}: Route.MetaArgs) {
   return [
