@@ -26,7 +26,6 @@ const ContentDetailPage = ({ id }: ContentDetailPageProps) => {
             <img src={content?.contentImage} alt="이미지 섬네일" />
           </div>
           <div className="font-body1-normal-regular text-label-normal">{content?.content}</div>
-          <div className="font-caption1-normal text-label-alternative">{content?.resource}</div>
         </section>
       </PageLayout>
     </>
@@ -123,13 +122,6 @@ const contents = [
           시세보다 저렴한 가격으로 부동산을 매입할 수 있는 기회를 얻게 되므로 모두에게 이로운
           해결책이 될 수 있는 제도라고 할 수 있습니다.
         </p>
-      </div>
-    ),
-    resource: (
-      <div>
-        [출처] - 국민일보
-        <br />
-        [원본링크] - https://www.kmib.co.kr/article/view.asp?arcid=0020047464
       </div>
     ),
   },
@@ -318,13 +310,6 @@ const contents = [
         </p>
       </div>
     ),
-    resource: (
-      <div>
-        [출처] - 국민일보
-        <br />
-        [원본링크] - https://www.kmib.co.kr/article/view.asp?arcid=0020047464
-      </div>
-    ),
   },
   {
     id: 3,
@@ -400,13 +385,6 @@ const contents = [
           경매를 통해 똑똑하게 내 집 마련이나 부동산 투자를 하고 싶다면, 경매톡에서 전문가에게
           무료로 물어보세요!
         </p>
-      </div>
-    ),
-    resource: (
-      <div>
-        [출처] - 국민일보
-        <br />
-        [원본링크] - https://www.kmib.co.kr/article/view.asp?arcid=0020047464
       </div>
     ),
   },
