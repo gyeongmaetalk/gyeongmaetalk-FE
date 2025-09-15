@@ -8,7 +8,7 @@ const response = {
   auth: true,
   name: "박서현",
   authType: "apple",
-  hasAuctionInProgress: false,
+  hasAuctionInProgress: true,
 };
 
 const MyPagePage = () => {
@@ -16,8 +16,8 @@ const MyPagePage = () => {
   return (
     <div className="flex flex-col">
       {/* 회원 로그인 정보 */}
-      <div className="flex flex-row items-center justify-between">
-        <div className="flex flex-row items-center gap-1 px-4 py-6">
+      <div className="flex h-24 flex-row items-center justify-between px-4 pt-6 pb-[15px]">
+        <div className="flex flex-row items-center gap-1">
           {response.auth && (
             <div
               className={cn(
@@ -48,7 +48,7 @@ const MyPagePage = () => {
       {/* 구분선 */}
       <Divider className="bg-cool-neutral-99 h-2" />
 
-      <div className="px-4 py-6">
+      <div className="px-4 pt-[15px] pb-6">
         {/* 후기 및 알림 */}
         {response.auth && (
           <div className="flex flex-col gap-2">
