@@ -85,7 +85,7 @@ export default function HomePage() {
 const contents = [
   {
     id: 1,
-    title: "법원에서 \n부동산을 판다?\n경매, 진짜 뭔가요?",
+    title: "법원에서 부동산을?\n경매, 진짜 뭔가요?",
     thumbnail: thumbnail1,
   },
   {
