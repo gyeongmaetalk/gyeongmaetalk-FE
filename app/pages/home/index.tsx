@@ -12,15 +12,21 @@ import { HOME_SECTION_TITLES, type Status } from "~/routes/_index/constant";
 import ReviewPreview from "~/routes/_index/review-preview";
 import SectionField from "~/routes/_index/section-field";
 import TitleSection from "~/routes/_index/title-section";
+import useScroll from "~/hooks/use-scroll";
 
 export default function HomePage() {
   const navigate = useNavigate();
   // const status: Status = "notLoggedIn";
   const status: Status = "reservation";
   // const status: Status = "notReservation";
+  const isScrolled = useScroll();
 
   return (
-    <PageLayout header={<DefaultHeader className="bg-transparent" />} showNav mainClassName="mt-0">
+    <PageLayout
+      header={<DefaultHeader className={isScrolled ? "bg-white" : "bg-transparent"} />}
+      showNav
+      mainClassName="mt-0"
+    >
       <div
         className="flex h-full flex-col bg-gray-300 bg-cover bg-center bg-no-repeat pt-[calc(2.75rem+var(--spacing-ios-top))]"
         style={{ backgroundImage: `url(${homeBg})` }}
@@ -85,7 +91,7 @@ export default function HomePage() {
 const contents = [
   {
     id: 1,
-    title: "법원에서 \n부동산을 판다?\n경매, 진짜 뭔가요?",
+    title: "법원에서 부동산을?\n경매, 진짜 뭔가요?",
     thumbnail: thumbnail1,
   },
   {
