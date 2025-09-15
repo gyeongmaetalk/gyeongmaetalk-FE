@@ -3,6 +3,8 @@ import { useNavigate } from "react-router";
 import { Alarm, Back, Close, LogoIcon, LogoText, Share } from "~/components/icons";
 import { cn } from "~/lib/utils";
 
+import useScroll from "~/hooks/use-scroll";
+
 // 기본 헤더 컨테이너
 function HeaderContainer({
   children,
@@ -11,11 +13,14 @@ function HeaderContainer({
   children: React.ReactNode;
   className?: string;
 }) {
+  const isScrolled = useScroll();
+
   return (
     <header
       className={cn(
         "max-w-mobile top-ios-top fixed right-0 left-0 z-[99999] mx-auto flex h-11 items-center bg-white px-4 py-2.5",
-        className
+        className,
+        isScrolled && "border-b-line-normal-neutral border-b-1"
       )}
     >
       {children}
