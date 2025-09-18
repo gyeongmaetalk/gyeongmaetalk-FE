@@ -1,9 +1,8 @@
 import { useNavigate } from "react-router";
 
 import { Alarm, Back, Close, LogoIcon, LogoText, Share } from "~/components/icons";
-import { cn } from "~/lib/utils";
-
 import useScroll from "~/hooks/use-scroll";
+import { cn } from "~/lib/utils";
 
 // 기본 헤더 컨테이너
 function HeaderContainer({
