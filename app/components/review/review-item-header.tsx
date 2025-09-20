@@ -1,3 +1,5 @@
+import { formatDate } from "~/utils/format";
+
 import ReviewItemMenu from "./review-item-menu";
 import StarRating from "../star-rating";
 import { Badge } from "../ui/badge";
@@ -5,9 +7,10 @@ import { Badge } from "../ui/badge";
 interface ReviewItemHeaderProps {
   isMyReview: boolean;
   reviewId: number;
+  createAt: string;
 }
 
-const ReviewItemHeader = ({ isMyReview, reviewId }: ReviewItemHeaderProps) => {
+const ReviewItemHeader = ({ isMyReview, reviewId, createAt }: ReviewItemHeaderProps) => {
   return (
     <div className="flex items-center justify-between">
       <div className="space-y-1.5">
@@ -19,7 +22,7 @@ const ReviewItemHeader = ({ isMyReview, reviewId }: ReviewItemHeaderProps) => {
           )}
           <p className="text-label-strong">dkd****</p>
           <div className="bg-label-alternative size-[3px]" />
-          <p className="text-label-alternative">25.07.22</p>
+          <p className="text-label-alternative">{formatDate({ date: createAt })}</p>
         </div>
         <StarRating rating={4} />
       </div>

@@ -46,3 +46,18 @@ export const formatPrice = (price: number, options: FormatPriceOptions = {}) => 
     return `${manFormatted}만 ${remainderFormatted}원`;
   }
 };
+
+export const formatDate = ({ date, withTime }: { date: string; withTime?: boolean }) => {
+  const dateObj = new Date(date);
+  const year = dateObj.getFullYear();
+  const month = (dateObj.getMonth() + 1).toString().padStart(2, "0");
+  const day = dateObj.getDate().toString().padStart(2, "0");
+  const hour = dateObj.getHours().toString().padStart(2, "0");
+  const minute = dateObj.getMinutes().toString().padStart(2, "0");
+
+  if (withTime) {
+    return `${year}.${month}.${day} ${hour}:${minute}`;
+  }
+
+  return `${year}.${month}.${day}`;
+};

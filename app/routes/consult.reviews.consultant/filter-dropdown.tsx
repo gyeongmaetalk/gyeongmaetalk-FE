@@ -6,41 +6,44 @@ import { ArrowDown } from "~/components/icons";
 import { useOutsideClick } from "~/hooks/use-outside-click";
 import { cn } from "~/lib/utils";
 
-const FILTER_OPTIONS = [
+const SORT_OPTIONS = [
   {
     label: "최신순",
-    value: "",
+    value: "LATEST",
   },
   {
     label: "오래된순",
-    value: "oldest",
+    value: "OLDEST",
   },
   {
     label: "별점 높은 순",
-    value: "highest",
+    value: "HIGHEST_SCORE",
   },
   {
     label: "별점 낮은 순",
-    value: "lowest",
+    value: "LOWEST_SCORE",
   },
 ];
 
 interface FilterDropdownProps {
-  consultantId: string;
+  [key: string]: string;
   sort: string;
 }
 
-const FilterDropdown = ({ consultantId, sort }: FilterDropdownProps) => {
+const FilterDropdown = (props: FilterDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [menuRef] = useOutsideClick<HTMLDivElement>(() => setIsOpen(false));
 
   const navigate = useNavigate();
 
-  const currentLabel = FILTER_OPTIONS.find((option) => option.value === sort)?.label;
+  const currentSort = props.sort || "LATEST";
+  const currentLabel = SORT_OPTIONS.find((option) => option.value === currentSort)?.label;
+  const params = new URLSearchParams(props);
 
   const onClickFilter = (value: string) => {
-    navigate(`?sort=${value}&consultantId=${consultantId}`, {
+    params.set("sort", value);
+    navigate(`?${params.toString()}`, {
       replace: true,
     });
   };
@@ -56,12 +59,12 @@ const FilterDropdown = ({ consultantId, sort }: FilterDropdownProps) => {
       </button>
       {isOpen && (
         <div className="font-body1-normal-regular border-cool-neutral-97 shadow-input absolute top-full right-0 z-100 mt-2 flex w-[140px] flex-col rounded-[12px] border bg-white p-2">
-          {FILTER_OPTIONS.map((option) => (
+          {SORT_OPTIONS.map((option) => (
             <button
               key={option.value}
               className={cn(
                 "active:bg-cool-neutral-97 rounded-[12px] px-3 py-2 text-start",
-                option.value === sort && "text-primary-normal"
+                option.value === currentSort && "text-primary-normal"
               )}
               onClick={() => onClickFilter(option.value)}
             >
