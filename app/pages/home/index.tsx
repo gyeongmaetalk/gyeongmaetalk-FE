@@ -8,11 +8,11 @@ import Dot from "~/components/icons/Dot";
 import { DefaultHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 import { DragCarousel, DragCarouselItem } from "~/components/ui/carousel/drag-carousel";
+import useScroll from "~/hooks/use-scroll";
 import { HOME_SECTION_TITLES, type Status } from "~/routes/_index/constant";
 import ReviewPreview from "~/routes/_index/review-preview";
 import SectionField from "~/routes/_index/section-field";
 import TitleSection from "~/routes/_index/title-section";
-import useScroll from "~/hooks/use-scroll";
 
 export default function HomePage() {
   const navigate = useNavigate();

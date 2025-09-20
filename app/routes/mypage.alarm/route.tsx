@@ -1,6 +1,5 @@
 import { WithBackHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
-
 import MyPageAlarmPage from "~/pages/mypage/alarm";
 
 const MyPageAlarmLayout = () => {
