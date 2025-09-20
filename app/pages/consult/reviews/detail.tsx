@@ -18,7 +18,11 @@ const ConsultReviewsDetailPage = ({ reviewId }: ConsultReviewsDetailPageProps) =
     <>
       <PageLayout header={<WithBackHeader title="상담 상세" />} withFloating>
         <section className="space-y-3 px-4 py-6">
-          <ReviewItemHeader isMyReview={false} reviewId={+reviewId} />
+          <ReviewItemHeader
+            isMyReview={false}
+            reviewId={+reviewId}
+            createAt="2025-01-20T15:30:00"
+          />
           <ConsultantReviewCard date="25.6.23 18:00" />
           {images?.length === 1 && (
             <div className="aspect-image bg-cool-neutral-30 w-full rounded-[12px]" />
