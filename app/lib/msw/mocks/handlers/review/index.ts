@@ -95,6 +95,7 @@ export const reviewHandlers = [
       score: body.score,
       content: body.content,
       images: [],
+      counselorId: +body.consultantId,
       counselorName: "이정훈",
       experience: 10,
       counselorImage:
@@ -107,6 +108,21 @@ export const reviewHandlers = [
     return HttpResponse.json(
       baseReponse({
         reviewId: newId,
+      })
+    );
+  }),
+  // 리뷰 수정
+  http.patch("/reviews", async ({ request }) => {
+    const formData = await request.formData();
+    const body: { score: number; content: string; reviewId: string; existingImages: string[] } =
+      JSON.parse(formData.get("request") as string);
+
+    // 2초 지연 후 응답
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+
+    return HttpResponse.json(
+      baseReponse({
+        reviewId: body.reviewId,
       })
     );
   }),

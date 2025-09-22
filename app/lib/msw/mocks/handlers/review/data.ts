@@ -66,6 +66,7 @@ export const reviewDetails = [
       "https://i.namu.wiki/i/8mcZn4QTDZNSyG5LCLIltEOwSsrMoAG9TKsurgtD2zMPJWqQCYvZUsL_66BkJy3JmN4lhegQHg_A2iGdD-AWLw.webp",
       "https://i.namu.wiki/i/8mcZn4QTDZNSyG5LCLIltEOwSsrMoAG9TKsurgtD2zMPJWqQCYvZUsL_66BkJy3JmN4lhegQHg_A2iGdD-AWLw.webp",
     ],
+    counselorId: 1,
     counselorName: "이정훈",
     experience: 10,
     counselorImage:
@@ -80,6 +81,7 @@ export const reviewDetails = [
     score: 4,
     content: "친절했지만 대기 시간이 좀 길었어요.",
     images: [],
+    counselorId: 1,
     counselorName: "이정훈",
     experience: 10,
     counselorImage:
