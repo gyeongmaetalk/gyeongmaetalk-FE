@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Camera, X } from "lucide-react";
+import { Camera } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Navigate, useSearchParams } from "react-router";
 
@@ -120,7 +120,12 @@ export default function ConsultWriteReviewPage() {
   return (
     <PageLayout header={<WithBackHeader title="상담후기 작성" />} withFloating>
       <form className="space-y-5 px-4 py-6" onSubmit={onSubmit}>
-        <ConsultantReviewCard date="25.6.23 18:00" />
+        <ConsultantReviewCard
+          date="25.6.23 18:00"
+          counselorName="이정훈"
+          experience={10}
+          counselorImage="https://i.namu.wiki/i/8mcZn4QTDZNSyG5LCLIltEOwSsrMoAG9TKsurgtD2zMPJWqQCYvZUsL_66BkJy3JmN4lhegQHg_A2iGdD-AWLw.webp"
+        />
         <p className="font-body1-normal-bold">이정훈 상담사와 상담 경험은 어땠나요?</p>
         <div className="flex items-center gap-2">
           <StarRating rating={form.watch("rating")} size="lg" setRating={onRatingChange} />
