@@ -21,3 +21,17 @@ export interface ReviewListItemDTO extends ConsultantReviewListItemDTO {
 export interface ReviewResponse {
   reviews: ReviewListItemDTO[];
 }
+
+export interface ReviewDetailResponse {
+  reviewId: number;
+  name: string;
+  createAt: string;
+  counselDateTime: string;
+  isMine: boolean;
+  score: number;
+  content: string;
+  images: string[];
+  counselorName: string;
+  experience: number;
+  counselorImage: string;
+}

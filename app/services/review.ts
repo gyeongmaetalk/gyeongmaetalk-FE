@@ -1,6 +1,10 @@
 import { api } from "~/lib/ky";
-import type { PaginationResponse } from "~/models";
-import type { ConsultantReviewResponse, ReviewResponse } from "~/models/review";
+import type { BaseResponse, PaginationResponse } from "~/models";
+import type {
+  ConsultantReviewResponse,
+  ReviewDetailResponse,
+  ReviewResponse,
+} from "~/models/review";
 
 export const getConsultantReviews = async (props: {
   consultantId: string;
@@ -18,4 +22,10 @@ export const getReviews = async (props: {
 }): Promise<PaginationResponse<ReviewResponse>> => {
   const searchParams = new URLSearchParams({ ...props, size: "10" });
   return api.get(`reviews/list`, { searchParams }).json();
+};
+
+export const getReviewById = async (
+  reviewId: string
+): Promise<BaseResponse<ReviewDetailResponse>> => {
+  return api.get(`reviews/${reviewId}`).json();
 };
