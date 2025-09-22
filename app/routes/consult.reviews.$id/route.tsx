@@ -1,3 +1,5 @@
+import { Navigate } from "react-router";
+
 import ConsultReviewsDetailPage from "~/pages/consult/reviews/detail";
 
 import type { Route } from "./+types/route";
@@ -8,6 +10,10 @@ export function meta({}: Route.MetaArgs) {
 
 export default function ConsultReviewsDetailLayout({ params }: Route.ComponentProps) {
   const { id } = params;
+
+  if (!id) {
+    return <Navigate to="/consult/reviews" />;
+  }
 
   return <ConsultReviewsDetailPage reviewId={id} />;
 }

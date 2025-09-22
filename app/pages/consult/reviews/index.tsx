@@ -35,10 +35,10 @@ const ConsultReviewsPage = () => {
   const reservationText = getReservationText(reservationStatus);
   const [isShowModal, setIsShowModal] = useState(Boolean(reservationText));
 
-  const { data: reviews, isLoading } = useGetReviews(sort);
+  const { data: reviews, isLoading, isError } = useGetReviews(sort);
 
   return (
-    <PageLayout header={<WithBackHeader title="이정훈 상담사 후기" />}>
+    <PageLayout header={<WithBackHeader title="상담후기" />}>
       <section className="px-4 pt-3 pb-6">
         {isShowModal && (
           <div
@@ -63,6 +63,10 @@ const ConsultReviewsPage = () => {
       </section>
       {isLoading ? (
         <Loader2 className="text-primary-normal mx-auto size-10 animate-spin" />
+      ) : isError ? (
+        <div className="flex h-full items-center justify-center">
+          <p className="font-label1-normal-medium text-label-neutral">오류가 발생했습니다.</p>
+        </div>
       ) : (
         <Review>
           <ReviewHeader sort={sort} totalCount={reviews?.length || 0} />
