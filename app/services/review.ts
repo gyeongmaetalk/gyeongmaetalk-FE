@@ -2,6 +2,7 @@ import { api } from "~/lib/ky";
 import type { BaseResponse, PaginationResponse } from "~/models";
 import type {
   ConsultantReviewResponse,
+  CreateReviewResponse,
   ReviewDetailResponse,
   ReviewResponse,
 } from "~/models/review";
@@ -28,4 +29,8 @@ export const getReviewById = async (
   reviewId: string
 ): Promise<BaseResponse<ReviewDetailResponse>> => {
   return api.get(`reviews/${reviewId}`).json();
+};
+
+export const createReview = (formData: FormData): Promise<BaseResponse<CreateReviewResponse>> => {
+  return api.post("reviews", { body: formData }).json();
 };

@@ -37,10 +37,7 @@ function Textarea({
   const isHelperTextRender = errorText || successText || helperText;
 
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (!isControlled) {
-      setInternalValue(e.target.value);
-      return;
-    }
+    setInternalValue(e.target.value);
     controlledOnChange?.(e);
   };
 
