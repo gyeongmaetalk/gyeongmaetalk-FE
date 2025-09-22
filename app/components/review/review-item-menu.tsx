@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { useNavigate } from "react-router";
+
 import { useOutsideClick } from "~/hooks/use-outside-click";
 
 import ReviewReport from "./review-report";
@@ -37,6 +39,8 @@ const ReviewItemMenu = ({ reviewId, isMyReview }: ReviewItemMenuProps) => {
 
   const [menuRef] = useOutsideClick<HTMLDivElement>(() => setIsOpen(false));
 
+  const navigate = useNavigate();
+
   const menuOptions = isMyReview ? MY_ITEM_OPTIONS : OTHER_ITEM_OPTIONS;
 
   const onClickMenu = (value: string) => {
@@ -49,7 +53,7 @@ const ReviewItemMenu = ({ reviewId, isMyReview }: ReviewItemMenuProps) => {
     }
 
     if (value === "edit") {
-      // TODO: 수정 페이지로 이동
+      navigate(`/consult/write?reviewId=${reviewId}`);
     }
 
     if (value === "delete") {

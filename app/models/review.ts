@@ -31,6 +31,7 @@ export interface ReviewDetailResponse {
   score: number;
   content: string;
   images: string[];
+  counselorId: number;
   counselorName: string;
   experience: number;
   counselorImage: string;

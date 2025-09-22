@@ -40,5 +40,6 @@ export const useGetReviewById = (reviewId: string) => {
     queryKey: [REVIEW.REVIEW_DETAIL, reviewId],
     queryFn: () => getReviewById(reviewId),
     select: (data) => data.results,
+    enabled: Boolean(reviewId),
   });
 };

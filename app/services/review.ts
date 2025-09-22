@@ -34,3 +34,7 @@ export const getReviewById = async (
 export const createReview = (formData: FormData): Promise<BaseResponse<CreateReviewResponse>> => {
   return api.post("reviews", { body: formData }).json();
 };
+
+export const updateReview = (formData: FormData): Promise<BaseResponse<CreateReviewResponse>> => {
+  return api.patch("reviews", { body: formData }).json();
+};

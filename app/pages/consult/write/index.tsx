@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -17,10 +17,12 @@ import StarRating from "~/components/star-rating";
 import { Button } from "~/components/ui/button";
 import { DragCarousel, DragCarouselItem } from "~/components/ui/carousel/drag-carousel";
 import { Checkbox } from "~/components/ui/checkbox";
+import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
 import { REVIEW } from "~/constants/review";
 import { queryClient } from "~/lib/tanstack";
-import { useCreateReview } from "~/lib/tanstack/mutation/review";
+import { useCreateReview, useUpdateReview } from "~/lib/tanstack/mutation/review";
+import { useGetReviewById } from "~/lib/tanstack/query/review";
 import {
   type WriteConsultReviewForm,
   writeConsultReviewFormSchema,
@@ -48,11 +50,15 @@ const getRatingText = (rating: number) => {
 export default function ConsultWriteReviewPage() {
   const [searchParams] = useSearchParams();
   const consultantId = searchParams.get("consultantId");
+  const reviewId = searchParams.get("reviewId");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imagePreviewUrls, setImagePreviewUrls] = useState<string[]>([]);
 
   const navigate = useNavigate();
 
+  const { data: review, isLoading: isReviewLoading } = useGetReviewById(reviewId || "");
+
+  // 리뷰 생성 Mutation
   const { mutateAsync: createReview } = useCreateReview({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [REVIEW.REVIEWS] });
@@ -61,6 +67,19 @@ export default function ConsultWriteReviewPage() {
     },
     onError: (error) => {
       errorToast("리뷰 등록에 실패했어요.");
+      console.error(error);
+    },
+  });
+
+  // 리뷰 수정 Mutation
+  const { mutateAsync: updateReview } = useUpdateReview({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [REVIEW.REVIEWS] });
+      successToast("리뷰가 수정되었어요.");
+      navigate(-1);
+    },
+    onError: (error) => {
+      errorToast("리뷰 수정에 실패했어요.");
       console.error(error);
     },
   });
@@ -77,9 +96,11 @@ export default function ConsultWriteReviewPage() {
 
   const submitDisabled =
     rating === 0 || content.length < 20 || !isAgree || form.formState.isSubmitting;
+  const isUpdateMode = Boolean(reviewId);
 
-  const onRatingChange = (rating: number) => {
-    form.setValue("rating", rating);
+  const onRatingChange = (newRating: number) => {
+    if (rating === newRating) return;
+    form.setValue("rating", newRating);
   };
 
   const onFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -122,7 +143,7 @@ export default function ConsultWriteReviewPage() {
     fileInputRef.current?.click();
   };
 
-  if (!consultantId) {
+  if (!consultantId && !reviewId) {
     return <Navigate to="/consult" />;
   }
 
@@ -131,8 +152,27 @@ export default function ConsultWriteReviewPage() {
     const request = {
       score: data.rating,
       content: data.content,
-      consultantId,
     };
+
+    if (isUpdateMode) {
+      const existingImages: string[] = [];
+      const reviewImages: File[] = [];
+      data.images?.forEach((image) => {
+        if (image.name.startsWith("https://")) {
+          existingImages.push(image.name);
+        } else {
+          reviewImages.push(image);
+        }
+      });
+      Object.assign(request, { existingImages, reviewId });
+      formData.append("request", JSON.stringify(request));
+      reviewImages.forEach((image) => {
+        formData.append("reviewImages", image);
+      });
+      await updateReview(formData);
+      return;
+    }
+    Object.assign(request, { consultantId });
     formData.append("request", JSON.stringify(request));
 
     if (data.images) {
@@ -143,6 +183,20 @@ export default function ConsultWriteReviewPage() {
 
     await createReview(formData);
   });
+
+  // TODO: 연동할 때 loader 이용해서 처리해보기
+  useEffect(() => {
+    if (isReviewLoading) return;
+    if (review) {
+      form.setValue("rating", review.score);
+      form.setValue("content", review.content);
+      form.setValue(
+        "images",
+        review.images.map((image) => new File([image], image))
+      );
+      setImagePreviewUrls(review.images);
+    }
+  }, [isReviewLoading]);
 
   return (
     <>
@@ -156,18 +210,25 @@ export default function ConsultWriteReviewPage() {
           />
           <p className="font-body1-normal-bold">이정훈 상담사와 상담 경험은 어땠나요?</p>
           <div className="flex items-center gap-2">
-            <StarRating rating={form.watch("rating")} size="lg" setRating={onRatingChange} />
+            <StarRating
+              rating={form.watch("rating")}
+              size="lg"
+              setRating={onRatingChange}
+              disabled={isReviewLoading}
+            />
             {rating > 0 && (
               <p className="text-label-neutral font-label2-regular">{getRatingText(rating)}</p>
             )}
           </div>
           <Divider className="bg-cool-neutral-98" />
           <Textarea
-            {...form.register("content")}
+            value={content}
+            onChange={(e) => form.setValue("content", e.target.value)}
             label="후기작성"
             placeholder="진행하신 상담 경험을 20자 이상 공유해 주시면, 다른 분들에게 도움이 됩니다."
             minLength={20}
             additionalText="최소 20자"
+            disabled={isReviewLoading}
           />
           <div className="flex flex-wrap gap-2">
             {imagePreviewUrls.length < MAX_IMAGES && (
@@ -215,14 +276,14 @@ export default function ConsultWriteReviewPage() {
           </div>
           <Divider className="bg-cool-neutral-98" />
           <div className="flex items-center gap-1">
-            <Checkbox {...form.register("isAgree")} />
-            <p className="font-body2-normal-regular text-label-alternative">
+            <Checkbox id="isAgree" {...form.register("isAgree")} />
+            <Label htmlFor="isAgree" className="font-body2-normal-regular text-label-alternative">
               작성된 후기는 경매톡의 홍보 및 서비스 개선에 활용될 수 있습니다. (필수)
-            </p>
+            </Label>
           </div>
           <FloatingContainer>
             <Button type="submit" className="w-full" disabled={submitDisabled}>
-              작성완료
+              {isUpdateMode ? "수정완료" : "작성완료"}
             </Button>
           </FloatingContainer>
         </form>
