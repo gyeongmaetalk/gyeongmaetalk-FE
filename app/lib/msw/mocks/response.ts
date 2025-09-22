@@ -13,3 +13,18 @@ export const paginationResponse = (results: unknown) => ({
   isFirst: true,
   isLast: true,
 });
+
+export const errorResponse = ({
+  code,
+  message,
+  error,
+}: {
+  code: number;
+  message: string;
+  error?: string;
+}) => ({
+  isSuccess: false,
+  code,
+  message,
+  error,
+});

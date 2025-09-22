@@ -1,5 +1,5 @@
 import { setupWorker } from "msw/browser";
 
-import { consultantReviewHandlers, reviewHandlers } from "./handlers/review";
+import { reviewHandlers } from "./handlers/review";
 
-export const worker = setupWorker(...consultantReviewHandlers, ...reviewHandlers);
+export const worker = setupWorker(...reviewHandlers);
