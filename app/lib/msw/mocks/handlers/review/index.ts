@@ -126,4 +126,83 @@ export const reviewHandlers = [
       })
     );
   }),
+  // 리뷰 삭제
+  http.delete("/reviews/:reviewId", async ({ params }) => {
+    const { reviewId } = params;
+
+    if (!reviewId) {
+      return HttpResponse.json(
+        errorResponse({
+          code: 400,
+          message: "Bad Request",
+          error: "리뷰 ID는 필수입니다.",
+        }),
+        {
+          status: 400,
+        }
+      );
+    }
+
+    const removeIdx = allReviews.findIndex((review) => review.reviewId === +reviewId);
+    if (removeIdx === -1) {
+      return HttpResponse.json(
+        errorResponse({
+          code: 404,
+          message: "Not Found",
+          error: "리뷰를 찾을 수 없습니다.",
+        }),
+        {
+          status: 404,
+        }
+      );
+    }
+
+    // 2초 지연 후 응답
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+    allReviews.splice(removeIdx, 1);
+
+    return HttpResponse.json(
+      baseReponse({
+        reviewId,
+      })
+    );
+  }),
+  // 리뷰 신고
+  http.post("/reviews/:reviewId/reports", async ({ params }) => {
+    const { reviewId } = params;
+
+    if (!reviewId) {
+      return HttpResponse.json(
+        errorResponse({
+          code: 400,
+          message: "Bad Request",
+          error: "리뷰 ID는 필수입니다.",
+        }),
+        {
+          status: 400,
+        }
+      );
+    }
+
+    const removeIdx = allReviews.findIndex((review) => review.reviewId === +reviewId);
+    if (removeIdx === -1) {
+      return HttpResponse.json(
+        errorResponse({
+          code: 404,
+          message: "Not Found",
+          error: "리뷰를 찾을 수 없습니다.",
+        })
+      );
+    }
+
+    // 2초 지연 후 응답
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+    allReviews.splice(removeIdx, 1);
+
+    return HttpResponse.json(
+      baseReponse({
+        reviewId,
+      })
+    );
+  }),
 ];

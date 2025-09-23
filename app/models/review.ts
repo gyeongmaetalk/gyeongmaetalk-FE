@@ -9,7 +9,7 @@ export interface ConsultantReviewListItemDTO {
   thumbnail: string;
 }
 
-export interface ConsultantReviewResponse {
+export interface ConsultantReviewListResponse {
   reviews: ConsultantReviewListItemDTO[];
 }
 
@@ -18,7 +18,7 @@ export interface ReviewListItemDTO extends ConsultantReviewListItemDTO {
   counselDateTime: string;
 }
 
-export interface ReviewResponse {
+export interface ReviewListResponse {
   reviews: ReviewListItemDTO[];
 }
 
@@ -37,6 +37,6 @@ export interface ReviewDetailResponse {
   counselorImage: string;
 }
 
-export interface CreateReviewResponse {
+export interface ReviewResponse {
   reviewId: number;
 }
