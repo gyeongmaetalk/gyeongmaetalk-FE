@@ -40,3 +40,7 @@ export interface ReviewDetailResponse {
 export interface ReviewResponse {
   reviewId: number;
 }
+
+export interface ReviewReportRequest extends ReviewResponse {
+  body: { reasonType: string; reasonDetail?: string };
+}

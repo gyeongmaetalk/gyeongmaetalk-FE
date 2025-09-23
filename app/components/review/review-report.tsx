@@ -1,82 +1,129 @@
 import { useState } from "react";
 
+import { REVIEW } from "~/constants/review";
+import { queryClient } from "~/lib/tanstack";
+import { useReportReview } from "~/lib/tanstack/mutation/review";
+import { errorToast, successToast } from "~/utils/toast";
+
 import { Button } from "../ui/button";
-import { Drawer, DrawerContent, DrawerTrigger } from "../ui/drawer";
+import { Drawer, DrawerContent, DrawerTrigger, useDrawer } from "../ui/drawer";
 import { Label } from "../ui/label";
 import { RadioGroup } from "../ui/radio";
 import { Radio } from "../ui/radio";
 import { Textarea } from "../ui/textarea";
 
 interface ReviewReportProps {
-  disabled: boolean;
+  reviewId: number;
 }
 
-const ReviewReport = ({ disabled }: ReviewReportProps) => {
-  const [selectedValue, setSelectedValue] = useState("1");
+const REPORT_OPTIONS = [
+  {
+    label: "욕설 및 비방",
+    value: "ABUSE",
+  },
+  {
+    label: "허위/광고성 게시물",
+    value: "ADVERTISEMENT",
+  },
+  {
+    label: "개인정보 노출",
+    value: "PERSONAL_INFO",
+  },
+  {
+    label: "기타",
+    value: "ETC",
+  },
+];
+
+function ReviewReportContent({ reviewId }: ReviewReportProps) {
+  const [selectedValue, setSelectedValue] = useState(REPORT_OPTIONS[0].value);
   const [showTextarea, setShowTextarea] = useState(false);
   const [textareaValue, setTextareaValue] = useState("");
 
+  const { close } = useDrawer();
+
+  // 리뷰 신고 Mutation
+  const { mutateAsync: reportReview, isPending: isReportReviewPending } = useReportReview({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [REVIEW.REVIEWS] });
+      successToast("리뷰가 신고되었어요.");
+      close();
+    },
+    onError: (error) => {
+      errorToast("리뷰 신고에 실패했어요.");
+      console.error(error);
+    },
+  });
+
+  const submitDisabled =
+    !selectedValue || (showTextarea && textareaValue.length === 0) || isReportReviewPending;
+
+  const onSelectOption = (value: string) => {
+    setSelectedValue(value);
+
+    if (value === "ETC") {
+      setShowTextarea(true);
+    } else {
+      setShowTextarea(false);
+    }
+  };
+
+  const onSubmit = async () => {
+    const body = { reasonType: selectedValue };
+    if (showTextarea) {
+      Object.assign(body, { reasonDetail: textareaValue });
+    }
+
+    await reportReview({ reviewId, body });
+  };
+
+  return (
+    <DrawerContent className="typo-semibold flex flex-col">
+      <div className="flex flex-col space-y-4">
+        <RadioGroup value={selectedValue} onValueChange={onSelectOption} className="space-y-1">
+          {REPORT_OPTIONS.map((option) => (
+            <div key={option.value} className="flex gap-2">
+              <Radio
+                disabled={isReportReviewPending}
+                value={option.value}
+                size="default"
+                id={option.value}
+              />
+              <Label htmlFor={option.value}>{option.label}</Label>
+            </div>
+          ))}
+          {showTextarea && (
+            <Textarea
+              maxLength={100}
+              additionalText="최대 100자"
+              id="textarea"
+              value={textareaValue}
+              onChange={(e) => setTextareaValue(e.target.value)}
+              placeholder="메세지를 입력해주세요"
+            />
+          )}
+        </RadioGroup>
+        <Button
+          variant="default"
+          theme="default"
+          className="w-full"
+          disabled={submitDisabled}
+          onClick={onSubmit}
+        >
+          신고하기
+        </Button>
+      </div>
+    </DrawerContent>
+  );
+}
+
+export default function ReviewReport({ reviewId }: ReviewReportProps) {
   return (
     <Drawer>
-      <DrawerTrigger
-        className="active:bg-cool-neutral-97 rounded-[12px] px-3 py-2 text-start disabled:opacity-50"
-        disabled={disabled}
-      >
+      <DrawerTrigger className="active:bg-cool-neutral-97 rounded-[12px] px-3 py-2 text-start disabled:opacity-50">
         신고
       </DrawerTrigger>
-      <DrawerContent className="typo-semibold flex flex-col">
-        <div className="flex flex-col space-y-4">
-          <RadioGroup
-            value={selectedValue}
-            onValueChange={(value) => {
-              setSelectedValue(value);
-              if (value === "4") {
-                setShowTextarea(true);
-              } else {
-                setShowTextarea(false);
-              }
-            }}
-            className="space-y-1"
-          >
-            <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
-              <Radio value="1" size="default" id="1" />
-              <Label htmlFor="1">욕설 및 비방</Label>
-            </div>
-            <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
-              <Radio value="2" size="default" id="2" />
-              <Label htmlFor="2">허위/광고성 게시물</Label>
-            </div>
-            <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
-              <Radio value="3" size="default" id="3" />
-              <Label htmlFor="3">개인정보 노출</Label>
-            </div>
-            <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
-              <Radio value="4" size="default" id="4" />
-              <Label htmlFor="4">기타</Label>
-            </div>
-            {showTextarea && (
-              <Textarea
-                maxLength={100}
-                additionalText="최대 100자"
-                id="textarea"
-                value={textareaValue}
-                onChange={(e) => setTextareaValue(e.target.value)}
-                placeholder="메세지를 입력해주세요"
-              />
-            )}
-          </RadioGroup>
-          <Button
-            variant="default"
-            theme="default"
-            className="w-full"
-            disabled={!selectedValue || (showTextarea && textareaValue.length === 0)}
-          >
-            신고하기
-          </Button>
-        </div>
-      </DrawerContent>
+      <ReviewReportContent reviewId={reviewId} />
     </Drawer>
   );
-};
-
-export default ReviewReport;
+}

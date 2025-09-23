@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import { REVIEW } from "~/constants/review";
 import { useOutsideClick } from "~/hooks/use-outside-click";
 import { queryClient } from "~/lib/tanstack";
-import { useRemoveReview, useReportReview } from "~/lib/tanstack/mutation/review";
+import { useRemoveReview } from "~/lib/tanstack/mutation/review";
 import { cn } from "~/lib/utils";
 import { errorToast, successToast } from "~/utils/toast";
 
@@ -46,18 +46,6 @@ const ReviewItemMenu = ({ reviewId, isMyReview }: ReviewItemMenuProps) => {
 
   const navigate = useNavigate();
 
-  // 리뷰 신고 Mutation
-  const { mutateAsync: reportReview, isPending: isReportReviewPending } = useReportReview({
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [REVIEW.REVIEWS] });
-      successToast("리뷰가 신고되었어요.");
-    },
-    onError: (error) => {
-      errorToast("리뷰 신고에 실패했어요.");
-      console.error(error);
-    },
-  });
-
   // 리뷰 삭제 Mutation
   const { mutateAsync: removeReview, isPending: isRemoveReviewPending } = useRemoveReview({
     onSuccess: () => {
@@ -71,15 +59,11 @@ const ReviewItemMenu = ({ reviewId, isMyReview }: ReviewItemMenuProps) => {
   });
 
   const menuOptions = isMyReview ? MY_ITEM_OPTIONS : OTHER_ITEM_OPTIONS;
-  const buttonDisabled = isReportReviewPending || isRemoveReviewPending;
+  const buttonDisabled = isRemoveReviewPending;
 
   const onClickMenu = async (value: string) => {
     if (value === "block") {
       // TODO: 차단 API 호출
-    }
-
-    if (value === "report") {
-      await reportReview(reviewId);
     }
 
     if (value === "edit") {
@@ -107,7 +91,7 @@ const ReviewItemMenu = ({ reviewId, isMyReview }: ReviewItemMenuProps) => {
         {menuOptions.map((option) =>
           // 신고 버튼 클릭시 신고 바텀시트 노출
           option.value === "report" ? (
-            <ReviewReport key={option.value} disabled={buttonDisabled} />
+            <ReviewReport key={option.value} reviewId={reviewId} />
           ) : (
             <button
               key={option.value}

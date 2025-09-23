@@ -3,7 +3,7 @@ import { useMutation, type UseMutationOptions } from "@tanstack/react-query";
 import type { HTTPError } from "ky";
 
 import type { BaseResponse } from "~/models";
-import type { ReviewResponse } from "~/models/review";
+import type { ReviewReportRequest, ReviewResponse } from "~/models/review";
 import { createReview, removeReview, reportReview, updateReview } from "~/services/review";
 
 export const useCreateReview = (
@@ -34,9 +34,9 @@ export const useRemoveReview = (
 };
 
 export const useReportReview = (
-  options?: UseMutationOptions<BaseResponse<ReviewResponse>, HTTPError, number>
+  options?: UseMutationOptions<BaseResponse<ReviewResponse>, HTTPError, ReviewReportRequest>
 ) => {
-  return useMutation<BaseResponse<ReviewResponse>, HTTPError, number>({
+  return useMutation<BaseResponse<ReviewResponse>, HTTPError, ReviewReportRequest>({
     mutationFn: reportReview,
     ...options,
   });

@@ -184,20 +184,8 @@ export const reviewHandlers = [
       );
     }
 
-    const removeIdx = allReviews.findIndex((review) => review.reviewId === +reviewId);
-    if (removeIdx === -1) {
-      return HttpResponse.json(
-        errorResponse({
-          code: 404,
-          message: "Not Found",
-          error: "리뷰를 찾을 수 없습니다.",
-        })
-      );
-    }
-
     // 2초 지연 후 응답
     await new Promise((resolve) => setTimeout(resolve, 3000));
-    allReviews.splice(removeIdx, 1);
 
     return HttpResponse.json(
       baseReponse({

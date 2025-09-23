@@ -4,6 +4,7 @@ import type {
   ConsultantReviewListResponse,
   ReviewDetailResponse,
   ReviewListResponse,
+  ReviewReportRequest,
   ReviewResponse,
 } from "~/models/review";
 
@@ -43,6 +44,9 @@ export const removeReview = (reviewId: number): Promise<BaseResponse<ReviewRespo
   return api.delete(`reviews/${reviewId}`).json();
 };
 
-export const reportReview = (reviewId: number): Promise<BaseResponse<ReviewResponse>> => {
-  return api.post(`reviews/${reviewId}/reports`).json();
+export const reportReview = ({
+  reviewId,
+  body,
+}: ReviewReportRequest): Promise<BaseResponse<ReviewResponse>> => {
+  return api.post(`reviews/${reviewId}/reports`, { json: body }).json();
 };
