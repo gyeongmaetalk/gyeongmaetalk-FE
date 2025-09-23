@@ -1,5 +1,5 @@
-import { Person } from "../icons";
 import Divider from "../divider";
+import { Person } from "../icons";
 
 // interface ConsultReservationInfoCardProps {
 //   date: string;

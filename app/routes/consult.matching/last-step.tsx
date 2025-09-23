@@ -2,10 +2,11 @@ import { Info } from "lucide-react";
 import { Navigate, useNavigate } from "react-router";
 
 import calendarCheck from "~/assets/calendar-check.png";
+import ConsultInfoCard from "~/components/card/consult-info-card";
 import ConsultantCard from "~/components/card/consultant-card";
+import ReservationInfoCard from "~/components/card/reservation-info-card";
 import FloatingContainer from "~/components/container/floating-container";
 import Divider from "~/components/divider";
-import { Pencil, Person } from "~/components/icons";
 import PageLayout from "~/components/layout/page-layout";
 import { Button } from "~/components/ui/button";
 import type { MatchCounselResponse, ReserveConsultResponse } from "~/models/counsel";
@@ -71,6 +72,10 @@ const LastStep = ({ consultant, reservationResult }: LastStepProps) => {
           </div>
           <ConsultantCard consultant={consultant} />
         </section>
+
+        <Divider className="bg-cool-neutral-99 h-2" />
+        <ReservationInfoCard />
+
         <Divider className="bg-cool-neutral-99 h-2" />
         <section className="space-y-4 px-4 py-6">
           <div className="flex items-center gap-1">
