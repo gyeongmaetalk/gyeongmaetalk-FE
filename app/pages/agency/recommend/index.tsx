@@ -26,7 +26,11 @@ const AgencyRecommendPage = () => {
   return (
     <div className="h-full">
       <section className="px-4 pt-6 pb-[18px]">
-        <ConsultantReviewCard />
+        <ConsultantReviewCard
+          counselorName="이정훈"
+          experience={10}
+          counselorImage="https://i.namu.wiki/i/8mcZn4QTDZNSyG5LCLIltEOwSsrMoAG9TKsurgtD2zMPJWqQCYvZUsL_66BkJy3JmN4lhegQHg_A2iGdD-AWLw.webp"
+        />
       </section>
       <StatusNav statusList={STATUS_LIST} status={status} />
       {/* 추천 매물이 없는 경우 */}

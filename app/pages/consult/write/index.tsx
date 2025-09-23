@@ -1,10 +1,10 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Camera, X } from "lucide-react";
+import { Camera, Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { Navigate, useSearchParams } from "react-router";
+import { Navigate, useNavigate, useSearchParams } from "react-router";
 
 import ConsultantReviewCard from "~/components/card/consultant-review-card";
 import FloatingContainer from "~/components/container/floating-container";
@@ -12,16 +12,22 @@ import Divider from "~/components/divider";
 import { Close } from "~/components/icons";
 import { WithBackHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
+import Modal from "~/components/modal";
 import StarRating from "~/components/star-rating";
 import { Button } from "~/components/ui/button";
 import { DragCarousel, DragCarouselItem } from "~/components/ui/carousel/drag-carousel";
 import { Checkbox } from "~/components/ui/checkbox";
+import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
+import { REVIEW } from "~/constants/review";
+import { queryClient } from "~/lib/tanstack";
+import { useCreateReview, useUpdateReview } from "~/lib/tanstack/mutation/review";
+import { useGetReviewById } from "~/lib/tanstack/query/review";
 import {
   type WriteConsultReviewForm,
   writeConsultReviewFormSchema,
 } from "~/routes/consult.write/schema";
-import { infoToast } from "~/utils/toast";
+import { errorToast, infoToast, successToast } from "~/utils/toast";
 
 const DEFAULT_VALUES = {
   rating: 0,
@@ -44,8 +50,39 @@ const getRatingText = (rating: number) => {
 export default function ConsultWriteReviewPage() {
   const [searchParams] = useSearchParams();
   const consultantId = searchParams.get("consultantId");
+  const reviewId = searchParams.get("reviewId");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imagePreviewUrls, setImagePreviewUrls] = useState<string[]>([]);
+
+  const navigate = useNavigate();
+
+  const { data: review, isLoading: isReviewLoading } = useGetReviewById(reviewId || "");
+
+  // 리뷰 생성 Mutation
+  const { mutateAsync: createReview } = useCreateReview({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [REVIEW.REVIEWS] });
+      successToast("리뷰가 등록되었어요.");
+      navigate("/consult/reviews");
+    },
+    onError: (error) => {
+      errorToast("리뷰 등록에 실패했어요.");
+      console.error(error);
+    },
+  });
+
+  // 리뷰 수정 Mutation
+  const { mutateAsync: updateReview } = useUpdateReview({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [REVIEW.REVIEWS] });
+      successToast("리뷰가 수정되었어요.");
+      navigate(-1);
+    },
+    onError: (error) => {
+      errorToast("리뷰 수정에 실패했어요.");
+      console.error(error);
+    },
+  });
 
   const form = useForm<WriteConsultReviewForm>({
     resolver: zodResolver(writeConsultReviewFormSchema),
@@ -59,9 +96,11 @@ export default function ConsultWriteReviewPage() {
 
   const submitDisabled =
     rating === 0 || content.length < 20 || !isAgree || form.formState.isSubmitting;
+  const isUpdateMode = Boolean(reviewId);
 
-  const onRatingChange = (rating: number) => {
-    form.setValue("rating", rating);
+  const onRatingChange = (newRating: number) => {
+    if (rating === newRating) return;
+    form.setValue("rating", newRating);
   };
 
   const onFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,95 +143,159 @@ export default function ConsultWriteReviewPage() {
     fileInputRef.current?.click();
   };
 
-  if (!consultantId) {
+  if (!consultantId && !reviewId) {
     return <Navigate to="/consult" />;
   }
 
-  const onSubmit = form.handleSubmit(
-    (data) => {
-      console.log(data);
-    },
-    (error) => {
-      console.log(error);
+  const onSubmit = form.handleSubmit(async (data) => {
+    const formData = new FormData();
+    const request = {
+      score: data.rating,
+      content: data.content,
+    };
+
+    if (isUpdateMode) {
+      const existingImages: string[] = [];
+      const reviewImages: File[] = [];
+      data.images?.forEach((image) => {
+        if (image.name.startsWith("https://")) {
+          existingImages.push(image.name);
+        } else {
+          reviewImages.push(image);
+        }
+      });
+      Object.assign(request, { existingImages, reviewId });
+      formData.append("request", JSON.stringify(request));
+      reviewImages.forEach((image) => {
+        formData.append("reviewImages", image);
+      });
+      await updateReview(formData);
+      return;
     }
-  );
+    Object.assign(request, { consultantId });
+    formData.append("request", JSON.stringify(request));
+
+    if (data.images) {
+      data.images.forEach((image) => {
+        formData.append("images", image);
+      });
+    }
+
+    await createReview(formData);
+  });
+
+  // TODO: 연동할 때 loader 이용해서 처리해보기
+  useEffect(() => {
+    if (isReviewLoading) return;
+    if (review) {
+      form.setValue("rating", review.score);
+      form.setValue("content", review.content);
+      form.setValue(
+        "images",
+        review.images.map((image) => new File([image], image))
+      );
+      setImagePreviewUrls(review.images);
+    }
+  }, [isReviewLoading]);
 
   return (
-    <PageLayout header={<WithBackHeader title="상담후기 작성" />} withFloating>
-      <form className="space-y-5 px-4 py-6" onSubmit={onSubmit}>
-        <ConsultantReviewCard date="25.6.23 18:00" />
-        <p className="font-body1-normal-bold">이정훈 상담사와 상담 경험은 어땠나요?</p>
-        <div className="flex items-center gap-2">
-          <StarRating rating={form.watch("rating")} size="lg" setRating={onRatingChange} />
-          {rating > 0 && (
-            <p className="text-label-neutral font-label2-regular">{getRatingText(rating)}</p>
-          )}
-        </div>
-        <Divider className="bg-cool-neutral-98" />
-        <Textarea
-          {...form.register("content")}
-          label="후기작성"
-          placeholder="진행하신 상담 경험을 20자 이상 공유해 주시면, 다른 분들에게 도움이 됩니다."
-          minLength={20}
-          additionalText="최소 20자"
-        />
-        <div className="flex flex-wrap gap-2">
-          {imagePreviewUrls.length < MAX_IMAGES && (
-            <button
-              type="button"
-              onClick={onUploadButtonClick}
-              className="border-cool-neutral-50/16 flex size-20 flex-col items-center justify-center gap-1 rounded-lg border"
-              aria-label="이미지 업로드"
-            >
-              <Camera />
-              <p className="font-label2-medium text-label-alternative">
-                {imagePreviewUrls.length}/{MAX_IMAGES}
-              </p>
-            </button>
-          )}
-          <DragCarousel>
-            {imagePreviewUrls.map((url, index) => (
-              <DragCarouselItem key={`${url}-${index}`}>
-                <div className="relative">
-                  <img
-                    src={url}
-                    alt={`업로드된 이미지 ${index + 1}`}
-                    className="size-20 rounded-lg object-cover"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => onRemoveImage(index)}
-                    className="bg-label-neutral absolute top-1 right-1 flex items-center justify-center rounded-full p-1"
-                    aria-label={`이미지 ${index + 1} 삭제`}
-                  >
-                    <Close className="size-4 text-white" />
-                  </button>
-                </div>
-              </DragCarouselItem>
-            ))}
-          </DragCarousel>
-          <input
-            ref={fileInputRef}
-            type="file"
-            multiple
-            accept={ACCEPTED_IMAGE_TYPES.join(",")}
-            onChange={onFileSelect}
-            className="hidden"
+    <>
+      <PageLayout header={<WithBackHeader title="상담후기 작성" />} withFloating>
+        <form className="space-y-5 px-4 py-6" onSubmit={onSubmit}>
+          <ConsultantReviewCard
+            date="25.6.23 18:00"
+            counselorName="이정훈"
+            experience={10}
+            counselorImage="https://i.namu.wiki/i/8mcZn4QTDZNSyG5LCLIltEOwSsrMoAG9TKsurgtD2zMPJWqQCYvZUsL_66BkJy3JmN4lhegQHg_A2iGdD-AWLw.webp"
           />
-        </div>
-        <Divider className="bg-cool-neutral-98" />
-        <div className="flex items-center gap-1">
-          <Checkbox {...form.register("isAgree")} />
-          <p className="font-body2-normal-regular text-label-alternative">
-            작성된 후기는 경매톡의 홍보 및 서비스 개선에 활용될 수 있습니다. (필수)
-          </p>
-        </div>
-        <FloatingContainer>
-          <Button type="submit" className="w-full" disabled={submitDisabled}>
-            작성완료
-          </Button>
-        </FloatingContainer>
-      </form>
-    </PageLayout>
+          <p className="font-body1-normal-bold">이정훈 상담사와 상담 경험은 어땠나요?</p>
+          <div className="flex items-center gap-2">
+            <StarRating
+              rating={form.watch("rating")}
+              size="lg"
+              setRating={onRatingChange}
+              disabled={isReviewLoading}
+            />
+            {rating > 0 && (
+              <p className="text-label-neutral font-label2-regular">{getRatingText(rating)}</p>
+            )}
+          </div>
+          <Divider className="bg-cool-neutral-98" />
+          <Textarea
+            value={content}
+            onChange={(e) => form.setValue("content", e.target.value)}
+            label="후기작성"
+            placeholder="진행하신 상담 경험을 20자 이상 공유해 주시면, 다른 분들에게 도움이 됩니다."
+            minLength={20}
+            additionalText="최소 20자"
+            disabled={isReviewLoading}
+          />
+          <div className="flex flex-wrap gap-2">
+            {imagePreviewUrls.length < MAX_IMAGES && (
+              <button
+                type="button"
+                onClick={onUploadButtonClick}
+                className="border-cool-neutral-50/16 flex size-20 flex-col items-center justify-center gap-1 rounded-lg border"
+                aria-label="이미지 업로드"
+              >
+                <Camera />
+                <p className="font-label2-medium text-label-alternative">
+                  {imagePreviewUrls.length}/{MAX_IMAGES}
+                </p>
+              </button>
+            )}
+            <DragCarousel>
+              {imagePreviewUrls.map((url, index) => (
+                <DragCarouselItem key={`${url}-${index}`}>
+                  <div className="relative">
+                    <img
+                      src={url}
+                      alt={`업로드된 이미지 ${index + 1}`}
+                      className="size-20 rounded-lg object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => onRemoveImage(index)}
+                      className="bg-label-neutral absolute top-1 right-1 flex items-center justify-center rounded-full p-1"
+                      aria-label={`이미지 ${index + 1} 삭제`}
+                    >
+                      <Close className="size-4 text-white" />
+                    </button>
+                  </div>
+                </DragCarouselItem>
+              ))}
+            </DragCarousel>
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              accept={ACCEPTED_IMAGE_TYPES.join(",")}
+              onChange={onFileSelect}
+              className="hidden"
+            />
+          </div>
+          <Divider className="bg-cool-neutral-98" />
+          <div className="flex items-center gap-1">
+            <Checkbox id="isAgree" {...form.register("isAgree")} />
+            <Label htmlFor="isAgree" className="font-body2-normal-regular text-label-alternative">
+              작성된 후기는 경매톡의 홍보 및 서비스 개선에 활용될 수 있습니다. (필수)
+            </Label>
+          </div>
+          <FloatingContainer>
+            <Button type="submit" className="w-full" disabled={submitDisabled}>
+              {isUpdateMode ? "수정완료" : "작성완료"}
+            </Button>
+          </FloatingContainer>
+        </form>
+      </PageLayout>
+      {form.formState.isSubmitting && (
+        <Modal className="flex flex-col items-center justify-center gap-7 bg-transparent">
+          <Loader2 className="size-20 animate-spin text-white" />
+          <Modal.Content className="font-heading1-bold text-white">
+            리뷰를 작성하고 있어요
+          </Modal.Content>
+        </Modal>
+      )}
+    </>
   );
 }

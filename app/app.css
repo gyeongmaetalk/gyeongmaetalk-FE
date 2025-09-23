@@ -15,6 +15,7 @@
     "Segoe UI Symbol", "Noto Color Emoji";
 
   --spacing-mobile: 600px;
+  --spacing-header: 44px;
   --spacing-ios-bottom: env(safe-area-inset-bottom);
   --spacing-ios-top: env(safe-area-inset-top);
 
