@@ -6,8 +6,8 @@ import type { Route } from "./+types/login";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "경매톡 - 로그인" },
+    { name: "description", content: "소셜 로그인으로 경매톡 시작하기" },
   ];
 }
 
