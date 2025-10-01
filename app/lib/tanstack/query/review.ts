@@ -21,7 +21,7 @@ export const useGetConsultantReviews = ({
       getConsultantReviews({ consultantId, type, page: pageParam.toString() }),
     getNextPageParam: calculatePaigination,
     initialPageParam: 0,
-    select: (data) => data.pages.flatMap((page) => page.results.reviews),
+    select: (data) => data.pages.flatMap((page) => page.result.reviews),
   });
 };
 
@@ -31,7 +31,7 @@ export const useGetReviews = (type: string) => {
     queryFn: ({ pageParam = 0 }) => getReviews({ type, page: pageParam.toString() }),
     getNextPageParam: calculatePaigination,
     initialPageParam: 0,
-    select: (data) => data.pages.flatMap((page) => page.results.reviews),
+    select: (data) => data.pages.flatMap((page) => page.result.reviews),
   });
 };
 
@@ -39,7 +39,7 @@ export const useGetReviewById = (reviewId: string) => {
   return useQuery<BaseResponse<ReviewDetailResponse>, HTTPError, ReviewDetailResponse>({
     queryKey: [REVIEW.REVIEW_DETAIL, reviewId],
     queryFn: () => getReviewById(reviewId),
-    select: (data) => data.results,
+    select: (data) => data.result,
     enabled: Boolean(reviewId),
   });
 };

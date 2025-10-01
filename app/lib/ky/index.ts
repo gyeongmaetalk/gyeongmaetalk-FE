@@ -35,8 +35,8 @@ export const api = ky.create({
             const response = await request.clone().json();
 
             if (response.isSuccess) {
-              useRefreshTokenStore.setState({ refreshToken: response.results.refreshToken });
-              useAccessTokenStore.setState({ accessToken: response.results.accessToken });
+              useRefreshTokenStore.setState({ refreshToken: response.result.refreshToken });
+              useAccessTokenStore.setState({ accessToken: response.result.accessToken });
             } else {
               useAccessTokenStore.setState({ accessToken: null });
               useRefreshTokenStore.setState({ refreshToken: null });

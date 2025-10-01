@@ -1,12 +1,12 @@
-export const baseReponse = (results: unknown) => ({
+export const baseReponse = (result: unknown) => ({
   isSuccess: true,
   code: 200,
   message: "success",
-  results,
+  result,
 });
 
-export const paginationResponse = (results: unknown) => ({
-  ...baseReponse(results),
+export const paginationResponse = (result: unknown) => ({
+  ...baseReponse(result),
   page: 0,
   totalPages: 1,
   totalElements: 1,

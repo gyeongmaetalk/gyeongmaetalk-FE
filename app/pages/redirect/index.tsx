@@ -47,12 +47,12 @@ export default function RedirectPage() {
           provider: AuthProvider.KAKAO,
         });
 
-        if (data.results.registered) {
-          setAccessToken(data.results.accessToken);
-          setRefreshToken(data.results.refreshToken);
+        if (data.result.registered) {
+          setAccessToken(data.result.accessToken);
+          setRefreshToken(data.result.refreshToken);
           navigate("/", { replace: true });
         } else {
-          setAccessToken(response.access_token);
+          setAccessToken(data.result.accessToken);
           navigate("/signup", { replace: true });
         }
       } catch (err) {

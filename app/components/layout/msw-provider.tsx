@@ -14,7 +14,7 @@ async function enableMocking() {
 
 export default function MswProvider() {
   useEffect(() => {
-    enableMocking();
+    // enableMocking();
   }, []);
 
   return null;

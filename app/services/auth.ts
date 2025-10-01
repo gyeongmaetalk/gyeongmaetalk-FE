@@ -8,5 +8,5 @@ export const login = async (props: {
   provider: AuthProvider;
 }): Promise<BaseResponse<UserResponse>> => {
   const searchParams = new URLSearchParams(props);
-  return api.get("auth/login", { searchParams }).json();
+  return api.post("auth/login", { searchParams }).json();
 };
