@@ -1,16 +1,23 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import ky from "ky";
-import { Loader2 } from "lucide-react";
-import { Navigate, redirect, useSearchParams } from "react-router";
+import { AlertCircle, Loader2 } from "lucide-react";
+import { Navigate, useNavigate, useSearchParams } from "react-router";
 
+import { Button } from "~/components/ui/button";
 import { AuthProvider } from "~/constants/auth";
 import { useAccessTokenStore, useRefreshTokenStore } from "~/lib/zustand/user";
 import { login } from "~/services/auth";
 
+const clientId = import.meta.env.VITE_KAKAO_REST_API_KEY;
+
 export default function RedirectPage() {
+  const [isError, setIsError] = useState(false);
+
   const [searchParams] = useSearchParams();
   const code = searchParams.get("code");
+
+  const navigate = useNavigate();
 
   const setAccessToken = useAccessTokenStore((state) => state.setAccessToken);
   const setRefreshToken = useRefreshTokenStore((state) => state.setRefreshToken);
@@ -28,7 +35,7 @@ export default function RedirectPage() {
           .post("https://kauth.kakao.com/oauth/token	", {
             searchParams: {
               grant_type: "authorization_code",
-              client_id: import.meta.env.VITE_KAKAO_REST_API_KEY,
+              client_id: clientId,
               redirect_uri: `${origin}/redirect`,
               code,
             },
@@ -43,12 +50,14 @@ export default function RedirectPage() {
         if (data.results.registered) {
           setAccessToken(data.results.accessToken);
           setRefreshToken(data.results.refreshToken);
+          navigate("/", { replace: true });
         } else {
           setAccessToken(response.access_token);
-          redirect("/signup");
+          navigate("/signup", { replace: true });
         }
       } catch (err) {
         console.error(err);
+        setIsError(true);
       }
     };
 
@@ -57,8 +66,23 @@ export default function RedirectPage() {
 
   return (
     <section className="flex h-full flex-col items-center justify-center gap-2">
-      <Loader2 className="text-primary-normal size-10 animate-spin" />
-      <p>로그인 중...</p>
+      {isError ? (
+        <>
+          <AlertCircle className="text-destructive size-10" />
+          <p>로그인 중에 오류가 발생했어요.</p>
+          <Button size="md" onClick={() => navigate("/login", { replace: true })}>
+            다시 로그인 하기
+          </Button>
+          <Button size="md" theme="assistive" onClick={() => navigate("/", { replace: true })}>
+            홈으로 돌아가기
+          </Button>
+        </>
+      ) : (
+        <>
+          <Loader2 className="text-primary-normal size-10 animate-spin" />
+          <p>로그인 중...</p>
+        </>
+      )}
     </section>
   );
 }
