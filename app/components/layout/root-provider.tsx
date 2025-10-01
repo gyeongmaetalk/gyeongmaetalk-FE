@@ -16,7 +16,7 @@ const RootProvider = () => {
       <script type="text/javascript" src={naverMapScriptUrl} />
       <Outlet />
       <MswProvider />
-      <Toaster position="top-center" duration={3000} closeButton />
+      <Toaster position="bottom-center" duration={3000} closeButton />
     </QueryClientProvider>
   );
 };
