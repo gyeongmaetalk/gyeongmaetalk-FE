@@ -15,6 +15,8 @@ interface PhoneVerificationProps {
   onVerificationComplete: (isVerified: boolean) => void;
 }
 
+const TIMEOUT_DURATION = 60 * 5;
+
 export default function PhoneVerification({
   phone,
   code,
@@ -29,8 +31,9 @@ export default function PhoneVerification({
   const [remainingTime, setRemainingTime] = useState<number | null>(null);
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const textFieldRef = useRef<HTMLInputElement>(null);
 
-  const isCodeVerifyDisabled = !isPhoneVerified || !code;
+  const isCodeVerifyDisabled = !isPhoneVerified || !code || !!errorText;
   const isCheckCodeDisabled = !isPhoneVerified || !remainingTime;
 
   const onRequestCode = () => {
@@ -40,7 +43,7 @@ export default function PhoneVerification({
     }
 
     setIsPhoneVerified(true);
-    setRemainingTime(5);
+    setRemainingTime(TIMEOUT_DURATION);
 
     intervalRef.current = setInterval(() => {
       setRemainingTime((prev) => {
@@ -51,6 +54,7 @@ export default function PhoneVerification({
           errorToast("전화번호와 인증 번호가 초기화 되었습니다.\n다시 시도해주세요.");
           clearInterval(intervalRef.current as NodeJS.Timeout);
           intervalRef.current = null;
+          textFieldRef.current?.blur();
           setErrorText(STATUS.CODE_EXPIRED);
         }
         return null;
@@ -101,6 +105,7 @@ export default function PhoneVerification({
           theme="secondary"
           className="self-end rounded-l-none border-l-0"
           onClick={onRequestCode}
+          disabled={isCodeVerified}
         >
           {isPhoneVerified ? "재전송" : "확인"}
         </Button>
@@ -108,6 +113,7 @@ export default function PhoneVerification({
       <div className="flex">
         <div className="flex-1">
           <Textfield
+            ref={textFieldRef}
             required
             label="인증번호"
             placeholder="인증번호를 입력해주세요."
@@ -124,7 +130,7 @@ export default function PhoneVerification({
           <Button
             variant="outlined"
             theme="secondary"
-            disabled={isCodeVerifyDisabled}
+            disabled={isCodeVerifyDisabled || isCodeVerified}
             className={cn(
               "disabled:bg-cool-neutral-50/8 self-end rounded-l-none border-l-0 disabled:opacity-100",
               errorText && "mt-1 self-center"
