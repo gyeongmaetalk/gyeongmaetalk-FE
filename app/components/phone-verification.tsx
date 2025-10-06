@@ -28,7 +28,7 @@ export default function PhoneVerification({
   onCodeChange,
   onVerificationComplete,
 }: PhoneVerificationProps) {
-  const [isPhoneVerified, setIsPhoneVerified] = useState(false);
+  const [isPhoneVerified, setIsPhoneVerified] = useState(0);
   const [isCodeVerified, setIsCodeVerified] = useState(false);
   const [isPending, setIsPending] = useState(false);
   const [successText, setSuccessText] = useState("");
@@ -57,7 +57,7 @@ export default function PhoneVerification({
         clearInterval(intervalRef.current);
       }
 
-      setIsPhoneVerified(true);
+      setIsPhoneVerified((prev) => prev + 1);
       setRemainingTime(TIMEOUT_DURATION);
 
       intervalRef.current = setInterval(() => {
@@ -135,7 +135,7 @@ export default function PhoneVerification({
           theme="secondary"
           className="self-end rounded-l-none border-l-0"
           onClick={onRequestCode}
-          disabled={isCodeVerified || isPending}
+          disabled={isCodeVerified || isPending || isPhoneVerified > 1}
         >
           {isPhoneVerified ? "재전송" : "확인"}
         </Button>
