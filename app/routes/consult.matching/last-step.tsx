@@ -1,5 +1,5 @@
 import { Info } from "lucide-react";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 
 import calendarCheck from "~/assets/calendar-check.png";
 import ConsultantCard from "~/components/card/consultant-card";
@@ -8,8 +8,40 @@ import Divider from "~/components/divider";
 import { Pencil, Person } from "~/components/icons";
 import PageLayout from "~/components/layout/page-layout";
 import { Button } from "~/components/ui/button";
+import type { MatchCounselResponse, ReserveConsultResponse } from "~/models/counsel";
 
-const LastStep = () => {
+interface LastStepProps {
+  consultant: MatchCounselResponse;
+  reservationResult: ReserveConsultResponse | null;
+}
+
+const getConsultDate = (date: string) => {
+  return new Intl.DateTimeFormat("ko-KR", {
+    month: "numeric",
+    day: "numeric",
+    weekday: "short",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  }).format(new Date(date));
+};
+
+const getParticipantType = (purpose: string) => {
+  if (purpose.includes("개인")) {
+    const [_, innerOption] = purpose.split(",");
+    return `개인 (${innerOption})`;
+  }
+  if (purpose.includes("법인")) {
+    return "법인";
+  }
+  return "아직 정하지 못했어요";
+};
+
+const formatPhoneNumber = (phoneNumber: string) => {
+  return phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
+};
+
+const LastStep = ({ consultant, reservationResult }: LastStepProps) => {
   const navigate = useNavigate();
 
   const onRouteToHome = () => {
@@ -19,6 +51,10 @@ const LastStep = () => {
   const onRouteToConsultHistory = () => {
     navigate("/consult");
   };
+
+  if (!reservationResult) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <>
@@ -33,7 +69,7 @@ const LastStep = () => {
               <span className="text-primary-normal">상담 일정</span>이 확정되었습니다.
             </p>
           </div>
-          <ConsultantCard />
+          <ConsultantCard consultant={consultant} />
         </section>
         <Divider className="bg-cool-neutral-99 h-2" />
         <section className="space-y-4 px-4 py-6">
@@ -44,12 +80,18 @@ const LastStep = () => {
           <div className="space-y-3">
             <div className="font-body2-normal-regular space-y-2">
               <p className="text-label-alternative">예약된 일정</p>
-              <p>6월 23일(월) 오후 6시 30분</p>
+              <p>
+                {getConsultDate(
+                  `${reservationResult.counselDate}T${reservationResult.counselTime}`
+                )}
+              </p>
             </div>
             <Divider className="bg-cool-neutral-97" />
             <div className="font-body2-normal-regular space-y-2">
               <p className="text-label-alternative">상담사 정보</p>
-              <p>이정훈 상담사 (010-1234-1234)</p>
+              <p>
+                {consultant.counselorName} 상담사 ({formatPhoneNumber(reservationResult.cellPhone)})
+              </p>
             </div>
           </div>
         </section>
@@ -62,27 +104,27 @@ const LastStep = () => {
           <div className="space-y-3">
             <div className="font-body2-normal-regular space-y-2">
               <p className="text-label-alternative">목적</p>
-              <p>실거주를 위한 집을 사고 싶어요</p>
+              <p>{reservationResult.purpose}</p>
             </div>
             <Divider className="bg-cool-neutral-97" />
             <div className="font-body2-normal-regular space-y-2">
               <p className="text-label-alternative">지역</p>
-              <p>직접 입력 (직접 입력한 내용)</p>
+              <p>{reservationResult.area}</p>
             </div>
             <Divider className="bg-cool-neutral-97" />
             <div className="font-body2-normal-regular space-y-2">
               <p className="text-label-alternative">희망 서비스</p>
-              <p>낙찰부터 명도까지 전반적으로 도와주세요.</p>
+              <p>{reservationResult.serviceType}</p>
             </div>
             <Divider className="bg-cool-neutral-97" />
             <div className="font-body2-normal-regular space-y-2">
               <p className="text-label-alternative">궁금한 분야</p>
-              <p>아파트 경매</p>
+              <p>{reservationResult.interest}</p>
             </div>
             <Divider className="bg-cool-neutral-97" />
             <div className="font-body2-normal-regular space-y-2">
               <p className="text-label-alternative">명의</p>
-              <p>개인 (감면 목적 등으로 개인 사업자로 진행을 고려 중이에요.)</p>
+              <p>{getParticipantType(reservationResult.participantType)}</p>
             </div>
           </div>
         </section>
