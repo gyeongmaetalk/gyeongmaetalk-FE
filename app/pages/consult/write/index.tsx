@@ -97,6 +97,7 @@ export default function ConsultWriteReviewPage() {
   const submitDisabled =
     rating === 0 || content.length < 20 || !isAgree || form.formState.isSubmitting;
   const isUpdateMode = Boolean(reviewId);
+  const statusText = isUpdateMode ? "수정" : "작성";
 
   const onRatingChange = (newRating: number) => {
     if (rating === newRating) return;
@@ -200,7 +201,7 @@ export default function ConsultWriteReviewPage() {
 
   return (
     <>
-      <PageLayout header={<WithBackHeader title="상담후기 작성" />} withFloating>
+      <PageLayout header={<WithBackHeader title={`상담후기 ${statusText}`} />} withFloating>
         <form className="space-y-5 px-4 py-6" onSubmit={onSubmit}>
           <ConsultantReviewCard
             date="25.6.23 18:00"
@@ -283,7 +284,7 @@ export default function ConsultWriteReviewPage() {
           </div>
           <FloatingContainer>
             <Button type="submit" className="w-full" disabled={submitDisabled}>
-              {isUpdateMode ? "수정완료" : "작성완료"}
+              {statusText}완료
             </Button>
           </FloatingContainer>
         </form>
@@ -292,7 +293,7 @@ export default function ConsultWriteReviewPage() {
         <Modal className="flex flex-col items-center justify-center gap-7 bg-transparent">
           <Loader2 className="size-20 animate-spin text-white" />
           <Modal.Content className="font-heading1-bold text-white">
-            리뷰를 작성하고 있어요
+            리뷰를 {statusText}하고 있어요
           </Modal.Content>
         </Modal>
       )}

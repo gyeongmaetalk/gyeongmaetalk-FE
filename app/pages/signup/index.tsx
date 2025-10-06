@@ -3,12 +3,18 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useForm } from "react-hook-form";
+import { Navigate, useLocation, useNavigate } from "react-router";
 
 import FloatingContainer from "~/components/container/floating-container";
 import PhoneVerification from "~/components/phone-verification";
 import { Button } from "~/components/ui/button";
 import { Textfield } from "~/components/ui/textfield";
+import { api } from "~/lib/ky";
+import { useAccessTokenStore, useRefreshTokenStore } from "~/lib/zustand/user";
+import type { BaseResponse } from "~/models";
+import type { SignupResponse } from "~/models/auth";
 import { type SignupForm, signupFormSchema } from "~/routes/signup._index/schema";
+import { errorToast, successToast } from "~/utils/toast";
 
 const DEFAULT_VALUES: SignupForm = {
   name: "",
@@ -19,11 +25,22 @@ const DEFAULT_VALUES: SignupForm = {
 
 export default function SignupPage() {
   const [isCodeVerified, setIsCodeVerified] = useState(false);
+  const [isPending, setIsPending] = useState(false);
+
+  const { state } = useLocation();
+
+  const navigate = useNavigate();
 
   const { formState, watch, register, handleSubmit, setValue } = useForm<SignupForm>({
     resolver: zodResolver(signupFormSchema),
     defaultValues: DEFAULT_VALUES,
   });
+
+  const setAccessToken = useAccessTokenStore((state) => state.setAccessToken);
+  const setRefreshToken = useRefreshTokenStore((state) => state.setRefreshToken);
+
+  const accessToken = state?.accessToken;
+  const refreshToken = state?.refreshToken;
 
   const name = watch("name");
   const birth = watch("birth");
@@ -31,7 +48,7 @@ export default function SignupPage() {
   const code = watch("code");
 
   const isSubmitDisabled =
-    !name || !birth || !phone || !code || !isCodeVerified || formState.isSubmitting;
+    !name || !birth || !phone || !code || !isCodeVerified || formState.isSubmitting || isPending;
 
   const onChangeNumber = (e: React.ChangeEvent<HTMLInputElement>, id: keyof SignupForm) => {
     const value = e.target.value;
@@ -54,9 +71,45 @@ export default function SignupPage() {
     setIsCodeVerified(isVerified);
   };
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
+  const onSubmit = handleSubmit(async (data) => {
+    const year = data.birth.slice(0, 2);
+    const month = data.birth.slice(2, 4);
+    const day = data.birth.slice(4, 6);
+    const birth = `20${year}-${month}-${day}`;
+
+    try {
+      setIsPending(true);
+      const res = await api
+        .post<BaseResponse<SignupResponse>>("auth/signup", {
+          json: {
+            name: data.name,
+            birth,
+            cellPhone: data.phone,
+          },
+          headers: { Authorization: `Bearer ${accessToken}` },
+        })
+        .json();
+
+      if (res.isSuccess) {
+        successToast("회원가입이 완료되었어요.");
+        setAccessToken(accessToken);
+        setRefreshToken(refreshToken);
+        navigate("/onboarding", { replace: true });
+      } else {
+        errorToast("회원가입에 실패했어요.");
+        console.error(res);
+      }
+    } catch (error) {
+      errorToast("회원가입 요청에 실패했어요.\n다시 시도해주세요.");
+      console.error(error);
+    } finally {
+      setIsPending(false);
+    }
   });
+
+  if (!accessToken || !refreshToken) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <main className="space-y-6 px-4 py-6">
@@ -76,6 +129,7 @@ export default function SignupPage() {
           onChange={(e) => onChangeNumber(e, "birth")}
         />
         <PhoneVerification
+          accessToken={accessToken}
           phone={phone}
           code={code}
           onPhoneChange={(e) => onChangeNumber(e, "phone")}

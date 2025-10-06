@@ -95,7 +95,6 @@ function ReviewReportContent({ reviewId }: ReviewReportProps) {
           {showTextarea && (
             <Textarea
               maxLength={100}
-              additionalText="최대 100자"
               id="textarea"
               value={textareaValue}
               onChange={(e) => setTextareaValue(e.target.value)}

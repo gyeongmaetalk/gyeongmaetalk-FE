@@ -2,7 +2,7 @@ export interface BaseResponse<T> {
   isSuccess: boolean;
   code: number;
   message: string;
-  results: T;
+  result: T;
 }
 
 export interface PaginationResponse<T> extends BaseResponse<T> {

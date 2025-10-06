@@ -1,7 +1,12 @@
-import { Apple, Kakao, LogoIcon, LogoText } from "~/components/icons";
+import { Apple, Kakao as KakaoIcon, LogoIcon, LogoText } from "~/components/icons";
 import { Button } from "~/components/ui/button";
+import { baseUrl } from "~/utils/env";
 
 const LoginPage = () => {
+  const onKakaoLogin = () => {
+    window.location.href = baseUrl + "/oauth2/authorization/kakao";
+  };
+
   return (
     <div className="flex h-full flex-col">
       <section className="flex flex-2 flex-col items-center justify-center">
@@ -20,8 +25,11 @@ const LoginPage = () => {
             <Apple className="size-5" />
             <span className="font-body1-normal-medium">Apple로 계속하기</span>
           </Button>
-          <Button className="font-headline2-bold bg-kakao hover:bg-kakao/85 active:bg-kakao/75 flex items-center gap-1 text-black/85">
-            <Kakao className="size-5" />
+          <Button
+            className="font-headline2-bold bg-kakao hover:bg-kakao/85 active:bg-kakao/75 flex items-center gap-1 text-black/85"
+            onClick={onKakaoLogin}
+          >
+            <KakaoIcon className="size-5" />
             <span className="font-body1-normal-medium">카카오로 계속하기</span>
           </Button>
         </div>
