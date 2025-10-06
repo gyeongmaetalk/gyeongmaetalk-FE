@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { useNavigate } from "react-router";
+import { Loader2 } from "lucide-react";
 
 import Divider from "~/components/divider";
 import { Verified } from "~/components/icons";
@@ -9,22 +9,35 @@ import { Header } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 import CancelApplyConsult from "~/components/modal/cancel-apply-consult";
 import { Button } from "~/components/ui/button";
+import { useGetAvailableTimes } from "~/lib/tanstack/query/counsel";
+import type { MatchCounselResponse } from "~/models/counsel";
+import type { Mode } from "~/pages/consult/matching";
 
 import Calendar from "./calendar";
 import TimeSelect from "./time-select";
 
-const SecondStep = () => {
+interface SecondStepProps {
+  consultant: MatchCounselResponse;
+  onChangeMode: (mode: Mode) => void;
+}
+
+const SecondStep = ({ consultant, onChangeMode }: SecondStepProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState("");
 
-  const navigate = useNavigate();
+  const formatedDate = selectedDate ? selectedDate.toISOString().split("T")[0] : "";
+
+  const { data: availableTimes = [], isLoading } = useGetAvailableTimes({
+    counseldorId: consultant.counselorId,
+    date: formatedDate,
+  });
 
   const reservationDisabled = !selectedDate || !selectedTime;
 
   const onReservation = () => {
     // TODO: 예약 로직 구현
-    navigate("?mode=complete");
+    onChangeMode("complete");
   };
 
   return (
@@ -33,7 +46,7 @@ const SecondStep = () => {
         header={
           <Header.Container>
             <Header.Left>
-              <Header.Back />
+              <Header.Back onClick={() => onChangeMode(null)} />
             </Header.Left>
             <Header.Center>
               <Header.Title>상담 신청</Header.Title>
@@ -53,10 +66,14 @@ const SecondStep = () => {
             <div className="bg-cool-neutral-30 size-10 rounded-full" />
             <div className="space-y-1">
               <div className="flex items-center gap-0.5">
-                <p className="font-label2-bold text-label-strong">이정훈 상담사</p>
+                <p className="font-label2-bold text-label-strong">
+                  {consultant.counselorName} 상담사
+                </p>
                 <Verified />
               </div>
-              <p className="font-label2-regular text-label-neutral">10년차 경매지도사</p>
+              <p className="font-label2-regular text-label-neutral">
+                {consultant.experience}년차 경매지도사
+              </p>
             </div>
           </div>
         </section>
@@ -71,11 +88,16 @@ const SecondStep = () => {
             {selectedDate && (
               <>
                 <Divider className="bg-cool-neutral-97" />
-                <TimeSelect
-                  selectedDate={selectedDate}
-                  selectedTime={selectedTime}
-                  onTimeSelect={setSelectedTime}
-                />
+                {isLoading ? (
+                  <Loader2 className="text-primary-normal mx-auto animate-spin" />
+                ) : (
+                  <TimeSelect
+                    selectedDate={selectedDate}
+                    selectedTime={selectedTime}
+                    availableTimes={availableTimes}
+                    onTimeSelect={setSelectedTime}
+                  />
+                )}
               </>
             )}
           </div>

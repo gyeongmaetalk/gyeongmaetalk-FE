@@ -1,23 +1,31 @@
-import { useNavigate } from "react-router";
+import { useState } from "react";
 
 import complete from "~/assets/complete.png";
 import ConsultantCard from "~/components/card/consultant-card";
 import FloatingContainer from "~/components/container/floating-container";
 import { WithCloseHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
+import CancelApplyConsult from "~/components/modal/cancel-apply-consult";
 import { Button } from "~/components/ui/button";
+import type { MatchCounselResponse } from "~/models/counsel";
+import type { Mode } from "~/pages/consult/matching";
 
-const FirstStep = () => {
-  const navigate = useNavigate();
+interface FirstStepProps {
+  consultant: MatchCounselResponse;
+  onChangeMode: (mode: Mode) => void;
+}
+
+const FirstStep = ({ consultant, onChangeMode }: FirstStepProps) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onMakeReservation = () => {
-    navigate("?mode=reservation");
+    onChangeMode("reservation");
   };
 
   return (
     <>
       <PageLayout
-        header={<WithCloseHeader className="bg-transparent" onClose={() => {}} />}
+        header={<WithCloseHeader className="bg-transparent" onClose={() => setIsModalOpen(true)} />}
         className="from-blue-gradient-start bg-gradient-to-b to-white to-10%"
       >
         <div className="flex flex-col items-center gap-4 text-center">
@@ -29,7 +37,7 @@ const FirstStep = () => {
           </p>
         </div>
         <div className="mt-8 px-4">
-          <ConsultantCard />
+          <ConsultantCard consultant={consultant} />
         </div>
       </PageLayout>
       <FloatingContainer className="flex gap-3">
@@ -40,6 +48,7 @@ const FirstStep = () => {
           상담일정 선택
         </Button>
       </FloatingContainer>
+      <CancelApplyConsult isOpen={isModalOpen} onCancel={() => setIsModalOpen(false)} />
     </>
   );
 };

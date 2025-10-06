@@ -8,8 +8,13 @@ import Divider from "~/components/divider";
 import { Pencil, Person } from "~/components/icons";
 import PageLayout from "~/components/layout/page-layout";
 import { Button } from "~/components/ui/button";
+import type { MatchCounselResponse } from "~/models/counsel";
 
-const LastStep = () => {
+interface LastStepProps {
+  consultant: MatchCounselResponse;
+}
+
+const LastStep = ({ consultant }: LastStepProps) => {
   const navigate = useNavigate();
 
   const onRouteToHome = () => {
@@ -33,7 +38,7 @@ const LastStep = () => {
               <span className="text-primary-normal">상담 일정</span>이 확정되었습니다.
             </p>
           </div>
-          <ConsultantCard />
+          <ConsultantCard consultant={consultant} />
         </section>
         <Divider className="bg-cool-neutral-99 h-2" />
         <section className="space-y-4 px-4 py-6">

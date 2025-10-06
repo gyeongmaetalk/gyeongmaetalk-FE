@@ -1,23 +1,30 @@
-import { useSearchParams } from "react-router";
+import { useState } from "react";
 
+import { Navigate, useLocation } from "react-router";
+
+import type { MatchCounselResponse } from "~/models/counsel";
 import FirstStep from "~/routes/consult.matching/first-step";
 import LastStep from "~/routes/consult.matching/last-step";
 import SecondStep from "~/routes/consult.matching/second-step";
 
-// useLocation의 state가 null이면 bad request
+export type Mode = "reservation" | "complete" | null;
+
 const ConsultMatchingPage = () => {
-  const [searchParams] = useSearchParams();
+  const [mode, setMode] = useState<Mode>(null);
 
-  // 종류: reservation, complete. null인 경우 맨 처음 화면
-  const currentMode = searchParams.get("mode");
+  const { state }: { state: MatchCounselResponse } = useLocation();
 
-  switch (currentMode) {
+  if (!state) {
+    return <Navigate to="/" replace />;
+  }
+
+  switch (mode) {
     case "reservation":
-      return <SecondStep />;
+      return <SecondStep consultant={state} onChangeMode={setMode} />;
     case "complete":
-      return <LastStep />;
+      return <LastStep consultant={state} />;
     default:
-      return <FirstStep />;
+      return <FirstStep consultant={state} onChangeMode={setMode} />;
   }
 };
 

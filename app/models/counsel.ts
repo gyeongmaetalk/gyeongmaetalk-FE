@@ -18,3 +18,8 @@ export interface MatchCounselResponse {
   license: string;
   specialization: string;
 }
+
+export interface AvailableTimesRequest {
+  counseldorId: number;
+  date: string;
+}
