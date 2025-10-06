@@ -15,7 +15,7 @@ interface FirstStepProps {
 }
 
 const FirstStep = ({ form }: FirstStepProps) => {
-  const [purpose, setPurpose] = useState<string | null>(form.getValues("purpose"));
+  const [purpose, setPurpose] = useState(form.getValues("purpose"));
 
   const navigate = useNavigate();
 
@@ -28,7 +28,7 @@ const FirstStep = ({ form }: FirstStepProps) => {
 
   const onSelect = (value: string) => {
     if (purpose === value) {
-      setPurpose(null);
+      setPurpose("");
     } else {
       setPurpose(value);
     }
@@ -51,10 +51,10 @@ const FirstStep = ({ form }: FirstStepProps) => {
         <div className="flex flex-col gap-3">
           {PURPOSE_OPTIONS.map((option) => (
             <Select
-              key={option.value}
-              label={option.label}
-              isSelected={purpose === option.value}
-              onChange={() => onSelect(option.value)}
+              key={option}
+              label={option}
+              isSelected={purpose === option}
+              onChange={() => onSelect(option)}
             />
           ))}
         </div>

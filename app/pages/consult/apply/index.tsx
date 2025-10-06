@@ -18,11 +18,11 @@ import Stepper from "~/routes/consult.apply/stepper";
 import ThirdStep from "~/routes/consult.apply/third-step";
 
 const DEFAULT_VALUES: ApplyConsultForm = {
-  purpose: null,
-  region: null,
-  service: null,
-  category: null,
-  name: null,
+  purpose: "",
+  region: "",
+  service: "",
+  category: "",
+  name: "",
 };
 
 const ConsultApplyPage = () => {
@@ -65,17 +65,17 @@ const ConsultApplyPage = () => {
     // 스텝의 범위를 벗어났는지 확인
     const isOutOfRange = currentStep > 5 || currentStep < 1;
 
-    // 이전 스텝의 값이 null이라면 잘못된 접근
+    // 이전 스텝의 값이 빈 문자열이라면 잘못된 접근
     const isStepValid = (() => {
       switch (currentStep) {
         case 2:
-          return form.getValues("purpose") !== null;
+          return !!form.getValues("purpose");
         case 3:
-          return form.getValues("region") !== null;
+          return !!form.getValues("region");
         case 4:
-          return form.getValues("service") !== null;
+          return !!form.getValues("service");
         case 5:
-          return form.getValues("category") !== null;
+          return !!form.getValues("category");
         default:
           return true;
       }

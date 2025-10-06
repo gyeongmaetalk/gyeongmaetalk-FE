@@ -15,7 +15,7 @@ interface ThirdStepProps {
 }
 
 const ThirdStep = ({ form }: ThirdStepProps) => {
-  const [service, setService] = useState<string | null>(form.getValues("service"));
+  const [service, setService] = useState(form.getValues("service"));
 
   const navigate = useNavigate();
 
@@ -23,7 +23,7 @@ const ThirdStep = ({ form }: ThirdStepProps) => {
 
   const onSelect = (value: string) => {
     if (service === value) {
-      setService(null);
+      setService("");
     } else {
       setService(value);
     }
@@ -52,10 +52,10 @@ const ThirdStep = ({ form }: ThirdStepProps) => {
         <div className="flex flex-col gap-3">
           {SERVICE_OPTIONS.map((option) => (
             <Select
-              key={option.value}
-              label={option.label}
-              isSelected={service === option.value}
-              onChange={() => onSelect(option.value)}
+              key={option}
+              label={option}
+              isSelected={service === option}
+              onChange={() => onSelect(option)}
             />
           ))}
         </div>

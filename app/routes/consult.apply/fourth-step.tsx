@@ -15,7 +15,7 @@ interface FourthStepProps {
 }
 
 const FourthStep = ({ form }: FourthStepProps) => {
-  const [category, setCategory] = useState<string | null>(form.getValues("category"));
+  const [category, setCategory] = useState(form.getValues("category"));
 
   const navigate = useNavigate();
 
@@ -23,7 +23,7 @@ const FourthStep = ({ form }: FourthStepProps) => {
 
   const onSelect = (value: string) => {
     if (category === value) {
-      setCategory(null);
+      setCategory("");
     } else {
       setCategory(value);
     }
@@ -48,10 +48,10 @@ const FourthStep = ({ form }: FourthStepProps) => {
         <div className="flex flex-col gap-3">
           {CATEGORY_OPTIONS.map((option) => (
             <Select
-              key={option.value}
-              label={option.label}
-              isSelected={category === option.value}
-              onChange={() => onSelect(option.value)}
+              key={option}
+              label={option}
+              isSelected={category === option}
+              onChange={() => onSelect(option)}
             />
           ))}
         </div>
