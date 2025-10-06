@@ -1,3 +1,4 @@
+import type { SortType } from "~/constants/api";
 import { api } from "~/lib/ky";
 import type { BaseResponse, PaginationResponse } from "~/models";
 import type {
@@ -10,7 +11,7 @@ import type {
 
 export const getConsultantReviews = async (props: {
   consultantId: string;
-  type: string;
+  type: SortType;
   page: string;
 }): Promise<PaginationResponse<ConsultantReviewListResponse>> => {
   const { consultantId, ...restProps } = props;
@@ -19,7 +20,7 @@ export const getConsultantReviews = async (props: {
 };
 
 export const getReviews = async (props: {
-  type: string;
+  type: SortType;
   page: string;
 }): Promise<PaginationResponse<ReviewListResponse>> => {
   const searchParams = new URLSearchParams({ ...props, size: "10" });

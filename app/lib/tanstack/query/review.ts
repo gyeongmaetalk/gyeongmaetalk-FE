@@ -2,6 +2,7 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 import type { HTTPError } from "ky";
 
+import type { SortType } from "~/constants/api";
 import { REVIEW } from "~/constants/review";
 import type { BaseResponse } from "~/models";
 import type { ReviewDetailResponse } from "~/models/review";
@@ -13,7 +14,7 @@ export const useGetConsultantReviews = ({
   type,
 }: {
   consultantId: string;
-  type: string;
+  type: SortType;
 }) => {
   return useInfiniteQuery({
     queryKey: [REVIEW.CONSULTANT_REVIEWS, type, consultantId],
@@ -25,7 +26,7 @@ export const useGetConsultantReviews = ({
   });
 };
 
-export const useGetReviews = (type: string) => {
+export const useGetReviews = (type: SortType) => {
   return useInfiniteQuery({
     queryKey: [REVIEW.REVIEWS, type],
     queryFn: ({ pageParam = 0 }) => getReviews({ type, page: pageParam.toString() }),

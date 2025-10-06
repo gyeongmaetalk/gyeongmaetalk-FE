@@ -5,12 +5,13 @@ import ConsultantReviewCard from "~/components/card/consultant-review-card";
 import { WithBackHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 import { Review, ReviewHeader, ReviewList } from "~/components/review";
+import { SortType } from "~/constants/api";
 import { useGetConsultantReviews } from "~/lib/tanstack/query/review";
 
 const ConsultReviewsConsultantPage = () => {
   const [searchParams] = useSearchParams();
   const consultantId = searchParams.get("consultantId");
-  const sort = searchParams.get("sort") || "";
+  const sort = searchParams.get("sort") || SortType.LATEST;
 
   if (!consultantId) {
     return <Navigate to="/consult/reviews" />;
@@ -18,7 +19,7 @@ const ConsultReviewsConsultantPage = () => {
 
   const { data: consultantReviews, isLoading } = useGetConsultantReviews({
     consultantId,
-    type: sort,
+    type: sort as SortType,
   });
 
   return (
