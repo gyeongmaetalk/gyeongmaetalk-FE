@@ -7,7 +7,9 @@ import { useNavigate } from "react-router";
 import FloatingContainer from "~/components/container/floating-container";
 import Modal from "~/components/modal";
 import { Button } from "~/components/ui/button";
+import { useMatchCounsel } from "~/lib/tanstack/mutation/counsel";
 import { type ApplyConsultForm } from "~/routes/consult.apply/schema";
+import { errorToast } from "~/utils/toast";
 
 import { LAST_STEP_OPTIONS } from "./constant";
 import Select from "./select";
@@ -17,27 +19,34 @@ interface LastStepProps {
 }
 
 const LastStep = ({ form }: LastStepProps) => {
-  const [name, setName] = useState<string | null>(form.getValues("name"));
+  const [name, setName] = useState(form.getValues("name"));
   const [innerOption, setInnerOption] = useState("");
-
-  // form.formState.isSubmitting으로 대체하기
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const navigate = useNavigate();
 
-  const submitDisabled = name === "personal" ? !innerOption : !name;
-  const isInnerOpen = name === "personal";
+  const { mutateAsync: matchCounsel } = useMatchCounsel({
+    onSuccess: (data) => {
+      navigate("/consult/matching", { replace: true, state: data.result });
+    },
+    onError: (error) => {
+      errorToast("상담 신청에 실패했어요.");
+      console.error(error);
+    },
+  });
+
+  const submitDisabled = name === "개인" ? !innerOption : !name;
+  const isInnerOpen = name === "개인";
 
   const onSelect = (value: string) => {
-    if (name === value) {
-      setName(null);
+    if (name === value.trim()) {
+      setName("");
     } else {
       setName(value);
     }
   };
 
   const onInnerSelect = (value: string) => {
-    if (innerOption === value) {
+    if (innerOption === value.trim()) {
       setInnerOption("");
     } else {
       setInnerOption(value);
@@ -49,16 +58,16 @@ const LastStep = ({ form }: LastStepProps) => {
   };
 
   const onComplete = form.handleSubmit(
-    (data) => {
-      // TODO: 상담 신청 API 호출
-      // data에 있는 name 말고 selectedValue 사용하기
-      const selectedValue = name === "personal" ? innerOption : name;
-      setIsSubmitting(true);
+    async (data) => {
+      const selectedValue = name === "개인" ? `개인,${innerOption}` : name;
 
-      setTimeout(() => {
-        navigate("/consult/matching");
-        setIsSubmitting(false);
-      }, 3000);
+      await matchCounsel({
+        purpose: data.purpose,
+        area: data.region,
+        serviceType: data.service,
+        interest: data.category,
+        participantType: selectedValue,
+      });
     },
     (errors) => {
       console.error(errors);
@@ -81,22 +90,22 @@ const LastStep = ({ form }: LastStepProps) => {
         </div>
         <div className="flex flex-col gap-3">
           {LAST_STEP_OPTIONS.map((option) => (
-            <div key={option.value} className="space-y-2">
+            <div key={option.label} className="space-y-2">
               <Select
                 label={option.label}
-                isSelected={name === option.value}
-                onChange={() => onSelect(option.value)}
+                isSelected={name === option.label}
+                onChange={() => onSelect(option.label)}
               />
               <div className="space-y-1.5">
                 {option.options &&
                   isInnerOpen &&
                   option.options.map((inner) => (
                     <Select
-                      key={inner.value}
+                      key={inner.label}
                       variant="inner"
                       label={inner.label}
-                      isSelected={innerOption === inner.value}
-                      onChange={() => onInnerSelect(inner.value)}
+                      isSelected={innerOption === inner.label}
+                      onChange={() => onInnerSelect(inner.label)}
                     />
                   ))}
               </div>
@@ -112,7 +121,7 @@ const LastStep = ({ form }: LastStepProps) => {
           완료
         </Button>
       </FloatingContainer>
-      {isSubmitting && (
+      {(form.formState.isSubmitting || form.formState.isSubmitSuccessful) && (
         <Modal className="flex flex-col items-center justify-center gap-7 bg-transparent">
           <Loader2 className="size-20 animate-spin text-white" />
           <Modal.Content className="font-heading1-bold text-white">

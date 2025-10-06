@@ -16,16 +16,16 @@ interface SecondStepProps {
 }
 
 const SecondStep = ({ form }: SecondStepProps) => {
-  const [region, setRegion] = useState<string | null>(form.getValues("region"));
+  const [region, setRegion] = useState(form.getValues("region"));
   const [customRegion, setCustomRegion] = useState("");
 
   const navigate = useNavigate();
 
-  const nextDisabled = region === "custom" ? !customRegion : !region;
+  const nextDisabled = region === "직접 입력" ? !customRegion : !region;
 
   const onSelect = (value: string) => {
     if (region === value) {
-      setRegion(null);
+      setRegion("");
     } else {
       setRegion(value);
     }
@@ -55,14 +55,14 @@ const SecondStep = ({ form }: SecondStepProps) => {
           <div className="flex flex-col gap-3">
             {REGION_OPTIONS.map((option) => (
               <Select
-                key={option.value}
-                label={option.label}
-                isSelected={region === option.value}
-                onChange={() => onSelect(option.value)}
+                key={option}
+                label={option}
+                isSelected={region === option}
+                onChange={() => onSelect(option)}
               />
             ))}
           </div>
-          {region === "custom" && (
+          {region === "직접 입력" && (
             <Textfield
               value={customRegion}
               onChange={(e) => setCustomRegion(e.target.value)}

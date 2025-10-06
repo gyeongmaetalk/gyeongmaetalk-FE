@@ -1,11 +1,11 @@
 import { z } from "zod";
 
 export const applyConsultFormSchema = z.object({
-  purpose: z.string().nullable(),
-  region: z.string().nullable(),
-  service: z.string().nullable(),
-  category: z.string().nullable(),
-  name: z.string().nullable(),
+  purpose: z.string(),
+  region: z.string(),
+  service: z.string(),
+  category: z.string(),
+  name: z.string(),
 });
 
 export type ApplyConsultForm = z.infer<typeof applyConsultFormSchema>;

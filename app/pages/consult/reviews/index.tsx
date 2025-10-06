@@ -8,6 +8,7 @@ import { Back, Close } from "~/components/icons";
 import { WithBackHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 import { Review, ReviewHeader, ReviewList } from "~/components/review";
+import { SortType } from "~/constants/api";
 import { useGetReviews } from "~/lib/tanstack/query/review";
 
 const reservationStatus: "reservation" | "before-consult" | "after-consult" = "reservation";
@@ -30,12 +31,12 @@ const getReservationText = (status: "reservation" | "before-consult" | "after-co
 
 const ConsultReviewsPage = () => {
   const [searchParams] = useSearchParams();
-  const sort = searchParams.get("sort") || "";
+  const sort = searchParams.get("sort") || SortType.LATEST;
 
   const reservationText = getReservationText(reservationStatus);
   const [isShowModal, setIsShowModal] = useState(Boolean(reservationText));
 
-  const { data: reviews, isLoading, isError } = useGetReviews(sort);
+  const { data: reviews, isLoading, isError } = useGetReviews(sort as SortType);
 
   return (
     <PageLayout header={<WithBackHeader title="상담후기" />}>
