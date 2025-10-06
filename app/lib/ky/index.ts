@@ -1,17 +1,18 @@
 import ky from "ky";
 import { redirect } from "react-router";
 
+import { baseUrl } from "~/utils/env";
+
 import { useAccessTokenStore, useRefreshTokenStore } from "../zustand/user";
 
 const API_TIMEOUT = 10000; // 10초
 
 // 실제 서버 URL
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 // msw 서버 URL
 // const API_BASE_URL = import.meta.env.VITE_MOCK_API_BASE_URL;
 
 export const api = ky.create({
-  prefixUrl: API_BASE_URL,
+  prefixUrl: baseUrl,
   timeout: API_TIMEOUT,
   hooks: {
     beforeRequest: [

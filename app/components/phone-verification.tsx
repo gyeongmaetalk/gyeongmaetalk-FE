@@ -2,7 +2,9 @@ import { useRef, useState } from "react";
 
 import { Button } from "~/components/ui/button";
 import { Textfield } from "~/components/ui/textfield";
+import { api } from "~/lib/ky";
 import { cn } from "~/lib/utils";
+import type { BaseResponse } from "~/models";
 import { STATUS } from "~/routes/signup._index/constant";
 import { formatRemainingTime } from "~/routes/signup._index/util";
 import { errorToast } from "~/utils/toast";
@@ -10,6 +12,7 @@ import { errorToast } from "~/utils/toast";
 interface PhoneVerificationProps {
   phone: string;
   code: string;
+  accessToken: string;
   onPhoneChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onCodeChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onVerificationComplete: (isVerified: boolean) => void;
@@ -20,12 +23,14 @@ const TIMEOUT_DURATION = 60 * 5;
 export default function PhoneVerification({
   phone,
   code,
+  accessToken,
   onPhoneChange,
   onCodeChange,
   onVerificationComplete,
 }: PhoneVerificationProps) {
   const [isPhoneVerified, setIsPhoneVerified] = useState(false);
   const [isCodeVerified, setIsCodeVerified] = useState(false);
+  const [isPending, setIsPending] = useState(false);
   const [successText, setSuccessText] = useState("");
   const [errorText, setErrorText] = useState("");
   const [remainingTime, setRemainingTime] = useState<number | null>(null);
@@ -33,55 +38,80 @@ export default function PhoneVerification({
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const textFieldRef = useRef<HTMLInputElement>(null);
 
-  const isCodeVerifyDisabled = !isPhoneVerified || !code || !!errorText;
-  const isCheckCodeDisabled = !isPhoneVerified || !remainingTime;
+  const isCodeVerifyDisabled =
+    !isPhoneVerified || !code || intervalRef.current === null || isPending;
+  const isCheckCodeDisabled = !isPhoneVerified || !remainingTime || isPending;
 
-  const onRequestCode = () => {
-    // 기존 interval이 있다면 정리
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
+  const onRequestCode = async () => {
+    setIsPending(true);
+    try {
+      await api
+        .post("auth/sms", {
+          searchParams: { phoneNumber: phone },
+          headers: { Authorization: `Bearer ${accessToken}` },
+        })
+        .json();
+
+      // 기존 interval이 있다면 정리
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+
+      setIsPhoneVerified(true);
+      setRemainingTime(TIMEOUT_DURATION);
+
+      intervalRef.current = setInterval(() => {
+        setRemainingTime((prev) => {
+          if (prev && prev > 1) {
+            return prev - 1;
+          }
+          if (intervalRef.current) {
+            errorToast("전화번호와 인증 번호가 초기화 되었습니다.\n다시 시도해주세요.");
+            clearInterval(intervalRef.current as NodeJS.Timeout);
+            intervalRef.current = null;
+            textFieldRef.current?.blur();
+            setErrorText(STATUS.CODE_EXPIRED);
+          }
+          return null;
+        });
+      }, 1000);
+    } catch (error) {
+      console.error(error);
+      errorToast("전화번호 인증 요청에 실패했습니다.\n다시 시도해주세요.");
+    } finally {
+      setIsPending(false);
     }
-
-    setIsPhoneVerified(true);
-    setRemainingTime(TIMEOUT_DURATION);
-
-    intervalRef.current = setInterval(() => {
-      setRemainingTime((prev) => {
-        if (prev && prev > 1) {
-          return prev - 1;
-        }
-        if (intervalRef.current) {
-          errorToast("전화번호와 인증 번호가 초기화 되었습니다.\n다시 시도해주세요.");
-          clearInterval(intervalRef.current as NodeJS.Timeout);
-          intervalRef.current = null;
-          textFieldRef.current?.blur();
-          setErrorText(STATUS.CODE_EXPIRED);
-        }
-        return null;
-      });
-    }, 1000);
   };
 
-  const onRequestCodeVerify = () => {
-    /**
-     * 인증번호가 올바르지 않다면
-     * STATUS.INVALID_CODE
-     * 인증번호가 만료되었다면
-     * STATUS.CODE_EXPIRED
-     * 인증번호가 올바르다면
-     * STATUS.VALID_CODE
-     * 로 설정
-     */
-    setIsCodeVerified(true);
-    setSuccessText(STATUS.VALID_CODE);
-    onVerificationComplete(true);
-    setErrorText("");
-    setRemainingTime(null);
+  const onRequestCodeVerify = async () => {
+    setIsPending(true);
+    try {
+      const res = await api
+        .post<BaseResponse<boolean>>("auth/sms/verify", {
+          searchParams: { code, phoneNumber: phone },
+          headers: { Authorization: `Bearer ${accessToken}` },
+        })
+        .json();
+      setIsCodeVerified(res.result);
+      onVerificationComplete(res.result);
 
-    // 성공했을 때만 clearInterval
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current as NodeJS.Timeout);
-      intervalRef.current = null;
+      if (res.result) {
+        setSuccessText(STATUS.VALID_CODE);
+        setErrorText("");
+        setRemainingTime(null);
+
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current as NodeJS.Timeout);
+          intervalRef.current = null;
+        }
+      } else {
+        setErrorText(STATUS.INVALID_CODE);
+      }
+    } catch (error) {
+      console.error(error);
+      errorToast("인증번호 인증에 실패했습니다.\n다시 시도해주세요.");
+    } finally {
+      setIsPending(false);
     }
   };
 
@@ -105,7 +135,7 @@ export default function PhoneVerification({
           theme="secondary"
           className="self-end rounded-l-none border-l-0"
           onClick={onRequestCode}
-          disabled={isCodeVerified}
+          disabled={isCodeVerified || isPending}
         >
           {isPhoneVerified ? "재전송" : "확인"}
         </Button>

@@ -4,3 +4,7 @@ export interface UserResponse {
   refreshToken: string;
   registered: boolean;
 }
+
+export interface SignupResponse {
+  memberId: number;
+}

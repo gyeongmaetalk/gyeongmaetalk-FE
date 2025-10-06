@@ -1,14 +1,10 @@
 import { Apple, Kakao as KakaoIcon, LogoIcon, LogoText } from "~/components/icons";
 import { Button } from "~/components/ui/button";
+import { baseUrl } from "~/utils/env";
 
 const LoginPage = () => {
   const onKakaoLogin = () => {
-    const origin = window.location.origin;
-
-    Kakao.Auth.authorize({
-      redirectUri: `${origin}/redirect`,
-      throughTalk: true,
-    });
+    window.location.href = baseUrl + "/oauth2/authorization/kakao";
   };
 
   return (
