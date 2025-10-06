@@ -17,6 +17,11 @@ interface FirstStepProps {
 
 const FirstStep = ({ consultant, onChangeMode }: FirstStepProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRematched, setIsRematched] = useState(false);
+
+  const onRematch = () => {
+    setIsRematched(true);
+  };
 
   const onMakeReservation = () => {
     onChangeMode("reservation");
@@ -41,8 +46,13 @@ const FirstStep = ({ consultant, onChangeMode }: FirstStepProps) => {
         </div>
       </PageLayout>
       <FloatingContainer className="flex gap-3">
-        <Button theme="assistive" className="flex-1 transition-none">
-          다시 매칭 (0/1)
+        <Button
+          theme="assistive"
+          className="flex-1 transition-none"
+          onClick={onRematch}
+          disabled={isRematched}
+        >
+          다시 매칭 ({isRematched ? 0 : 1}/1)
         </Button>
         <Button onClick={onMakeReservation} className="flex-1 transition-none">
           상담일정 선택

@@ -23,3 +23,15 @@ export interface AvailableTimesRequest {
   counseldorId: number;
   date: string;
 }
+
+export interface ReserveConsultRequest {
+  counseldorId: number;
+  counselFormId: number;
+  date: string;
+}
+
+export interface ReserveConsultResponse extends MatchCounselRequest {
+  counselDate: string;
+  counselTime: string;
+  cellPhone: string;
+}

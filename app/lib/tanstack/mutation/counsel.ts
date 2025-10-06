@@ -3,14 +3,32 @@ import { useMutation, type UseMutationOptions } from "@tanstack/react-query";
 import type { HTTPError } from "ky";
 
 import type { BaseResponse } from "~/models";
-import type { MatchCounselRequest, MatchCounselResponse } from "~/models/counsel";
-import { matchCounsel } from "~/services/counsel";
+import type {
+  MatchCounselRequest,
+  MatchCounselResponse,
+  ReserveConsultRequest,
+  ReserveConsultResponse,
+} from "~/models/counsel";
+import { matchCounsel, reserveConsult } from "~/services/counsel";
 
 export const useMatchCounsel = (
   options?: UseMutationOptions<BaseResponse<MatchCounselResponse>, HTTPError, MatchCounselRequest>
 ) => {
   return useMutation<BaseResponse<MatchCounselResponse>, HTTPError, MatchCounselRequest>({
     mutationFn: matchCounsel,
+    ...options,
+  });
+};
+
+export const useReserveConsult = (
+  options?: UseMutationOptions<
+    BaseResponse<ReserveConsultResponse>,
+    HTTPError,
+    ReserveConsultRequest
+  >
+) => {
+  return useMutation<BaseResponse<ReserveConsultResponse>, HTTPError, ReserveConsultRequest>({
+    mutationFn: reserveConsult,
     ...options,
   });
 };

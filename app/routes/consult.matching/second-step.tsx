@@ -9,19 +9,22 @@ import { Header } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 import CancelApplyConsult from "~/components/modal/cancel-apply-consult";
 import { Button } from "~/components/ui/button";
+import { useReserveConsult } from "~/lib/tanstack/mutation/counsel";
 import { useGetAvailableTimes } from "~/lib/tanstack/query/counsel";
-import type { MatchCounselResponse } from "~/models/counsel";
+import type { MatchCounselResponse, ReserveConsultResponse } from "~/models/counsel";
 import type { Mode } from "~/pages/consult/matching";
+import { errorToast } from "~/utils/toast";
 
 import Calendar from "./calendar";
 import TimeSelect from "./time-select";
 
 interface SecondStepProps {
   consultant: MatchCounselResponse;
+  setReservationResult: (result: ReserveConsultResponse) => void;
   onChangeMode: (mode: Mode) => void;
 }
 
-const SecondStep = ({ consultant, onChangeMode }: SecondStepProps) => {
+const SecondStep = ({ consultant, onChangeMode, setReservationResult }: SecondStepProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState("");
@@ -33,11 +36,25 @@ const SecondStep = ({ consultant, onChangeMode }: SecondStepProps) => {
     date: formatedDate,
   });
 
+  const { mutateAsync: reserveConsult, isPending } = useReserveConsult({
+    onSuccess: (data) => {
+      setReservationResult(data.result);
+      onChangeMode("complete");
+    },
+    onError: (error) => {
+      errorToast("상담 예약에 실패했어요.");
+      console.error(error);
+    },
+  });
+
   const reservationDisabled = !selectedDate || !selectedTime;
 
-  const onReservation = () => {
-    // TODO: 예약 로직 구현
-    onChangeMode("complete");
+  const onReservation = async () => {
+    await reserveConsult({
+      counseldorId: consultant.counselorId,
+      counselFormId: consultant.counselFormId,
+      date: `${formatedDate}T${selectedTime}`,
+    });
   };
 
   return (
@@ -102,7 +119,11 @@ const SecondStep = ({ consultant, onChangeMode }: SecondStepProps) => {
             )}
           </div>
           <div className="mt-6 pt-2 pb-6">
-            <Button onClick={onReservation} className="w-full" disabled={reservationDisabled}>
+            <Button
+              onClick={onReservation}
+              className="w-full"
+              disabled={reservationDisabled || isPending}
+            >
               예약 하기
             </Button>
           </div>
