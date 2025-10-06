@@ -1,25 +1,23 @@
 import ky from "ky";
 import { redirect } from "react-router";
 
+import type { BaseResponse } from "~/models";
+import type { UserResponse } from "~/models/auth";
 import { baseUrl } from "~/utils/env";
 
 import { useAccessTokenStore, useRefreshTokenStore } from "../zustand/user";
 
 const API_TIMEOUT = 10000; // 10초
 
-// 실제 서버 URL
-// msw 서버 URL
-// const API_BASE_URL = import.meta.env.VITE_MOCK_API_BASE_URL;
-
 export const api = ky.create({
   prefixUrl: baseUrl,
   timeout: API_TIMEOUT,
+  retry: 0,
   hooks: {
     beforeRequest: [
       async (request) => {
         // 클라이언트측에서 필요한 헤더 추가 (예: 인증 토큰)
         const accessToken = useAccessTokenStore.getState().accessToken;
-
         if (accessToken) {
           request.headers.set("Authorization", `Bearer ${accessToken}`);
         }
@@ -32,8 +30,12 @@ export const api = ky.create({
           const refreshToken = useRefreshTokenStore.getState().refreshToken;
 
           if (refreshToken) {
-            request.headers.set("Authorization", `Bearer ${refreshToken}`);
-            const response = await request.clone().json();
+            const response = await ky
+              .post<BaseResponse<UserResponse>>(baseUrl + "/auth/refresh", {
+                headers: { RefreshToken: refreshToken },
+                retry: 0,
+              })
+              .json();
 
             if (response.isSuccess) {
               useRefreshTokenStore.setState({ refreshToken: response.result.refreshToken });
