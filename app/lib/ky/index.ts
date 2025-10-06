@@ -30,16 +30,20 @@ export const api = ky.create({
           const refreshToken = useRefreshTokenStore.getState().refreshToken;
 
           if (refreshToken) {
-            const response = await ky
+            const refreshResponse = await ky
               .post<BaseResponse<UserResponse>>(baseUrl + "/auth/refresh", {
                 headers: { RefreshToken: refreshToken },
                 retry: 0,
               })
               .json();
 
-            if (response.isSuccess) {
-              useRefreshTokenStore.setState({ refreshToken: response.result.refreshToken });
-              useAccessTokenStore.setState({ accessToken: response.result.accessToken });
+            if (refreshResponse.isSuccess) {
+              useRefreshTokenStore.setState({ refreshToken: refreshResponse.result.refreshToken });
+              useAccessTokenStore.setState({ accessToken: refreshResponse.result.accessToken });
+
+              // 새로운 토큰으로 기존 요청 재시도
+              request.headers.set("Authorization", `Bearer ${refreshResponse.result.accessToken}`);
+              return ky(request);
             } else {
               useAccessTokenStore.setState({ accessToken: null });
               useRefreshTokenStore.setState({ refreshToken: null });
