@@ -1,6 +1,7 @@
+import type { MatchCounselResponse, ReserveConsultResponse } from "~/models/counsel";
+
 import Divider from "../divider";
 import { Person } from "../icons";
-import type { MatchCounselResponse, ReserveConsultResponse } from "~/models/counsel";
 
 interface ReservationInfoCardProps {
   reservationResult: ReserveConsultResponse;
