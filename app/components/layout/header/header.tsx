@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 import { Alarm, Back, Close, LogoIcon, LogoText, Share } from "~/components/icons";
 import useScroll from "~/hooks/use-scroll";
@@ -110,7 +110,9 @@ export function DefaultHeader({ className }: { className?: string }) {
       </Header.Left>
       <Header.Center />
       <Header.Right>
-        <Header.Alarm />
+        <Link to="/alarm">
+          <Header.Alarm />
+        </Link>
       </Header.Right>
     </Header.Container>
   );
@@ -161,22 +163,18 @@ export function WithCloseHeader({
 }
 
 // 타이틀이 왼쪽에 있는 헤더
-export function WithLeftTitleHeader({
-  className,
-  title,
-  onAlarm,
-}: {
-  className?: string;
-  title: string;
-  onAlarm?: () => void;
-}) {
+export function WithLeftTitleHeader({ className, title }: { className?: string; title: string }) {
   return (
     <Header.Container className={className}>
       <Header.Left>
         <Header.Title position="left">{title}</Header.Title>
       </Header.Left>
       <Header.Center />
-      <Header.Right>{onAlarm && <Header.Alarm onClick={onAlarm} />}</Header.Right>
+      <Header.Right>
+        <Link to="/alarm">
+          <Header.Alarm />
+        </Link>
+      </Header.Right>
     </Header.Container>
   );
 }

@@ -13,7 +13,7 @@ export function meta({}: Route.MetaArgs) {
 
 export default function AgencyRecommendLayout() {
   return (
-    <PageLayout header={<WithLeftTitleHeader title="추천 매물" onAlarm={() => {}} />} showNav>
+    <PageLayout header={<WithLeftTitleHeader title="추천 매물" />} showNav>
       <AgencyRecommendPage />
     </PageLayout>
   );

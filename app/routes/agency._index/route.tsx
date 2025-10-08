@@ -13,7 +13,7 @@ export function meta({}: Route.MetaArgs) {
 
 export default function AgencyLayout() {
   return (
-    <PageLayout header={<WithLeftTitleHeader title="경매대행" onAlarm={() => {}} />} showNav>
+    <PageLayout header={<WithLeftTitleHeader title="경매대행" />} showNav>
       <AgencyPage />
     </PageLayout>
   );
