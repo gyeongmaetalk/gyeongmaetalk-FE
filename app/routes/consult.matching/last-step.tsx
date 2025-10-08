@@ -16,32 +16,6 @@ interface LastStepProps {
   reservationResult: ReserveConsultResponse | null;
 }
 
-const getConsultDate = (date: string) => {
-  return new Intl.DateTimeFormat("ko-KR", {
-    month: "numeric",
-    day: "numeric",
-    weekday: "short",
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-  }).format(new Date(date));
-};
-
-const getParticipantType = (purpose: string) => {
-  if (purpose.includes("개인")) {
-    const [_, innerOption] = purpose.split(",");
-    return `개인 (${innerOption})`;
-  }
-  if (purpose.includes("법인")) {
-    return "법인";
-  }
-  return "아직 정하지 못했어요";
-};
-
-const formatPhoneNumber = (phoneNumber: string) => {
-  return phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
-};
-
 const LastStep = ({ consultant, reservationResult }: LastStepProps) => {
   const navigate = useNavigate();
 
@@ -74,65 +48,19 @@ const LastStep = ({ consultant, reservationResult }: LastStepProps) => {
         </section>
 
         <Divider className="bg-cool-neutral-99 h-2" />
-        <ReservationInfoCard />
+
+        <ReservationInfoCard reservationResult={reservationResult} consultant={consultant} />
 
         <Divider className="bg-cool-neutral-99 h-2" />
-        <section className="space-y-4 px-4 py-6">
-          <div className="flex items-center gap-1">
-            <Person className="text-primary-normal" />
-            <p className="font-headline2-bold text-label-strong">예약 정보</p>
-          </div>
-          <div className="space-y-3">
-            <div className="font-body2-normal-regular space-y-2">
-              <p className="text-label-alternative">예약된 일정</p>
-              <p>
-                {getConsultDate(
-                  `${reservationResult.counselDate}T${reservationResult.counselTime}`
-                )}
-              </p>
-            </div>
-            <Divider className="bg-cool-neutral-97" />
-            <div className="font-body2-normal-regular space-y-2">
-              <p className="text-label-alternative">상담사 정보</p>
-              <p>
-                {consultant.counselorName} 상담사 ({formatPhoneNumber(reservationResult.cellPhone)})
-              </p>
-            </div>
-          </div>
-        </section>
-        <Divider className="bg-cool-neutral-99 h-2" />
-        <section className="space-y-4 px-4 py-6">
-          <div className="flex items-center gap-1">
-            <Pencil className="text-primary-normal" />
-            <p className="font-headline2-bold text-label-strong">상담 정보</p>
-          </div>
-          <div className="space-y-3">
-            <div className="font-body2-normal-regular space-y-2">
-              <p className="text-label-alternative">목적</p>
-              <p>{reservationResult.purpose}</p>
-            </div>
-            <Divider className="bg-cool-neutral-97" />
-            <div className="font-body2-normal-regular space-y-2">
-              <p className="text-label-alternative">지역</p>
-              <p>{reservationResult.area}</p>
-            </div>
-            <Divider className="bg-cool-neutral-97" />
-            <div className="font-body2-normal-regular space-y-2">
-              <p className="text-label-alternative">희망 서비스</p>
-              <p>{reservationResult.serviceType}</p>
-            </div>
-            <Divider className="bg-cool-neutral-97" />
-            <div className="font-body2-normal-regular space-y-2">
-              <p className="text-label-alternative">궁금한 분야</p>
-              <p>{reservationResult.interest}</p>
-            </div>
-            <Divider className="bg-cool-neutral-97" />
-            <div className="font-body2-normal-regular space-y-2">
-              <p className="text-label-alternative">명의</p>
-              <p>{getParticipantType(reservationResult.participantType)}</p>
-            </div>
-          </div>
-        </section>
+
+        <ConsultInfoCard
+          purpose={reservationResult.purpose}
+          area={reservationResult.area}
+          serviceType={reservationResult.serviceType}
+          interest={reservationResult.interest}
+          participantType={reservationResult.participantType}
+        />
+
         <section className="bg-cool-neutral-99 mb-5 p-4">
           <div className="flex items-center gap-1">
             <Info className="text-cool-neutral-99 size-[18px]" fill="#2e2f33e0" />
