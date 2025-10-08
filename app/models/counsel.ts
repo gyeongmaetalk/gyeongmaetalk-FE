@@ -35,3 +35,17 @@ export interface ReserveConsultResponse extends MatchCounselRequest {
   counselTime: string;
   cellPhone: string;
 }
+
+export interface ReservedCounselDataResponse {
+  state: "reserved" | "completed" | "auction";
+  hasReview: boolean;
+  matchCounselorResponse: MatchCounselResponse;
+  counselDate: string;
+  counselTime: string;
+  cellPhone: string;
+  purpose: string;
+  area: string;
+  serviceType: string;
+  interest: string;
+  participantType: string;
+}
