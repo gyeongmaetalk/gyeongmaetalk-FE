@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 
+import { WebviewEvent } from "~/constants/webview";
+
 interface UseWebViewProps {
   onMessage: (data: { type: string; data: unknown }) => void;
 }
@@ -42,7 +44,7 @@ export const useWebView = ({ onMessage }: UseWebViewProps) => {
 
     // RN에게 "웹 준비됨" 신호 전송
     try {
-      postMessage({ type: "WEB_READY" });
+      postMessage({ type: WebviewEvent.WEB_READY });
     } catch (error) {
       console.error(error);
     }
