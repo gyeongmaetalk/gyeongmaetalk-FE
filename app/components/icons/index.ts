@@ -1,10 +1,13 @@
+export { default as AlarmFill } from "./AlarmFill";
 export { default as Alarm } from "./Alarm";
 export { default as Apple } from "./Apple";
 export { default as ArrowDown } from "./ArrowDown";
 export { default as Back } from "./Back";
+export { default as Bubble } from "./Bubble";
 export { default as Calendar } from "./Calendar";
 export { default as Check } from "./Check";
 export { default as Close } from "./Close";
+export { default as Company } from "./Company";
 export { default as Document } from "./Document";
 export { default as Dot } from "./Dot";
 export { default as Kakao } from "./Kakao";
