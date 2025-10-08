@@ -5,6 +5,7 @@ import type {
   MatchCounselResponse,
   ReserveConsultRequest,
   ReserveConsultResponse,
+  ReservedCounselDataResponse,
 } from "~/models/counsel";
 
 export const matchCounsel = async (
@@ -33,4 +34,10 @@ export const reserveConsult = async (
       },
     })
     .json();
+};
+
+export const getReservedCounselData = async (props: {
+  userId: string;
+}): Promise<BaseResponse<ReservedCounselDataResponse>> => {
+  return api.get(`counsels/${props.userId}`).json();
 };
