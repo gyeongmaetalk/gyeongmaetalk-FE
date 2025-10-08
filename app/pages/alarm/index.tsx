@@ -8,6 +8,29 @@ import PageLayout from "~/components/layout/page-layout";
 import { Button } from "~/components/ui/button";
 import { WebviewEvent } from "~/constants/webview";
 import { useWebView } from "~/hooks/use-webview";
+import AlarmItem from "~/routes/alarm/alarm-item";
+import AlarmRecommendItem from "~/routes/alarm/alarm-recommend-item";
+import AlarmReviewItem from "~/routes/alarm/alarm-review-item";
+
+const mockData = [
+  {
+    type: "review" as const,
+    createAt: "2025-10-08T09:00:00",
+    isRead: true,
+    reviewId: 1,
+    counselDateTime: "2025-10-08T09:00:00",
+  },
+  {
+    type: "recommend" as const,
+    createAt: "2025-10-07T08:00:00",
+    isRead: false,
+    title: "서울 역세권 30평 아파트",
+    counselorName: "이정훈",
+    recommendId: "2024타경12345",
+    thumbnail:
+      "https://i.namu.wiki/i/8mcZn4QTDZNSyG5LCLIltEOwSsrMoAG9TKsurgtD2zMPJWqQCYvZUsL_66BkJy3JmN4lhegQHg_A2iGdD-AWLw.webp",
+  },
+];
 
 export default function AlarmPage() {
   const [isAlarmEnabled, setIsAlarmEnabled] = useState<boolean | null>(null);
@@ -16,7 +39,6 @@ export default function AlarmPage() {
 
   const { postMessage } = useWebView({
     onMessage: (event) => {
-      console.log(event);
       const { type, data } = event;
       if (type === WebviewEvent.GET_ALARM_STATUS) {
         const { alarmEnabled } = data as { alarmEnabled: boolean };
@@ -75,6 +97,26 @@ export default function AlarmPage() {
           >
             알림 켜기
           </Button>
+        </div>
+      )}
+      {mockData.length > 0 ? (
+        mockData.map((item) => (
+          <AlarmItem key={item.createAt} {...item}>
+            {item.type === "review" ? (
+              <AlarmReviewItem reviewId={item.reviewId} counselDateTime={item.counselDateTime} />
+            ) : (
+              <AlarmRecommendItem
+                recommendId={item.recommendId}
+                title={item.title}
+                counselorName={item.counselorName}
+                thumbnail={item.thumbnail}
+              />
+            )}
+          </AlarmItem>
+        ))
+      ) : (
+        <div className="flex h-full flex-col items-center justify-center">
+          <p className="font-body2-normal-regular text-label-neutral">알림이 없어요.</p>
         </div>
       )}
     </PageLayout>
