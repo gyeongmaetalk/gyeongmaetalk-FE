@@ -10,6 +10,10 @@ export interface ConsultantReviewListItemDTO {
 }
 
 export interface ConsultantReviewListResponse {
+  counselorInfo: {
+    experience: number;
+    name: string;
+  };
   reviews: ConsultantReviewListItemDTO[];
 }
 

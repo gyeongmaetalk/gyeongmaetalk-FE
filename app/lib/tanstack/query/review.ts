@@ -22,7 +22,12 @@ export const useGetConsultantReviews = ({
       getConsultantReviews({ consultantId, type, page: pageParam.toString() }),
     getNextPageParam: calculatePaigination,
     initialPageParam: 0,
-    select: (data) => data.pages.flatMap((page) => page.result.reviews),
+    select: (data) => {
+      return {
+        consultantReviews: data.pages.flatMap((page) => page.result.reviews),
+        counselorInfo: data.pages[0].result.counselorInfo,
+      };
+    },
   });
 };
 
