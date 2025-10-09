@@ -8,6 +8,7 @@ import PageLayout from "~/components/layout/page-layout";
 import { Button } from "~/components/ui/button";
 import { WebviewEvent } from "~/constants/webview";
 import { useWebView } from "~/hooks/use-webview";
+import { useAccessTokenStore, useRefreshTokenStore } from "~/lib/zustand/user";
 import AlarmItem from "~/routes/alarm/alarm-item";
 import AlarmRecommendItem from "~/routes/alarm/alarm-recommend-item";
 import AlarmReviewItem from "~/routes/alarm/alarm-review-item";
@@ -34,6 +35,8 @@ const mockData = [
 
 export default function AlarmPage() {
   const [isAlarmEnabled, setIsAlarmEnabled] = useState<boolean | null>(null);
+  const accessToken = useAccessTokenStore((state) => state.accessToken);
+  const refreshToken = useRefreshTokenStore((state) => state.refreshToken);
 
   const navigate = useNavigate();
 
@@ -52,11 +55,11 @@ export default function AlarmPage() {
   };
 
   const onOpenSetting = () => {
-    postMessage({ type: WebviewEvent.OPEN_SETTING });
+    postMessage(WebviewEvent.OPEN_SETTING);
   };
 
   useEffect(() => {
-    postMessage({ type: WebviewEvent.GET_ALARM_STATUS });
+    postMessage(WebviewEvent.GET_ALARM_STATUS, { accessToken, refreshToken });
   }, []);
 
   return (
