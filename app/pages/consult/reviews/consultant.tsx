@@ -17,18 +17,18 @@ const ConsultReviewsConsultantPage = () => {
     return <Navigate to="/consult/reviews" />;
   }
 
-  const { data: consultantReviews, isLoading } = useGetConsultantReviews({
-    consultantId,
-    type: sort as SortType,
-  });
+  const { data = { consultantReviews: [], counselorInfo: null }, isLoading } =
+    useGetConsultantReviews({
+      consultantId,
+      type: sort as SortType,
+    });
 
   return (
     <PageLayout header={<WithBackHeader title="이정훈 상담사 후기" />}>
       <section className="px-4 pt-3 pb-6">
         <ConsultantReviewCard
-          date="25.6.23 18:00"
-          counselorName="이정훈"
-          experience={10}
+          counselorName={data.counselorInfo?.name || ""}
+          experience={data.counselorInfo?.experience || 0}
           counselorImage="https://i.namu.wiki/i/8mcZn4QTDZNSyG5LCLIltEOwSsrMoAG9TKsurgtD2zMPJWqQCYvZUsL_66BkJy3JmN4lhegQHg_A2iGdD-AWLw.webp"
         />
       </section>
@@ -39,9 +39,9 @@ const ConsultReviewsConsultantPage = () => {
           <ReviewHeader
             consultantId={consultantId}
             sort={sort}
-            totalCount={consultantReviews?.length || 0}
+            totalCount={data.consultantReviews.length}
           />
-          <ReviewList reviews={consultantReviews || []} />
+          <ReviewList reviews={data.consultantReviews} />
         </Review>
       )}
     </PageLayout>

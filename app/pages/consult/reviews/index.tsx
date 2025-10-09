@@ -36,7 +36,7 @@ const ConsultReviewsPage = () => {
   const reservationText = getReservationText(reservationStatus);
   const [isShowModal, setIsShowModal] = useState(Boolean(reservationText));
 
-  const { data: reviews, isLoading, isError } = useGetReviews(sort as SortType);
+  const { data: reviews = [], isLoading, isError } = useGetReviews(sort as SortType);
 
   return (
     <PageLayout header={<WithBackHeader title="상담후기" />}>
@@ -73,8 +73,8 @@ const ConsultReviewsPage = () => {
             </section>
           )}
           <Review>
-            <ReviewHeader sort={sort} totalCount={reviews?.length || 0} />
-            <ReviewList reviews={reviews || []} />
+            <ReviewHeader sort={sort} totalCount={reviews.length} />
+            <ReviewList reviews={reviews} />
           </Review>
         </>
       )}

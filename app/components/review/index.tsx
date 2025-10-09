@@ -41,12 +41,18 @@ interface ReviewListProps {
 function ReviewList({ reviews }: ReviewListProps) {
   return (
     <div className="space-y-6">
-      {reviews.map((review, index) => (
-        <Fragment key={index}>
-          <ReviewItem {...review} />
-          {index !== 9 && <Divider className="bg-cool-neutral-98" />}
-        </Fragment>
-      ))}
+      {reviews.length > 0 ? (
+        reviews.map((review, index) => (
+          <Fragment key={index}>
+            <ReviewItem {...review} />
+            {index !== 9 && <Divider className="bg-cool-neutral-98" />}
+          </Fragment>
+        ))
+      ) : (
+        <div className="flex h-full items-center justify-center">
+          <p className="font-label1-normal-medium text-label-neutral">리뷰가 없어요.</p>
+        </div>
+      )}
     </div>
   );
 }
