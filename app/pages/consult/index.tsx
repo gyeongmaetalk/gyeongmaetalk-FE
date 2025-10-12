@@ -8,22 +8,31 @@ import Divider from "~/components/divider";
 import { WithLeftTitleHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 import { Button } from "~/components/ui/button";
-import { useGetReservedCounselData } from "~/lib/tanstack/query/counsel";
+import { CounselStatus } from "~/constants/counsel";
+import { useCheckCounselStatus } from "~/lib/tanstack/query/counsel";
 import { ConsultEmpty } from "~/routes/consult._index/consultEmpty";
 
-const ConsultPage = () => {
-  const { data: reservedcCounselData, isLoading } = useGetReservedCounselData({ userId: "1" });
-  const navigate = useNavigate();
+const RESERVED_BUTTON_OPTIONS = [
+  {
+    variant: "outlined",
+    theme: "assistive",
+    label: "예약 취소",
+    value: "cancel",
+    review: false,
+  },
+  {
+    variant: "outlined",
+    theme: "assistive",
+    label: "예약 변경",
+    value: "change",
+    review: false,
+  },
+];
 
-  if (!isLoading && !reservedcCounselData) {
-    return (
-      <PageLayout header={<WithLeftTitleHeader title="무료상담" />} showNav>
-        <div className="flex h-full flex-col">
-          <ConsultEmpty />
-        </div>
-      </PageLayout>
-    );
-  }
+const ConsultPage = () => {
+  const { data: reservedcCounselData, isLoading } = useCheckCounselStatus();
+
+  const navigate = useNavigate();
 
   if (isLoading || !reservedcCounselData) {
     return (
@@ -35,22 +44,13 @@ const ConsultPage = () => {
     );
   }
 
-  const RESERVED_BUTTON_OPTIONS = [
-    {
-      variant: "outlined",
-      theme: "assistive",
-      label: "예약 취소",
-      value: "cancel",
-      review: false,
-    },
-    {
-      variant: "outlined",
-      theme: "assistive",
-      label: "예약 변경",
-      value: "change",
-      review: false,
-    },
-  ];
+  if (reservedcCounselData?.status === CounselStatus.NONE) {
+    return (
+      <PageLayout header={<WithLeftTitleHeader title="무료상담" />} showNav>
+        <ConsultEmpty />
+      </PageLayout>
+    );
+  }
 
   const COMPLETED_BUTTON_OPTIONS = [
     {
@@ -58,7 +58,7 @@ const ConsultPage = () => {
       theme: "assistive",
       label: "리뷰 작성",
       value: "review",
-      review: reservedcCounselData.hasReview,
+      review: reservedcCounselData.info.isReviewed,
     },
     {
       variant: "outlined",
@@ -75,7 +75,7 @@ const ConsultPage = () => {
       theme: "assistive",
       label: "리뷰 작성",
       value: "review",
-      review: reservedcCounselData.hasReview,
+      review: reservedcCounselData.info.isReviewed,
     },
     {
       variant: "outlined",
@@ -87,9 +87,9 @@ const ConsultPage = () => {
   ];
 
   const buttonOptions =
-    reservedcCounselData.state === "reserved"
+    reservedcCounselData.status === CounselStatus.COUNSEL_BEFORE
       ? RESERVED_BUTTON_OPTIONS
-      : reservedcCounselData.state === "completed"
+      : reservedcCounselData.status === CounselStatus.COUNSEL_AFTER
         ? COMPLETED_BUTTON_OPTIONS
         : AUCTION_BUTTON_OPTIONS;
 
@@ -101,9 +101,7 @@ const ConsultPage = () => {
       // TODO: 예약 변경 API 호출
     }
     if (value === "review") {
-      navigate(
-        `/consult/write?reviewId=${reservedcCounselData.matchCounselorResponse.counselFormId}`
-      );
+      navigate(`/consult/write?consultantId=${reservedcCounselData.info.counselorId}`);
     }
     if (value === "auction") {
       navigate("/agency");
@@ -120,29 +118,26 @@ const ConsultPage = () => {
           {/* 상담사 정보 */}
           <div className="px-4 py-6">
             <ConsultantCard
-              status={reservedcCounselData.state}
-              consultant={reservedcCounselData.matchCounselorResponse}
+              status={reservedcCounselData.status}
+              consultant={reservedcCounselData.info}
             />
           </div>
           <Divider className="bg-cool-neutral-99 h-2" />
 
           {/* 예약 정보 */}
-          <ReservationInfoCard
-            reservationResult={reservedcCounselData}
-            consultant={reservedcCounselData.matchCounselorResponse}
-          />
+          <ReservationInfoCard reservation={reservedcCounselData.info} />
           <Divider className="bg-cool-neutral-99 h-2" />
           {/* 상담 정보 */}
           <ConsultInfoCard
-            purpose={reservedcCounselData.purpose}
-            area={reservedcCounselData.area}
-            serviceType={reservedcCounselData.serviceType}
-            interest={reservedcCounselData.interest}
-            participantType={reservedcCounselData.participantType}
+            purpose={reservedcCounselData.info.purpose}
+            area={reservedcCounselData.info.area}
+            serviceType={reservedcCounselData.info.serviceType}
+            interest={reservedcCounselData.info.interest}
+            participantType={reservedcCounselData.info.participantType}
           />
 
           {/* 경매 정보 */}
-          {reservedcCounselData.state === "reserved" && (
+          {reservedcCounselData.status === CounselStatus.COUNSEL_BEFORE && (
             <>
               <Divider className="bg-cool-neutral-99 h-2" />
               <section className="bg-cool-neutral-99 mb-5 p-4">

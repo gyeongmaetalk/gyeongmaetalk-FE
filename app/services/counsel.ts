@@ -36,8 +36,8 @@ export const reserveConsult = async (
     .json();
 };
 
-export const getReservedCounselData = async (props: {
-  userId: string;
-}): Promise<BaseResponse<ReservedCounselDataResponse>> => {
-  return api.get(`counsels/${props.userId}`).json();
+export const getReservedCounselData = async (): Promise<
+  BaseResponse<ReservedCounselDataResponse>
+> => {
+  return api.get("counsels/info").json();
 };
