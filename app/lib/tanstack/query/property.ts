@@ -1,7 +1,11 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+
+import type { HTTPError } from "ky";
 
 import { PROPERTY } from "~/constants/property";
-import { getPropertyList } from "~/services/property";
+import type { BaseResponse } from "~/models";
+import type { PropertyDetailResponse } from "~/models/property";
+import { getPropertyDetail, getPropertyList } from "~/services/property";
 import { calculatePaigination } from "~/utils/api";
 
 export const useGetPropertyList = () => {
@@ -11,5 +15,13 @@ export const useGetPropertyList = () => {
     getNextPageParam: calculatePaigination,
     initialPageParam: 0,
     select: (data) => data.pages.flatMap((page) => page.result.properties),
+  });
+};
+
+export const useGetPropertyDetail = (id: string) => {
+  return useQuery<BaseResponse<PropertyDetailResponse>, HTTPError, PropertyDetailResponse>({
+    queryKey: [PROPERTY.PROPERTY_DETAIL, id],
+    queryFn: () => getPropertyDetail(id),
+    select: (data) => data.result,
   });
 };
