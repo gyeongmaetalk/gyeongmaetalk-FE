@@ -1,8 +1,9 @@
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 
 import Divider from "~/components/divider";
 import { Apple, Back, Kakao } from "~/components/icons";
 import { cn } from "~/lib/utils";
+import { useAccessTokenStore, useRefreshTokenStore } from "~/lib/zustand/user";
 
 const response = {
   auth: true,
@@ -13,6 +14,14 @@ const response = {
 
 const MyPagePage = () => {
   const navigate = useNavigate();
+
+  const accessToken = useAccessTokenStore((state) => state.accessToken);
+  const refreshToken = useRefreshTokenStore((state) => state.refreshToken);
+
+  if (!accessToken && !refreshToken) {
+    return <Navigate to="/login" replace />;
+  }
+
   return (
     <div className="flex flex-col">
       {/* 회원 로그인 정보 */}

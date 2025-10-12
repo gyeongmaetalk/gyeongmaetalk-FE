@@ -33,10 +33,10 @@ export function CloseHeaderWithoutTitleExample() {
 
 // 중앙 타이틀 헤더
 export function LeftTitleHeaderExample() {
-  return <WithLeftTitleHeader title="타이틀" onAlarm={() => console.log("알림 클릭")} />;
+  return <WithLeftTitleHeader title="타이틀" />;
 }
 
 // 중앙 타이틀 + 알림 헤더
 export function LeftTitleAlarmHeaderExample() {
-  return <WithLeftTitleHeader title="타이틀" onAlarm={() => console.log("알림 클릭")} />;
+  return <WithLeftTitleHeader title="타이틀" />;
 }

@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 
-interface UseWebViewProps {
-  onMessage: (data: { type: string; data: unknown }) => void;
-}
+import { WebviewEvent } from "~/constants/webview";
+
+type OnMessage = (data: { type: string; data: unknown }) => void;
 
 type WebViewMessageEvent = MessageEvent | (Event & { data?: unknown });
 
-const postMessage = (data: unknown) => {
-  window.ReactNativeWebView.postMessage(JSON.stringify(data));
+const postMessage = (type: string, data?: unknown) => {
+  window.ReactNativeWebView.postMessage(JSON.stringify({ type, data }));
 };
 
 /**
@@ -25,13 +25,13 @@ const postMessage = (data: unknown) => {
  * });
  *
  * // 메시지 보내기
- * postMessage({ type: 'USER_ACTION', data: { action: 'click' } });
+ * postMessage('USER_ACTION', { action: 'click' });
  * ```
  */
-export const useWebView = ({ onMessage }: UseWebViewProps) => {
+export const useWebView = (onMessage?: OnMessage) => {
   useEffect(() => {
     const onWebViewMessage = (e: WebViewMessageEvent) => {
-      onMessage(JSON.parse(e.data));
+      onMessage?.(JSON.parse(e.data));
     };
 
     // iOS
@@ -42,7 +42,7 @@ export const useWebView = ({ onMessage }: UseWebViewProps) => {
 
     // RN에게 "웹 준비됨" 신호 전송
     try {
-      postMessage({ type: "WEB_READY" });
+      postMessage(WebviewEvent.WEB_READY);
     } catch (error) {
       console.error(error);
     }
