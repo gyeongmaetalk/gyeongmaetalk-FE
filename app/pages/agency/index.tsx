@@ -1,23 +1,35 @@
+import { Loader2 } from "lucide-react";
+import { Navigate } from "react-router";
+
 import Divider from "~/components/divider";
+import { CounselStatus } from "~/constants/counsel";
+import { useCheckCounselStatus } from "~/lib/tanstack/query/counsel";
 import AuctionExample from "~/routes/agency._index/auction-example";
-// import Consulted from "~/routes/agency._index/consulted";
+import Consulted from "~/routes/agency._index/consulted";
 import NotConsulted from "~/routes/agency._index/not-consulted";
-// import NotPaid from "~/routes/agency._index/not-paid";
-
-type ConsultStatus = "not-consulted" | "consulted" | "not-paid";
-
-const consultStatus: ConsultStatus = "not-consulted";
+import NotPaid from "~/routes/agency._index/not-paid";
 
 const AgencyPage = () => {
+  const { data: reservedcCounselData, isLoading } = useCheckCounselStatus();
+
+  if (isLoading || !reservedcCounselData) {
+    return (
+      <div className="flex h-full items-center">
+        <Loader2 className="text-primary-normal mx-auto size-10 animate-spin" />
+      </div>
+    );
+  }
+
   const renderConsultStatus = () => {
-    switch (consultStatus) {
-      case "not-consulted":
+    switch (reservedcCounselData.status) {
+      case CounselStatus.NONE:
         return <NotConsulted />;
-      // TODO: 상태에 따라 컴포넌트 렌더링 되도록 수정
-      // case "consulted":
-      //   return <Consulted />;
-      // case "not-paid":
-      //   return <NotPaid />;
+      case CounselStatus.COUNSEL_BEFORE:
+        return <Consulted />;
+      case CounselStatus.COUNSEL_AFTER:
+        return <NotPaid />;
+      case CounselStatus.SUBSCRIBE:
+        return <Navigate to="/agency/recommend" replace />;
     }
   };
 
