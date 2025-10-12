@@ -1,3 +1,5 @@
+import type { CounselStatus } from "~/constants/counsel";
+
 export interface MatchCounselRequest {
   purpose: string;
   area: string;
@@ -37,15 +39,7 @@ export interface ReserveConsultResponse extends MatchCounselRequest {
 }
 
 export interface ReservedCounselDataResponse {
-  state: "reserved" | "completed" | "auction";
-  hasReview: boolean;
-  matchCounselorResponse: MatchCounselResponse;
-  counselDate: string;
-  counselTime: string;
-  cellPhone: string;
-  purpose: string;
-  area: string;
-  serviceType: string;
-  interest: string;
-  participantType: string;
+  status: CounselStatus;
+  info: ReserveConsultResponse &
+    Omit<MatchCounselResponse, "counselFormId"> & { isReviewed: boolean };
 }

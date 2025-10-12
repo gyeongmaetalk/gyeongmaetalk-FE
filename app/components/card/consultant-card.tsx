@@ -1,28 +1,29 @@
 import { Quote } from "lucide-react";
 
+import { CounselStatus } from "~/constants/counsel";
 import { cn } from "~/lib/utils";
-import type { MatchCounselResponse } from "~/models/counsel";
+import type { MatchCounselResponse, ReservedCounselDataResponse } from "~/models/counsel";
 
 import { Star, Verified } from "../icons";
 
 interface ConsultantCardProps {
-  consultant: MatchCounselResponse;
-  status?: "reserved" | "completed" | "auction";
+  consultant: ReservedCounselDataResponse["info"] | MatchCounselResponse;
+  status?: CounselStatus;
 }
 
 const getStatusText = (status: ConsultantCardProps["status"]) => {
   switch (status) {
-    case "reserved":
+    case CounselStatus.COUNSEL_BEFORE:
       return "예약 확정";
-    case "completed":
+    case CounselStatus.COUNSEL_AFTER:
       return "상담 완료";
-    case "auction":
+    case CounselStatus.SUBSCRIBE:
       return "경매 진행";
   }
 };
 
 const getStatusColor = (status: ConsultantCardProps["status"]) => {
-  if (status === "reserved") return "text-green-20 bg-green-95";
+  if (status === CounselStatus.COUNSEL_BEFORE) return "text-green-20 bg-green-95";
   return "text-blue-20 bg-blue-95";
 };
 

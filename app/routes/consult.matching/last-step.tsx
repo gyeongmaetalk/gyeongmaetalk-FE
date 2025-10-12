@@ -49,7 +49,10 @@ const LastStep = ({ consultant, reservationResult }: LastStepProps) => {
 
         <Divider className="bg-cool-neutral-99 h-2" />
 
-        <ReservationInfoCard reservationResult={reservationResult} consultant={consultant} />
+        <ReservationInfoCard
+          reservation={reservationResult}
+          counselorName={consultant.counselorName}
+        />
 
         <Divider className="bg-cool-neutral-99 h-2" />
 

@@ -7,7 +7,7 @@ type OnMessage = (data: { type: string; data: unknown }) => void;
 type WebViewMessageEvent = MessageEvent | (Event & { data?: unknown });
 
 const postMessage = (type: string, data?: unknown) => {
-  window.ReactNativeWebView.postMessage(JSON.stringify({ type, data }));
+  window.ReactNativeWebView?.postMessage(JSON.stringify({ type, data }));
 };
 
 /**
