@@ -1,13 +1,7 @@
+import type { PropertyListItemProps } from "~/types/property";
+
 export interface PropertyListResponse {
-  properties: {
-    id: number;
-    address: string;
-    area: number;
-    biddingDate: string;
-    appraisedPrice: number;
-    minPrice: number;
-    images: string[];
-  };
+  properties: PropertyListItemProps[];
 }
 
 export interface PropertyDetailResponse {

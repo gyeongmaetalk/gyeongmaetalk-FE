@@ -9,17 +9,8 @@ import { useGetPropertyDetail } from "~/lib/tanstack/query/property";
 import RequestBidButton from "~/routes/agency.recommend._index/request-bid-button";
 import GyeongmaeMap from "~/routes/agency.recommend.$id/gyeongmae-map";
 import ListingCarousel from "~/routes/agency.recommend.$id/listing-carousel";
-import { formatDate, formatPrice } from "~/utils/format";
+import { formatArea, formatDate, formatPrice } from "~/utils/format";
 import { errorToast, successToast } from "~/utils/toast";
-
-const convertPyeongToSquareMeter = (pyeong: number): number => {
-  return Math.round(pyeong * 3.3058 * 100) / 100;
-};
-
-const formatArea = (pyeong: number): string => {
-  const squareMeter = convertPyeongToSquareMeter(pyeong);
-  return `${pyeong}평 (${squareMeter}㎡)`;
-};
 
 const AgencyRecommendDetailPage = () => {
   const { id } = useParams();
@@ -118,7 +109,7 @@ const AgencyRecommendDetailPage = () => {
           </div>
           <div className="flex">
             <p className="text-label-alternative w-20 shrink-0">접수일</p>
-            <p>{formatDate({ date: data.commencementDate })}</p>
+            <p>{formatDate({ date: data.registrationDate })}</p>
           </div>
           <div className="flex">
             <p className="text-label-alternative w-20 shrink-0">개시결정일</p>
@@ -173,10 +164,6 @@ const AgencyRecommendDetailPage = () => {
           <div className="flex">
             <p className="text-label-alternative w-20 shrink-0">임차인</p>
             <p>{data.tenant}</p>
-          </div>
-          <div className="flex">
-            <p className="text-label-alternative w-20 shrink-0">현재 상태</p>
-            <p>{data.status}</p>
           </div>
         </div>
       </section>
