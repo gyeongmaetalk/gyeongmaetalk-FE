@@ -2,9 +2,7 @@ import { useEffect } from "react";
 
 import { WebviewEvent } from "~/constants/webview";
 
-interface UseWebViewProps {
-  onMessage: (data: { type: string; data: unknown }) => void;
-}
+type OnMessage = (data: { type: string; data: unknown }) => void;
 
 type WebViewMessageEvent = MessageEvent | (Event & { data?: unknown });
 
@@ -30,10 +28,10 @@ const postMessage = (type: string, data?: unknown) => {
  * postMessage('USER_ACTION', { action: 'click' });
  * ```
  */
-export const useWebView = ({ onMessage }: UseWebViewProps) => {
+export const useWebView = (onMessage?: OnMessage) => {
   useEffect(() => {
     const onWebViewMessage = (e: WebViewMessageEvent) => {
-      onMessage(JSON.parse(e.data));
+      onMessage?.(JSON.parse(e.data));
     };
 
     // iOS

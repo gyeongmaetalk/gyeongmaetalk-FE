@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { Loader2 } from "lucide-react";
 import { Navigate, useNavigate, useSearchParams } from "react-router";
 
+import { WebviewEvent } from "~/constants/webview";
+import { useWebView } from "~/hooks/use-webview";
 import { useAccessTokenStore, useRefreshTokenStore } from "~/lib/zustand/user";
 
 export default function RedirectPage() {
@@ -14,6 +16,8 @@ export default function RedirectPage() {
 
   const navigate = useNavigate();
 
+  const { postMessage } = useWebView();
+
   const setAccessToken = useAccessTokenStore((state) => state.setAccessToken);
   const setRefreshToken = useRefreshTokenStore((state) => state.setRefreshToken);
 
@@ -22,6 +26,8 @@ export default function RedirectPage() {
   }
 
   useEffect(() => {
+    postMessage(WebviewEvent.GET_ALARM_STATUS, { accessToken, refreshToken });
+
     const requestAccessToken = async () => {
       if (registered === "true") {
         setAccessToken(accessToken);

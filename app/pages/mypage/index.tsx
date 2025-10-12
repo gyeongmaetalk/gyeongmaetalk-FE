@@ -19,7 +19,7 @@ const MyPagePage = () => {
   const refreshToken = useRefreshTokenStore((state) => state.refreshToken);
 
   if (!accessToken && !refreshToken) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" replace />;
   }
 
   return (

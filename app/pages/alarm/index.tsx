@@ -40,15 +40,15 @@ export default function AlarmPage() {
 
   const navigate = useNavigate();
 
-  const { postMessage } = useWebView({
-    onMessage: (event) => {
-      const { type, data } = event;
-      if (type === WebviewEvent.GET_ALARM_STATUS) {
-        const { alarmEnabled } = data as { alarmEnabled: boolean };
-        setIsAlarmEnabled(alarmEnabled);
-      }
-    },
-  });
+  const onMessage = (event: { type: string; data: unknown }) => {
+    const { type, data } = event;
+    if (type === WebviewEvent.GET_ALARM_STATUS) {
+      const { alarmEnabled } = data as { alarmEnabled: boolean };
+      setIsAlarmEnabled(alarmEnabled);
+    }
+  };
+
+  const { postMessage } = useWebView(onMessage);
 
   const onNavigateSetting = () => {
     navigate("/mypage/alarm");
