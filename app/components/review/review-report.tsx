@@ -14,6 +14,7 @@ import { Textarea } from "../ui/textarea";
 
 interface ReviewReportProps {
   reviewId: number;
+  onMenuClose: () => void;
 }
 
 const REPORT_OPTIONS = [
@@ -35,7 +36,7 @@ const REPORT_OPTIONS = [
   },
 ];
 
-function ReviewReportContent({ reviewId }: ReviewReportProps) {
+function ReviewReportContent({ reviewId, onMenuClose }: ReviewReportProps) {
   const [selectedValue, setSelectedValue] = useState(REPORT_OPTIONS[0].value);
   const [showTextarea, setShowTextarea] = useState(false);
   const [textareaValue, setTextareaValue] = useState("");
@@ -47,6 +48,7 @@ function ReviewReportContent({ reviewId }: ReviewReportProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [REVIEW.REVIEWS] });
       successToast("리뷰가 신고되었어요.");
+      onMenuClose();
       close();
     },
     onError: (error) => {
@@ -116,13 +118,13 @@ function ReviewReportContent({ reviewId }: ReviewReportProps) {
   );
 }
 
-export default function ReviewReport({ reviewId }: ReviewReportProps) {
+export default function ReviewReport({ reviewId, onMenuClose }: ReviewReportProps) {
   return (
     <Drawer>
       <DrawerTrigger className="active:bg-cool-neutral-97 rounded-[12px] px-3 py-2 text-start disabled:opacity-50">
         신고
       </DrawerTrigger>
-      <ReviewReportContent reviewId={reviewId} />
+      <ReviewReportContent reviewId={reviewId} onMenuClose={onMenuClose} />
     </Drawer>
   );
 }

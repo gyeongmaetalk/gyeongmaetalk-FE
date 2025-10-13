@@ -95,7 +95,11 @@ const ReviewItemMenu = ({ reviewId, isMyReview }: ReviewItemMenuProps) => {
         {menuOptions.map((option) =>
           // 신고 버튼 클릭시 신고 바텀시트 노출
           option.value === "report" ? (
-            <ReviewReport key={option.value} reviewId={reviewId} />
+            <ReviewReport
+              key={option.value}
+              reviewId={reviewId}
+              onMenuClose={() => setIsOpen(false)}
+            />
           ) : (
             <button
               key={option.value}

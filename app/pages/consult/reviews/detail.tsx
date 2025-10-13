@@ -64,7 +64,7 @@ const ConsultReviewsDetailPage = ({ reviewId }: ConsultReviewsDetailPageProps) =
                     <img
                       src={image}
                       alt="review-image"
-                      className="aspect-image rounded-[12px] object-cover"
+                      className="aspect-image w-full rounded-[12px] object-cover"
                     />
                   </DragCarouselItem>
                 ))}

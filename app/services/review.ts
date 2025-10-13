@@ -55,5 +55,5 @@ export const reportReview = ({
   reviewId,
   body,
 }: ReviewReportRequest): Promise<BaseResponse<ReviewResponse>> => {
-  return api.post(`reviews/${reviewId}/reports`, { json: body }).json();
+  return api.post(`reviews/${reviewId}/reports`, { searchParams: body }).json();
 };

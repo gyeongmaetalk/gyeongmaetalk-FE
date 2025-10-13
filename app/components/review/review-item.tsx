@@ -37,7 +37,11 @@ const ReviewItem = (props: ReviewItemProps) => {
         </p>
         <div className="size-20 shrink-0 rounded-[12px]">
           {props.thumbnail ? (
-            <img src={props.thumbnail} alt="리뷰 이미지" className="w-full object-cover" />
+            <img
+              src={props.thumbnail}
+              alt="리뷰 이미지"
+              className="w-full rounded-[12px] object-cover"
+            />
           ) : (
             <LogoIcon className="size-full" />
           )}
