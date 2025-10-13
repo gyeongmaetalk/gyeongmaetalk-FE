@@ -40,6 +40,7 @@ const ConsultReviewsDetailPage = ({ reviewId }: ConsultReviewsDetailPageProps) =
               reviewId={+reviewId}
               createAt={review?.createAt || new Date().toISOString()}
               name={review?.name || "닉네임"}
+              score={review?.score || 0}
             />
             <ConsultantReviewCard
               date={formatDate({

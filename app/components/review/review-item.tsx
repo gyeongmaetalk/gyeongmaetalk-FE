@@ -18,6 +18,7 @@ const ReviewItem = (props: ReviewItemProps) => {
         reviewId={props.reviewId}
         createAt={props.createAt}
         name={props.name}
+        score={props.score}
       />
       {isConsultantReview && (
         <div className="bg-cool-neutral-99 flex items-center gap-1.5 rounded-[12px] px-3 py-2">
