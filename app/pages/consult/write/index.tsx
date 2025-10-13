@@ -22,6 +22,7 @@ import { Textarea } from "~/components/ui/textarea";
 import { REVIEW } from "~/constants/review";
 import { queryClient } from "~/lib/tanstack";
 import { useCreateReview, useUpdateReview } from "~/lib/tanstack/mutation/review";
+import { useGetCounselInfo } from "~/lib/tanstack/query/counsel";
 import type { ReviewDetailResponse } from "~/models/review";
 import {
   type WriteConsultReviewForm,
@@ -60,6 +61,16 @@ export default function ConsultWriteReviewPage({ review }: ConsultWriteReviewPag
   const [imagePreviewUrls, setImagePreviewUrls] = useState<string[]>([]);
 
   const navigate = useNavigate();
+
+  const { data: counselInfoData, isLoading: isCounselInfoLoading } =
+    useGetCounselInfo(consultantId);
+
+  const counselorInfo = {
+    name: counselInfoData?.name || review?.counselorName || "",
+    experience: counselInfoData?.experience || review?.experience || 0,
+    counselDate:
+      counselInfoData?.counselDate || `${review?.counselDate}T${review?.counselTime}` || "",
+  };
 
   // 리뷰 생성 Mutation
   const { mutateAsync: createReview } = useCreateReview({
@@ -211,12 +222,17 @@ export default function ConsultWriteReviewPage({ review }: ConsultWriteReviewPag
     <>
       <PageLayout header={<WithBackHeader title={`상담후기 ${statusText}`} />} withFloating>
         <form className="space-y-5 px-4 py-6" onSubmit={onSubmit}>
-          <ConsultantReviewCard
-            date="25.6.23 18:00"
-            counselorName="이정훈"
-            experience={10}
-            counselorImage="https://i.namu.wiki/i/8mcZn4QTDZNSyG5LCLIltEOwSsrMoAG9TKsurgtD2zMPJWqQCYvZUsL_66BkJy3JmN4lhegQHg_A2iGdD-AWLw.webp"
-          />
+          {isCounselInfoLoading ? (
+            <div className="bg-cool-neutral-98 h-[6.5rem] animate-pulse rounded-lg" />
+          ) : (
+            <ConsultantReviewCard
+              date={counselorInfo.counselDate}
+              counselorName={counselorInfo.name}
+              experience={counselorInfo.experience}
+              counselorImage="https://i.namu.wiki/i/8mcZn4QTDZNSyG5LCLIltEOwSsrMoAG9TKsurgtD2zMPJWqQCYvZUsL_66BkJy3JmN4lhegQHg_A2iGdD-AWLw.webp"
+            />
+          )}
+
           <p className="font-body1-normal-bold">이정훈 상담사와 상담 경험은 어땠나요?</p>
           <div className="flex items-center gap-2">
             <StarRating rating={form.watch("rating")} size="lg" setRating={onRatingChange} />

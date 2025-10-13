@@ -5,10 +5,10 @@ import { formatDate } from "~/utils/format";
 
 interface AlarmReviewItemProps {
   reviewId: number;
-  counselDateTime: string;
+  counselDate: string;
 }
 
-export default function AlarmReviewItem({ reviewId, counselDateTime }: AlarmReviewItemProps) {
+export default function AlarmReviewItem({ reviewId, counselDate }: AlarmReviewItemProps) {
   return (
     <Link className="space-y-2" to={`/consult/write?reviewId=${reviewId}`}>
       <p className="font-body2-normal-regular">무료 상담은 어떠셨나요? 후기를 남겨주세요</p>
@@ -19,7 +19,7 @@ export default function AlarmReviewItem({ reviewId, counselDateTime }: AlarmRevi
         </div>
         <p className="text-label-alternative text-[3px]">●</p>
         <p className="font-label2-regular text-label-alternative">
-          {formatDate({ date: counselDateTime, withTime: true, shortYear: true })} 상담완료
+          {formatDate({ date: counselDate, withTime: true, shortYear: true })} 상담완료
         </p>
       </div>
     </Link>

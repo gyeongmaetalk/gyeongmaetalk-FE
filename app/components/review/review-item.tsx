@@ -27,7 +27,7 @@ const ReviewItem = (props: ReviewItemProps) => {
           </div>
           <p className="text-label-alternative text-[3px]">●</p>
           <p className="font-label2-regular text-label-alternative">
-            {formatDate({ date: props.counselDateTime, withTime: true })} 상담완료
+            {formatDate({ date: props.counselDate, withTime: true })} 상담완료
           </p>
         </div>
       )}

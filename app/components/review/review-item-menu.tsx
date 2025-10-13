@@ -15,10 +15,6 @@ import { Menu } from "../icons";
 
 const OTHER_ITEM_OPTIONS = [
   {
-    label: "차단",
-    value: "block",
-  },
-  {
     label: "신고",
     value: "report",
   },
@@ -51,6 +47,7 @@ const ReviewItemMenu = ({ reviewId, isMyReview }: ReviewItemMenuProps) => {
   const { mutateAsync: removeReview, isPending: isRemoveReviewPending } = useRemoveReview({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [REVIEW.REVIEWS] });
+      queryClient.invalidateQueries({ queryKey: [REVIEW.REVIEW_DETAIL, reviewId.toString()] });
       successToast("리뷰가 삭제되었어요.");
     },
     onError: (error) => {
@@ -63,10 +60,6 @@ const ReviewItemMenu = ({ reviewId, isMyReview }: ReviewItemMenuProps) => {
   const buttonDisabled = isRemoveReviewPending;
 
   const onClickMenu = async (value: string) => {
-    if (value === "block") {
-      // TODO: 차단 API 호출
-    }
-
     if (value === "edit") {
       navigate(`/consult/write?reviewId=${reviewId}`);
     }

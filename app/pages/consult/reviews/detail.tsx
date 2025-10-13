@@ -43,7 +43,7 @@ const ConsultReviewsDetailPage = ({ reviewId }: ConsultReviewsDetailPageProps) =
             />
             <ConsultantReviewCard
               date={formatDate({
-                date: review?.counselDateTime || new Date().toISOString(),
+                date: review?.counselDate || new Date().toISOString(),
                 withTime: true,
               })}
               counselorName={review?.counselorName || "이름"}
@@ -51,7 +51,11 @@ const ConsultReviewsDetailPage = ({ reviewId }: ConsultReviewsDetailPageProps) =
               counselorImage={review?.counselorImage || ""}
             />
             {review?.images.length === 1 && (
-              <div className="aspect-image bg-cool-neutral-30 w-full rounded-[12px]" />
+              <img
+                src={review?.images[0]}
+                alt={`${review.name} 이미지`}
+                className="aspect-image w-full rounded-[12px] object-cover"
+              />
             )}
             {review?.images && review?.images.length > 1 && (
               <DragCarousel>

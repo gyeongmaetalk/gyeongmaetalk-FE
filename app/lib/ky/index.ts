@@ -47,6 +47,7 @@ export const api = ky.create({
             } else {
               useAccessTokenStore.setState({ accessToken: null });
               useRefreshTokenStore.setState({ refreshToken: null });
+              localStorage.clear();
               redirect("/login");
             }
           }
