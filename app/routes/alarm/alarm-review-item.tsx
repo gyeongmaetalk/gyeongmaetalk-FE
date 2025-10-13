@@ -17,7 +17,7 @@ export default function AlarmReviewItem({ reviewId, counselDateTime }: AlarmRevi
           <Verified />
           <p className="font-label2-regular text-label-neutral">이정훈 상담사</p>
         </div>
-        <div className="bg-label-alternative size-[3px]" />
+        <p className="text-label-alternative text-[3px]">●</p>
         <p className="font-label2-regular text-label-alternative">
           {formatDate({ date: counselDateTime, withTime: true, shortYear: true })} 상담완료
         </p>

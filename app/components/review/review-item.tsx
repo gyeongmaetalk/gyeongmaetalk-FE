@@ -25,7 +25,7 @@ const ReviewItem = (props: ReviewItemProps) => {
             <p className="font-label2-regular text-label-strong">{props.counselorName} 상담사</p>
             <Verified />
           </div>
-          <div className="bg-label-alternative size-[3px]" />
+          <p className="text-label-alternative text-[3px]">●</p>
           <p className="font-label2-regular text-label-alternative">
             {formatDate({ date: props.counselDateTime, withTime: true })} 상담완료
           </p>

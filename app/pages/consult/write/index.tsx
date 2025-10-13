@@ -37,6 +37,7 @@ const DEFAULT_VALUES = {
 };
 
 const MAX_IMAGES = 5;
+const MIN_CONTENT_LENGTH = 20;
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
 const getRatingText = (rating: number) => {
@@ -56,7 +57,7 @@ export default function ConsultWriteReviewPage() {
 
   const navigate = useNavigate();
 
-  const { data: review, isLoading: isReviewLoading } = useGetReviewById(reviewId || "");
+  const { data: review, isLoading: isReviewLoading } = useGetReviewById(reviewId);
 
   // 리뷰 생성 Mutation
   const { mutateAsync: createReview } = useCreateReview({
@@ -95,7 +96,7 @@ export default function ConsultWriteReviewPage() {
   const content = form.watch("content");
 
   const submitDisabled =
-    rating === 0 || content.length < 20 || !isAgree || form.formState.isSubmitting;
+    rating === 0 || content.length < MIN_CONTENT_LENGTH || !isAgree || form.formState.isSubmitting;
   const isUpdateMode = Boolean(reviewId);
   const statusText = isUpdateMode ? "수정" : "작성";
 
@@ -149,6 +150,11 @@ export default function ConsultWriteReviewPage() {
   }
 
   const onSubmit = form.handleSubmit(async (data) => {
+    if (data.content.trim().length < MIN_CONTENT_LENGTH) {
+      errorToast("앞, 뒤 공백 제외 최소 20자 이상 작성해주세요.");
+      return;
+    }
+
     const formData = new FormData();
     const request = {
       score: data.rating,
@@ -227,7 +233,7 @@ export default function ConsultWriteReviewPage() {
             onChange={(e) => form.setValue("content", e.target.value)}
             label="후기작성"
             placeholder="진행하신 상담 경험을 20자 이상 공유해 주시면, 다른 분들에게 도움이 됩니다."
-            minLength={20}
+            minLength={MIN_CONTENT_LENGTH}
             additionalText="최소 20자"
             disabled={isReviewLoading}
           />
