@@ -16,7 +16,11 @@ export const useCreateReview = (
 };
 
 export const useUpdateReview = (
-  options?: UseMutationOptions<BaseResponse<ReviewResponse>, HTTPError, FormData>
+  options?: UseMutationOptions<
+    BaseResponse<ReviewResponse>,
+    HTTPError,
+    { formData: FormData; reviewId: string }
+  >
 ) => {
   return useMutation({
     mutationFn: updateReview,

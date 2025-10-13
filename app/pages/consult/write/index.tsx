@@ -78,6 +78,7 @@ export default function ConsultWriteReviewPage({ review }: ConsultWriteReviewPag
   const { mutateAsync: updateReview } = useUpdateReview({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [REVIEW.REVIEWS] });
+      queryClient.invalidateQueries({ queryKey: [REVIEW.REVIEW_DETAIL, reviewId] });
       successToast("리뷰가 수정되었어요.");
       navigate(-1);
     },
@@ -99,8 +100,7 @@ export default function ConsultWriteReviewPage({ review }: ConsultWriteReviewPag
 
   const submitDisabled =
     rating === 0 || content.length < MIN_CONTENT_LENGTH || !isAgree || form.formState.isSubmitting;
-  const isUpdateMode = Boolean(reviewId);
-  const statusText = isUpdateMode ? "수정" : "작성";
+  const statusText = reviewId ? "수정" : "작성";
 
   const onRatingChange = (newRating: number) => {
     if (rating === newRating) return;
@@ -163,7 +163,7 @@ export default function ConsultWriteReviewPage({ review }: ConsultWriteReviewPag
       content: data.content,
     };
 
-    if (isUpdateMode) {
+    if (reviewId) {
       const existingImages: string[] = [];
       const reviewImages: File[] = [];
       data.images?.forEach((image) => {
@@ -173,12 +173,14 @@ export default function ConsultWriteReviewPage({ review }: ConsultWriteReviewPag
           reviewImages.push(image);
         }
       });
-      Object.assign(request, { existingImages, reviewId });
+      Object.assign(request, { existingImages });
       formData.append("request", JSON.stringify(request));
-      reviewImages.forEach((image) => {
-        formData.append("reviewImages", image);
-      });
-      await updateReview(formData);
+      if (reviewImages.length > 0) {
+        reviewImages.forEach((image) => {
+          formData.append("reviewImages", image);
+        });
+      }
+      await updateReview({ formData, reviewId });
       return;
     }
     Object.assign(request, { consultantId });
@@ -186,7 +188,7 @@ export default function ConsultWriteReviewPage({ review }: ConsultWriteReviewPag
 
     if (data.images) {
       data.images.forEach((image) => {
-        formData.append("images", image);
+        formData.append("reviewImages", image);
       });
     }
 

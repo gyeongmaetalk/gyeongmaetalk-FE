@@ -37,8 +37,14 @@ export const createReview = (formData: FormData): Promise<BaseResponse<ReviewRes
   return api.post("reviews", { body: formData }).json();
 };
 
-export const updateReview = (formData: FormData): Promise<BaseResponse<ReviewResponse>> => {
-  return api.patch("reviews", { body: formData }).json();
+export const updateReview = ({
+  formData,
+  reviewId,
+}: {
+  formData: FormData;
+  reviewId: string;
+}): Promise<BaseResponse<ReviewResponse>> => {
+  return api.patch(`reviews/${reviewId}`, { body: formData }).json();
 };
 
 export const removeReview = (reviewId: number): Promise<BaseResponse<ReviewResponse>> => {
