@@ -47,5 +47,6 @@ export const useGetReviewById = (reviewId: string | null) => {
     queryFn: () => getReviewById(reviewId as string),
     select: (data) => data.result,
     enabled: !!reviewId,
+    staleTime: 1000 * 60,
   });
 };

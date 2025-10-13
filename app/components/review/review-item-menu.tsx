@@ -7,6 +7,7 @@ import { useOutsideClick } from "~/hooks/use-outside-click";
 import { queryClient } from "~/lib/tanstack";
 import { useRemoveReview } from "~/lib/tanstack/mutation/review";
 import { cn } from "~/lib/utils";
+import { getReviewById } from "~/services/review";
 import { errorToast, successToast } from "~/utils/toast";
 
 import ReviewReport from "./review-report";
@@ -77,6 +78,16 @@ const ReviewItemMenu = ({ reviewId, isMyReview }: ReviewItemMenuProps) => {
     setIsOpen(false);
   };
 
+  const onMouseEnter = (value: string) => {
+    if (value === "edit") {
+      queryClient.prefetchQuery({
+        queryKey: [REVIEW.REVIEW_DETAIL, reviewId.toString()],
+        queryFn: () => getReviewById(reviewId.toString()),
+        staleTime: 1000 * 60,
+      });
+    }
+  };
+
   return (
     <div className="relative" ref={menuRef}>
       <button onClick={() => setIsOpen(!isOpen)}>
@@ -97,6 +108,7 @@ const ReviewItemMenu = ({ reviewId, isMyReview }: ReviewItemMenuProps) => {
               key={option.value}
               className="active:bg-cool-neutral-97 rounded-[12px] px-3 py-2 text-start disabled:opacity-50"
               onClick={() => onClickMenu(option.value)}
+              onMouseEnter={() => onMouseEnter(option.value)}
               disabled={buttonDisabled}
             >
               {option.label}

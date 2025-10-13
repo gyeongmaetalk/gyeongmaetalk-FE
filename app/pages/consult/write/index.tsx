@@ -22,12 +22,16 @@ import { Textarea } from "~/components/ui/textarea";
 import { REVIEW } from "~/constants/review";
 import { queryClient } from "~/lib/tanstack";
 import { useCreateReview, useUpdateReview } from "~/lib/tanstack/mutation/review";
-import { useGetReviewById } from "~/lib/tanstack/query/review";
+import type { ReviewDetailResponse } from "~/models/review";
 import {
   type WriteConsultReviewForm,
   writeConsultReviewFormSchema,
 } from "~/routes/consult.write/schema";
 import { errorToast, infoToast, successToast } from "~/utils/toast";
+
+interface ConsultWriteReviewPageProps {
+  review: ReviewDetailResponse | null;
+}
 
 const DEFAULT_VALUES = {
   rating: 0,
@@ -48,7 +52,7 @@ const getRatingText = (rating: number) => {
   return "훌륭한 경험이었어요!";
 };
 
-export default function ConsultWriteReviewPage() {
+export default function ConsultWriteReviewPage({ review }: ConsultWriteReviewPageProps) {
   const [searchParams] = useSearchParams();
   const consultantId = searchParams.get("consultantId");
   const reviewId = searchParams.get("reviewId");
@@ -56,8 +60,6 @@ export default function ConsultWriteReviewPage() {
   const [imagePreviewUrls, setImagePreviewUrls] = useState<string[]>([]);
 
   const navigate = useNavigate();
-
-  const { data: review, isLoading: isReviewLoading } = useGetReviewById(reviewId);
 
   // 리뷰 생성 Mutation
   const { mutateAsync: createReview } = useCreateReview({
@@ -191,9 +193,7 @@ export default function ConsultWriteReviewPage() {
     await createReview(formData);
   });
 
-  // TODO: 연동할 때 loader 이용해서 처리해보기
   useEffect(() => {
-    if (isReviewLoading) return;
     if (review) {
       form.setValue("rating", review.score);
       form.setValue("content", review.content);
@@ -203,7 +203,7 @@ export default function ConsultWriteReviewPage() {
       );
       setImagePreviewUrls(review.images);
     }
-  }, [isReviewLoading]);
+  }, []);
 
   return (
     <>
@@ -217,12 +217,7 @@ export default function ConsultWriteReviewPage() {
           />
           <p className="font-body1-normal-bold">이정훈 상담사와 상담 경험은 어땠나요?</p>
           <div className="flex items-center gap-2">
-            <StarRating
-              rating={form.watch("rating")}
-              size="lg"
-              setRating={onRatingChange}
-              disabled={isReviewLoading}
-            />
+            <StarRating rating={form.watch("rating")} size="lg" setRating={onRatingChange} />
             {rating > 0 && (
               <p className="text-label-neutral font-label2-regular">{getRatingText(rating)}</p>
             )}
@@ -235,7 +230,6 @@ export default function ConsultWriteReviewPage() {
             placeholder="진행하신 상담 경험을 20자 이상 공유해 주시면, 다른 분들에게 도움이 됩니다."
             minLength={MIN_CONTENT_LENGTH}
             additionalText="최소 20자"
-            disabled={isReviewLoading}
           />
           <div className="flex flex-wrap gap-2">
             {imagePreviewUrls.length < MAX_IMAGES && (
