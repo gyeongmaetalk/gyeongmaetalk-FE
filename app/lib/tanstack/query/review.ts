@@ -41,11 +41,12 @@ export const useGetReviews = (type: SortType) => {
   });
 };
 
-export const useGetReviewById = (reviewId: string) => {
+export const useGetReviewById = (reviewId: string | null) => {
   return useQuery<BaseResponse<ReviewDetailResponse>, HTTPError, ReviewDetailResponse>({
     queryKey: [REVIEW.REVIEW_DETAIL, reviewId],
-    queryFn: () => getReviewById(reviewId),
+    queryFn: () => getReviewById(reviewId as string),
     select: (data) => data.result,
-    enabled: Boolean(reviewId),
+    enabled: !!reviewId,
+    staleTime: 1000 * 60,
   });
 };

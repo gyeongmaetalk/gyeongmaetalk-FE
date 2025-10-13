@@ -14,10 +14,11 @@ const ReviewItem = (props: ReviewItemProps) => {
   return (
     <div className="space-y-3">
       <ReviewItemHeader
-        isMyReview={props.isMine}
+        isMyReview={props.mine}
         reviewId={props.reviewId}
         createAt={props.createAt}
         name={props.name}
+        score={props.score}
       />
       {isConsultantReview && (
         <div className="bg-cool-neutral-99 flex items-center gap-1.5 rounded-[12px] px-3 py-2">
@@ -25,9 +26,9 @@ const ReviewItem = (props: ReviewItemProps) => {
             <p className="font-label2-regular text-label-strong">{props.counselorName} 상담사</p>
             <Verified />
           </div>
-          <div className="bg-label-alternative size-[3px]" />
+          <p className="text-label-alternative text-[3px]">●</p>
           <p className="font-label2-regular text-label-alternative">
-            {formatDate({ date: props.counselDateTime, withTime: true })} 상담완료
+            {formatDate({ date: props.counselDate, withTime: true })} 상담완료
           </p>
         </div>
       )}
@@ -37,7 +38,11 @@ const ReviewItem = (props: ReviewItemProps) => {
         </p>
         <div className="size-20 shrink-0 rounded-[12px]">
           {props.thumbnail ? (
-            <img src={props.thumbnail} alt="리뷰 이미지" className="w-full object-cover" />
+            <img
+              src={props.thumbnail}
+              alt="리뷰 이미지"
+              className="w-full rounded-[12px] object-cover"
+            />
           ) : (
             <LogoIcon className="size-full" />
           )}
