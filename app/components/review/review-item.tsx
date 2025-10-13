@@ -14,7 +14,7 @@ const ReviewItem = (props: ReviewItemProps) => {
   return (
     <div className="space-y-3">
       <ReviewItemHeader
-        isMyReview={props.isMine}
+        isMyReview={props.mine}
         reviewId={props.reviewId}
         createAt={props.createAt}
         name={props.name}

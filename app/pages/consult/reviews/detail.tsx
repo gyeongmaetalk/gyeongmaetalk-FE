@@ -36,7 +36,7 @@ const ConsultReviewsDetailPage = ({ reviewId }: ConsultReviewsDetailPageProps) =
         ) : (
           <section className="space-y-3 px-4 py-6">
             <ReviewItemHeader
-              isMyReview={review?.isMine || false}
+              isMyReview={review?.mine || false}
               reviewId={+reviewId}
               createAt={review?.createAt || new Date().toISOString()}
               name={review?.name || "닉네임"}

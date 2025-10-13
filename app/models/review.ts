@@ -2,7 +2,7 @@ export interface ConsultantReviewListItemDTO {
   reviewId: number;
   name: string;
   createAt: string;
-  isMine: boolean;
+  mine: boolean;
   score: number;
   content: string;
   imageCount: number;
@@ -31,7 +31,7 @@ export interface ReviewDetailResponse {
   name: string;
   createAt: string;
   counselDateTime: string;
-  isMine: boolean;
+  mine: boolean;
   score: number;
   content: string;
   images: string[];
