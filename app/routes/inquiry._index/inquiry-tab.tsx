@@ -75,7 +75,7 @@ export default function InquiryTab() {
             <p>개인정보 수집 및 이용 동의 (필수)</p>
           </Label>
         </div>
-        <Button type="submit" className="self-stretch">
+        <Button type="submit" className="self-stretch" disabled={form.formState.isSubmitting}>
           문의하기
         </Button>
       </div>

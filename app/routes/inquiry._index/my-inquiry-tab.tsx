@@ -64,13 +64,16 @@ export default function MyInquiryTab() {
               </div>
             </Accordion.Header>
             <Accordion.Content>
-              <p className="font-label1-normal-regular text-label-neutral">
-                {qna.qnaStatus === "PENDING" ? "답변 대기" : qna.answerContent}
-              </p>
+              <p className="font-label1-normal-regular text-label-neutral">{qna.qnaContent}</p>
               {qna.answerTime && (
-                <p className="font-label1-normal-regular text-cool-neutral-70 mt-2">
-                  {getQnaAnswerTime(qna.answerTime)}
-                </p>
+                <div className="mt-2 space-y-1">
+                  <p className="font-label1-normal-regular text-label-neutral">
+                    {qna.answerContent}
+                  </p>
+                  <p className="font-label1-normal-regular text-cool-neutral-70">
+                    {getQnaAnswerTime(qna.answerTime)}
+                  </p>
+                </div>
               )}
             </Accordion.Content>
           </Accordion>
