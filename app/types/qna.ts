@@ -7,3 +7,8 @@ export interface QnaListItem {
   answerContent: string;
   answerTime: string;
 }
+
+export interface FaqListItem {
+  question: string;
+  answer: string;
+}
