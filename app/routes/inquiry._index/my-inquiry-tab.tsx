@@ -31,15 +31,15 @@ export default function MyInquiryTab() {
 
   return (
     <div className="h-full space-y-2 px-5">
-      {isLoading || !myQna ? (
-        <div className="flex h-full items-center">
-          <Loader2 className="text-primary-normal mx-auto size-10 animate-spin" />
-        </div>
-      ) : isError ? (
+      {isError ? (
         <div className="flex h-full items-center">
           <p className="font-label1-normal-regular text-label-neutral mx-auto">
             오류가 발생했습니다.
           </p>
+        </div>
+      ) : isLoading || !myQna ? (
+        <div className="flex h-full items-center">
+          <Loader2 className="text-primary-normal mx-auto size-10 animate-spin" />
         </div>
       ) : myQna.length === 0 ? (
         <div className="flex h-full items-center">
