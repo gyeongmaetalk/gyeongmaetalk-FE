@@ -1,33 +1,81 @@
+import { Loader2 } from "lucide-react";
+
 import Accordion from "~/components/ui/accordion";
+import { useGetMyQna } from "~/lib/tanstack/query/qna";
+import { cn } from "~/lib/utils";
+import type { QnaStatus } from "~/types/qna";
+
+const getQnaStatus = (status: QnaStatus) => {
+  switch (status) {
+    case "PENDING":
+      return "답변 대기";
+    case "ANSWERED":
+      return "답변 완료";
+  }
+};
+
+const getQnaAnswerTime = (time: string) => {
+  const date = new Date(time);
+  return new Intl.DateTimeFormat("ko-KR", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    weekday: "short",
+  })
+    .format(date)
+    .replace(/(\d{4})\. (\d{2})\. (\d{2})\. (.+)/, "$1.$2.$3 $4");
+};
 
 export default function MyInquiryTab() {
+  const { data: myQna, isLoading, isError } = useGetMyQna();
+
   return (
-    <div className="space-y-2 px-5">
-      <Accordion>
-        <Accordion.Header>
-          <div className="flex w-full items-center justify-between gap-2">
-            <p className="font-body2-normal-bold">상담은 얼마나 진행하나요?</p>
-            <p className="text-label-alternative font-label1-normal-bold mr-2">답변 대기</p>
-          </div>
-        </Accordion.Header>
-        <Accordion.Content>
-          <p className="font-label1-normal-regular text-label-neutral">답변 대기</p>
-        </Accordion.Content>
-      </Accordion>
-      <Accordion>
-        <Accordion.Header>
-          <div className="flex w-full items-center justify-between gap-2">
-            <p className="font-body2-normal-bold">상담은 얼마나 진행하나요?</p>
-            <p className="text-status-positive font-label1-normal-bold mr-2">답변 완료</p>
-          </div>
-        </Accordion.Header>
-        <Accordion.Content>
-          <p className="font-label1-normal-regular text-label-neutral">
-            제목에 대한 상세 내용을 입력해주세요. 긴 컨텐츠라면 접은 상태를 기본값으로 사용하세요.
+    <div className="h-full space-y-2 px-5">
+      {isLoading || !myQna ? (
+        <div className="flex h-full items-center">
+          <Loader2 className="text-primary-normal mx-auto size-10 animate-spin" />
+        </div>
+      ) : isError ? (
+        <div className="flex h-full items-center">
+          <p className="font-label1-normal-regular text-label-neutral mx-auto">
+            오류가 발생했습니다.
           </p>
-          <p className="font-label1-normal-regular text-cool-neutral-70 mt-2">2025.07.07(월)</p>
-        </Accordion.Content>
-      </Accordion>
+        </div>
+      ) : myQna.length === 0 ? (
+        <div className="flex h-full items-center">
+          <p className="font-label1-normal-regular text-label-neutral mx-auto">
+            문의 내역이 없습니다.
+          </p>
+        </div>
+      ) : (
+        myQna.map((qna) => (
+          <Accordion key={`${qna.qnaTitle}-${qna.qnaStatus}`}>
+            <Accordion.Header>
+              <div className="flex w-full items-center justify-between gap-2">
+                <p className="font-body2-normal-bold">{qna.qnaTitle}</p>
+                <p
+                  className={cn(
+                    "font-label1-normal-bold mr-2",
+                    qna.qnaStatus === "PENDING" ? "text-label-alternative" : "text-status-positive"
+                  )}
+                >
+                  {getQnaStatus(qna.qnaStatus)}
+                </p>
+              </div>
+            </Accordion.Header>
+            <Accordion.Content>
+              <p className="font-label1-normal-regular text-label-neutral">
+                {qna.qnaStatus === "PENDING" ? "답변 대기" : qna.answerContent}
+              </p>
+              {qna.answerTime && (
+                <p className="font-label1-normal-regular text-cool-neutral-70 mt-2">
+                  {getQnaAnswerTime(qna.answerTime)}
+                </p>
+              )}
+            </Accordion.Content>
+          </Accordion>
+        ))
+      )}
     </div>
   );
 }
