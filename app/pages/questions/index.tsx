@@ -1,28 +1,29 @@
 import Accordion from "~/components/ui/accordion";
+import { useGetFAQ } from "~/lib/tanstack/query/qna";
 
 export default function QuestionsPage() {
+  const { data: faq } = useGetFAQ();
+
+  if (faq?.length === 0) {
+    return (
+      <div className="flex h-full items-center justify-center">
+        <p className="font-label1-normal-regular text-label-neutral">자주 묻는 질문이 없습니다</p>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-2 px-5">
-      <Accordion>
-        <Accordion.Header>
-          <p className="font-body2-normal-bold">상담은 얼마나 진행하나요?</p>
-        </Accordion.Header>
-        <Accordion.Content>
-          <p className="font-label1-normal-regular text-label-neutral">
-            제목에 대한 상세 내용을 입력해주세요. 긴 컨텐츠라면 접은 상태를 기본값으로 사용하세요.
-          </p>
-        </Accordion.Content>
-      </Accordion>
-      <Accordion>
-        <Accordion.Header>
-          <p className="font-body2-normal-bold">상담은 얼마나 진행하나요?</p>
-        </Accordion.Header>
-        <Accordion.Content>
-          <p className="font-label1-normal-regular text-label-neutral">
-            제목에 대한 상세 내용을 입력해주세요. 긴 컨텐츠라면 접은 상태를 기본값으로 사용하세요.
-          </p>
-        </Accordion.Content>
-      </Accordion>
+      {faq?.map((item) => (
+        <Accordion key={item.question}>
+          <Accordion.Header>
+            <p className="font-body2-normal-bold">{item.question}</p>
+          </Accordion.Header>
+          <Accordion.Content>
+            <p className="font-label1-normal-regular text-label-neutral">{item.answer}</p>
+          </Accordion.Content>
+        </Accordion>
+      ))}
     </div>
   );
 }
