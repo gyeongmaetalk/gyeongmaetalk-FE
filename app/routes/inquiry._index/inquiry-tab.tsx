@@ -3,19 +3,20 @@ import { Checkbox } from "~/components/ui/checkbox";
 import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
 import { Textfield } from "~/components/ui/textfield";
-import { infoToast } from "~/utils/toast";
-
-interface FormData {
-  title: string;
-  content: string;
-  isAgree: string;
-}
+import { useCreateMyQna } from "~/lib/tanstack/mutation/qna";
+import { errorToast, infoToast } from "~/utils/toast";
 
 export default function InquiryTab() {
+  const { mutate: createMyQna } = useCreateMyQna();
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
-    const { title, content, isAgree } = Object.fromEntries(formData) as unknown as FormData;
+    const { title, content, isAgree } = Object.fromEntries(formData) as unknown as {
+      title: string;
+      content: string;
+      isAgree: boolean;
+    };
 
     if (!title || !content) {
       return infoToast("모든 필수 항목을 입력해주세요.");
@@ -24,7 +25,22 @@ export default function InquiryTab() {
       return infoToast("개인정보 수집 및 이용 동의를 동의해주세요.");
     }
 
-    // TODO: 문의하기 API 호출
+    createMyQna(
+      {
+        title,
+        content,
+        isAgree,
+      },
+      {
+        onSuccess: () => {
+          infoToast("문의가 등록되었습니다.");
+        },
+        onError: (error) => {
+          errorToast("문의 등록에 실패했습니다.");
+          console.error(error);
+        },
+      }
+    );
   };
 
   return (
