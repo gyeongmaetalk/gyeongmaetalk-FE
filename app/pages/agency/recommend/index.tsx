@@ -64,7 +64,7 @@ const AgencyRecommendPage = () => {
         <section className="space-y-6 px-4 py-6">
           {data.map((item) => (
             <Fragment key={item.id}>
-              <AgencyRecommendItem status="buy" {...item} />
+              <AgencyRecommendItem {...item} />
               <Divider className="bg-cool-neutral-98" />
             </Fragment>
           ))}

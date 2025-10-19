@@ -8,12 +8,7 @@ import { DragCarousel, DragCarouselItem } from "~/components/ui/carousel/drag-ca
 import type { PropertyListItemProps } from "~/types/property";
 import { formatArea, formatDate, formatPrice } from "~/utils/format";
 
-interface AgencyRecommendItemProps extends PropertyListItemProps {
-  status: "buy" | "not-buy";
-}
-
 export default function AgencyRecommendItem({
-  status,
   id,
   address,
   area,
@@ -21,14 +16,15 @@ export default function AgencyRecommendItem({
   appraisedPrice,
   minPrice,
   images,
-}: AgencyRecommendItemProps) {
+  buildingType,
+  updateDate,
+  purchased,
+}: PropertyListItemProps) {
   const navigate = useNavigate();
-
-  const isBuy = status === "buy";
 
   const onRouteToApplyRecommendDetail = (id: number) => {
     // 구매하기 버튼이라면 토스 페이먼츠로 이동
-    if (!isBuy) return;
+    if (!purchased) return;
     navigate(`/agency/recommend/${id}`);
   };
 
@@ -36,13 +32,15 @@ export default function AgencyRecommendItem({
     <div className="space-y-3">
       <div className="space-y-1.5">
         <Badge size="xs" theme="accent">
-          아파트
+          {buildingType}
         </Badge>
         <p className="font-headline1-bold text-label-strong">{address}</p>
         <div className="flex items-center justify-between">
-          <p className="font-caption1-regular text-label-alternative">25.6.23 업데이트 매물</p>
+          <p className="font-caption1-regular text-label-alternative">
+            {formatDate({ date: updateDate, shortYear: true })} 업데이트 매물
+          </p>
           <p className="font-caption1-bold text-primary-normal">
-            {isBuy ? "구매완료" : formatPrice(20000)}
+            {purchased ? "구매완료" : formatPrice(20000)}
           </p>
         </div>
       </div>
@@ -94,10 +92,10 @@ export default function AgencyRecommendItem({
       </div>
       <Button
         className="w-full"
-        theme={isBuy ? "assistive" : "default"}
+        theme={purchased ? "assistive" : "default"}
         onClick={() => onRouteToApplyRecommendDetail(id)}
       >
-        {isBuy ? "자세히 보기" : "구매하기"}
+        {purchased ? "자세히 보기" : "구매하기"}
       </Button>
     </div>
   );
