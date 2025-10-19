@@ -1,23 +1,26 @@
 import { useQuery } from "@tanstack/react-query";
 
-import QNA from "~/constants/qna";
-import { useRefreshTokenStore } from "~/lib/zustand/user";
-import { getFAQ,getMyQna } from "~/services/qna";
+import type { HTTPError } from "ky";
+
+import { QNA } from "~/constants/qna";
+import type { BaseResponse } from "~/models";
+import type { FaqResponse, QnaResponse } from "~/models/qna";
+import { getFaq, getMyQna } from "~/services/qna";
 
 export const useGetMyQna = () => {
-  const refreshToken = useRefreshTokenStore((state) => state.refreshToken);
-  return useQuery({
+  return useQuery<BaseResponse<QnaResponse>, HTTPError, QnaResponse>({
     queryKey: [QNA.MY_QNA],
-    queryFn: () => getMyQna(),
+    queryFn: getMyQna,
     select: (data) => data.result,
-    enabled: !!refreshToken,
+    staleTime: 1000 * 60 * 5,
   });
 };
 
-export const useGetFAQ = () => {
-  return useQuery({
+export const useGetFaq = () => {
+  return useQuery<BaseResponse<FaqResponse>, HTTPError, FaqResponse>({
     queryKey: [QNA.FAQ],
-    queryFn: () => getFAQ(),
+    queryFn: getFaq,
     select: (data) => data.result,
+    staleTime: 1000 * 60 * 5,
   });
 };

@@ -1,9 +1,11 @@
-import { Navigate, useNavigate } from "react-router";
+import { useState } from "react";
+
+import { useNavigate } from "react-router";
 
 import Divider from "~/components/divider";
 import { Apple, Back, Kakao } from "~/components/icons";
 import { cn } from "~/lib/utils";
-import { useAccessTokenStore, useRefreshTokenStore } from "~/lib/zustand/user";
+import LogoutModal from "~/routes/mypage._index/logout-modal";
 
 const response = {
   auth: true,
@@ -13,14 +15,9 @@ const response = {
 };
 
 const MyPagePage = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   const navigate = useNavigate();
-
-  const accessToken = useAccessTokenStore((state) => state.accessToken);
-  const refreshToken = useRefreshTokenStore((state) => state.refreshToken);
-
-  if (!accessToken && !refreshToken) {
-    return <Navigate to="/login" replace />;
-  }
 
   return (
     <div className="flex flex-col">
@@ -109,9 +106,15 @@ const MyPagePage = () => {
 
           {/* 로그아웃 */}
           {response.auth && (
-            <div className="font-body1-normal-regular text-label-normal cursor-pointer py-3">
-              로그아웃
-            </div>
+            <>
+              <div
+                className="font-body1-normal-regular text-label-normal cursor-pointer py-3"
+                onClick={() => setIsOpen(true)}
+              >
+                로그아웃
+              </div>
+              <LogoutModal isOpen={isOpen} onCancel={() => setIsOpen(false)} />
+            </>
           )}
         </div>
       </div>

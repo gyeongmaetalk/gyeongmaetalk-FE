@@ -1,22 +1,10 @@
-export interface MyQnaDetailResponse {
-  qnaTitle: string;
-  qnaContent: string;
-  qnaStatus: "PENDING" | "ANSWERED";
-  answerContent: string;
-  answerTime: string;
-}
+import type { FaqListItem, QnaListItem } from "~/types/qna";
 
-export interface FaqResponse {
-  question: string;
-  answer: string;
-}
+export type QnaResponse = QnaListItem[];
 
-export interface MyQnaRequest {
+export interface RequestQnaRequest {
   title: string;
   content: string;
-  isAgree: boolean;
 }
 
-export interface MyQnaResponse {
-  id: number;
-}
+export type FaqResponse = FaqListItem[];

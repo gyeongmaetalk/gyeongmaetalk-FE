@@ -3,14 +3,14 @@ import { useMutation, type UseMutationOptions } from "@tanstack/react-query";
 import type { HTTPError } from "ky";
 
 import type { BaseResponse } from "~/models";
-import type { MyQnaRequest, MyQnaResponse } from "~/models/qna";
-import { createMyQna } from "~/services/qna";
+import type { RequestQnaRequest } from "~/models/qna";
+import { requestQna } from "~/services/qna";
 
-export const useCreateMyQna = (
-  options?: UseMutationOptions<BaseResponse<MyQnaResponse>, HTTPError, MyQnaRequest>
+export const useRequestQna = (
+  options?: UseMutationOptions<BaseResponse<unknown>, HTTPError, RequestQnaRequest>
 ) => {
   return useMutation({
-    mutationFn: createMyQna,
+    mutationFn: requestQna,
     ...options,
   });
 };
