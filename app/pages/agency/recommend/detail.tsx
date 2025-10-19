@@ -59,7 +59,7 @@ const AgencyRecommendDetailPage = () => {
       <section className="space-y-3 px-4 py-6">
         <div className="space-y-1">
           <Badge size="xs" theme="accent">
-            아파트
+            {data.buildingType}
           </Badge>
           <div className="flex items-center gap-1">
             <p className="font-headline1-bold text-label-strong">{data.name}</p>
@@ -92,7 +92,7 @@ const AgencyRecommendDetailPage = () => {
           </div>
         </div>
         <p className="font-caption1-regular text-label-alternative">
-          {formatDate({ date: data.registrationDate, shortYear: true })} 업데이트 매물
+          {formatDate({ date: data.updateDate, shortYear: true })} 업데이트 매물
         </p>
       </section>
       <Divider className="h-2" />

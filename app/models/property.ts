@@ -28,4 +28,7 @@ export interface PropertyDetailResponse {
   tenant: string;
   expertComment: string;
   images: string[];
+  buildingType: string;
+  updateDate: string;
+  purchased: boolean;
 }
