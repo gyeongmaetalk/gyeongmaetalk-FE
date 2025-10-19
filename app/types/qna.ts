@@ -4,6 +4,7 @@ export interface QnaListItem {
   qnaTitle: string;
   qnaContent: string;
   qnaStatus: QnaStatus;
+  createdAt: string;
   answerContent: string;
   answerTime: string;
 }

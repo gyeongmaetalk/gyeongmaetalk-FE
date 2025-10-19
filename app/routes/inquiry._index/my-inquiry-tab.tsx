@@ -30,7 +30,7 @@ export default function MyInquiryTab() {
   const { data: myQna, isLoading, isError } = useGetMyQna();
 
   return (
-    <div className="h-full space-y-2 px-5">
+    <div className="h-full space-y-2 px-2">
       {isError ? (
         <div className="flex h-full items-center">
           <p className="font-label1-normal-regular text-label-neutral mx-auto">
@@ -63,10 +63,16 @@ export default function MyInquiryTab() {
                 </p>
               </div>
             </Accordion.Header>
-            <Accordion.Content>
-              <p className="font-label1-normal-regular text-label-neutral">{qna.qnaContent}</p>
+            <Accordion.Content className="space-y-2">
+              <div className="space-y-2 px-2">
+                <p className="font-label1-normal-regular text-label-neutral">{qna.qnaContent}</p>
+                <p className="font-label1-normal-regular text-cool-neutral-70">
+                  {getQnaAnswerTime(qna.createdAt)}
+                </p>
+              </div>
               {qna.answerTime && (
-                <div className="mt-2 space-y-1">
+                <div className="bg-cool-neutral-99 space-y-2 px-2 py-3">
+                  <p className="font-label1-normal-bold text-label-normal">답변</p>
                   <p className="font-label1-normal-regular text-label-neutral">
                     {qna.answerContent}
                   </p>
