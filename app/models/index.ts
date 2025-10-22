@@ -5,10 +5,12 @@ export interface BaseResponse<T> {
   result: T;
 }
 
-export interface PaginationResponse<T> extends BaseResponse<T> {
+interface Pagination {
   page: number;
   totalPages: number;
   totalElements: number;
   isFirst: boolean;
   isLast: boolean;
 }
+
+export type PaginationResponse<T> = BaseResponse<T & Pagination>;
