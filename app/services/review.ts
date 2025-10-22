@@ -61,7 +61,6 @@ export const reportReview = ({
 export const getMyReviews = async (
   page: number
 ): Promise<PaginationResponse<ReviewListResponse>> => {
-  console.log("page", page);
   const searchParams = new URLSearchParams({ page: page.toString(), size: "10" });
   return api.get("reviews/my", { searchParams }).json();
 };
