@@ -1,10 +1,11 @@
 import { Apple, Kakao as KakaoIcon, LogoIcon, LogoText } from "~/components/icons";
 import { Button } from "~/components/ui/button";
+import { AuthProvider } from "~/constants/auth";
 import { baseUrl } from "~/utils/env";
 
 const LoginPage = () => {
-  const onKakaoLogin = () => {
-    window.location.href = baseUrl + "/oauth2/authorization/kakao";
+  const onLogin = (provider: AuthProvider) => {
+    window.location.href = `${baseUrl}/oauth2/authorization/${provider}`;
   };
 
   return (
@@ -21,13 +22,16 @@ const LoginPage = () => {
           간편 로그인으로 빠르게 경매톡을 시작해보세요!
         </p>
         <div className="flex w-full flex-col gap-3 px-4">
-          <Button className="font-headline2-bold flex items-center gap-1 bg-black text-white hover:bg-black/85 active:bg-black/75">
+          <Button
+            className="font-headline2-bold flex items-center gap-1 bg-black text-white hover:bg-black/85 active:bg-black/75"
+            onClick={() => onLogin(AuthProvider.APPLE)}
+          >
             <Apple className="size-5" />
             <span className="font-body1-normal-medium">Apple로 계속하기</span>
           </Button>
           <Button
             className="font-headline2-bold bg-kakao hover:bg-kakao/85 active:bg-kakao/75 flex items-center gap-1 text-black/85"
-            onClick={onKakaoLogin}
+            onClick={() => onLogin(AuthProvider.KAKAO)}
           >
             <KakaoIcon className="size-5" />
             <span className="font-body1-normal-medium">카카오로 계속하기</span>

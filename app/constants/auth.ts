@@ -1,4 +1,4 @@
 export enum AuthProvider {
-  KAKAO = "KAKAO",
-  APPLE = "APPLE",
+  KAKAO = "kakao",
+  APPLE = "apple",
 }
