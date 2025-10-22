@@ -15,6 +15,8 @@ export default function RedirectPage() {
   const [searchParams] = useSearchParams();
 
   const code = searchParams.get("code");
+  const registered = searchParams.get("registered");
+  const isRegistered = registered === "true";
 
   const navigate = useNavigate();
 
@@ -41,7 +43,7 @@ export default function RedirectPage() {
           refreshToken: result.refreshToken,
         });
 
-        if (result.registered) {
+        if (isRegistered) {
           setAccessToken(result.accessToken);
           setRefreshToken(result.refreshToken);
           navigate("/", { replace: true });
