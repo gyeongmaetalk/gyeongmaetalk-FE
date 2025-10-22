@@ -1,4 +1,5 @@
 import { Loader2 } from "lucide-react";
+import { useNavigate } from "react-router";
 
 import ConsultantReviewCard from "~/components/card/consultant-review-card";
 import FloatingContainer from "~/components/container/floating-container";
@@ -17,6 +18,8 @@ interface ConsultReviewsDetailPageProps {
 
 const ConsultReviewsDetailPage = ({ reviewId }: ConsultReviewsDetailPageProps) => {
   const { data: review, isLoading, isError, error } = useGetReviewById(reviewId);
+
+  const navigate = useNavigate();
 
   const isNotFoundError = isError && error.response.status === 404;
 
@@ -79,7 +82,12 @@ const ConsultReviewsDetailPage = ({ reviewId }: ConsultReviewsDetailPageProps) =
         )}
       </PageLayout>
       <FloatingContainer>
-        <Button className="w-full" variant="outlined" theme="assistive">
+        <Button
+          className="w-full"
+          variant="outlined"
+          theme="assistive"
+          onClick={() => navigate(-1)}
+        >
           후기 목록으로 이동
         </Button>
       </FloatingContainer>

@@ -57,3 +57,10 @@ export const reportReview = ({
 }: ReviewReportRequest): Promise<BaseResponse<ReviewResponse>> => {
   return api.post(`reviews/${reviewId}/reports`, { searchParams: body }).json();
 };
+
+export const getMyReviews = async (
+  page: number
+): Promise<PaginationResponse<ReviewListResponse>> => {
+  const searchParams = new URLSearchParams({ page: page.toString(), size: "10" });
+  return api.get("reviews/my", { searchParams }).json();
+};

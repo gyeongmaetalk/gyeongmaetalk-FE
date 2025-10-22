@@ -6,7 +6,7 @@ import type { SortType } from "~/constants/api";
 import { REVIEW } from "~/constants/review";
 import type { BaseResponse } from "~/models";
 import type { ReviewDetailResponse } from "~/models/review";
-import { getConsultantReviews, getReviewById, getReviews } from "~/services/review";
+import { getConsultantReviews, getMyReviews, getReviewById, getReviews } from "~/services/review";
 import { calculatePaigination } from "~/utils/api";
 
 export const useGetConsultantReviews = ({
@@ -48,5 +48,15 @@ export const useGetReviewById = (reviewId: string | null) => {
     select: (data) => data.result,
     enabled: !!reviewId,
     staleTime: 1000 * 60,
+  });
+};
+
+export const useGetMyReviews = () => {
+  return useInfiniteQuery({
+    queryKey: [REVIEW.MY_REVIEWS],
+    queryFn: ({ pageParam = 0 }) => getMyReviews(pageParam),
+    getNextPageParam: calculatePaigination,
+    initialPageParam: 0,
+    select: (data) => data.pages.flatMap((page) => page.result.reviews),
   });
 };

@@ -8,10 +8,11 @@ import ReviewItem from "./review-item";
 import Divider from "../divider";
 
 function Review({ children, ...props }: React.ComponentProps<"div">) {
-  const className = cn("space-y-6 px-4", props.className);
+  const { className: propsClassName, ...rest } = props;
+  const className = cn("space-y-6 px-4", propsClassName);
 
   return (
-    <section className={className} {...props}>
+    <section className={className} {...rest}>
       {children}
     </section>
   );
@@ -39,20 +40,18 @@ interface ReviewListProps {
 }
 
 function ReviewList({ reviews }: ReviewListProps) {
-  return (
+  return reviews.length > 0 ? (
     <div className="space-y-6">
-      {reviews.length > 0 ? (
-        reviews.map((review, index) => (
-          <Fragment key={index}>
-            <ReviewItem {...review} />
-            {index !== 9 && <Divider className="bg-cool-neutral-98" />}
-          </Fragment>
-        ))
-      ) : (
-        <div className="flex h-full items-center justify-center">
-          <p className="font-label1-normal-medium text-label-neutral">리뷰가 없어요.</p>
-        </div>
-      )}
+      {reviews.map((review, index) => (
+        <Fragment key={index}>
+          <ReviewItem {...review} />
+          {index !== 9 && <Divider className="bg-cool-neutral-98" />}
+        </Fragment>
+      ))}
+    </div>
+  ) : (
+    <div className="flex h-full items-center justify-center">
+      <p className="font-label1-normal-medium text-label-neutral">리뷰가 없어요.</p>
     </div>
   );
 }

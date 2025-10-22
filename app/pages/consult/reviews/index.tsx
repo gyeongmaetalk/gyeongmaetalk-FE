@@ -8,6 +8,7 @@ import { Back, Close } from "~/components/icons";
 import { WithBackHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 import { Review, ReviewHeader, ReviewList } from "~/components/review";
+import SentinelSpinner from "~/components/sentinel-spinner";
 import { SortType } from "~/constants/api";
 import { useGetReviews } from "~/lib/tanstack/query/review";
 
@@ -36,7 +37,14 @@ const ConsultReviewsPage = () => {
   const reservationText = getReservationText(reservationStatus);
   const [isShowModal, setIsShowModal] = useState(Boolean(reservationText));
 
-  const { data: reviews = [], isLoading, isError } = useGetReviews(sort as SortType);
+  const {
+    data: reviews = [],
+    isLoading,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetReviews(sort as SortType);
 
   return (
     <PageLayout header={<WithBackHeader title="상담후기" />}>
@@ -72,10 +80,16 @@ const ConsultReviewsPage = () => {
               </div>
             </section>
           )}
-          <Review>
+          <Review className="h-[calc(100%-52px)]">
             <ReviewHeader sort={sort} totalCount={reviews.length} />
             <ReviewList reviews={reviews} />
           </Review>
+          <SentinelSpinner
+            fetchNextPage={fetchNextPage}
+            hasNextPage={hasNextPage}
+            isLoading={isLoading}
+            isFetchingNextPage={isFetchingNextPage}
+          />
         </>
       )}
     </PageLayout>

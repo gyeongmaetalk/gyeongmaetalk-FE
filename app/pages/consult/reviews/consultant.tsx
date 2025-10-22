@@ -5,6 +5,7 @@ import ConsultantReviewCard from "~/components/card/consultant-review-card";
 import { WithBackHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 import { Review, ReviewHeader, ReviewList } from "~/components/review";
+import SentinelSpinner from "~/components/sentinel-spinner";
 import { SortType } from "~/constants/api";
 import { useGetConsultantReviews } from "~/lib/tanstack/query/review";
 
@@ -17,11 +18,16 @@ const ConsultReviewsConsultantPage = () => {
     return <Navigate to="/consult/reviews" />;
   }
 
-  const { data = { consultantReviews: [], counselorInfo: null }, isLoading } =
-    useGetConsultantReviews({
-      consultantId,
-      type: sort as SortType,
-    });
+  const {
+    data = { consultantReviews: [], counselorInfo: null },
+    isLoading,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetConsultantReviews({
+    consultantId,
+    type: sort as SortType,
+  });
 
   return (
     <PageLayout header={<WithBackHeader title="이정훈 상담사 후기" />}>
@@ -35,7 +41,7 @@ const ConsultReviewsConsultantPage = () => {
       {isLoading ? (
         <Loader2 className="text-primary-normal mx-auto size-10 animate-spin" />
       ) : (
-        <Review>
+        <Review className="h-[calc(100%-182px)]">
           <ReviewHeader
             consultantId={consultantId}
             sort={sort}
@@ -44,6 +50,12 @@ const ConsultReviewsConsultantPage = () => {
           <ReviewList reviews={data.consultantReviews} />
         </Review>
       )}
+      <SentinelSpinner
+        fetchNextPage={fetchNextPage}
+        hasNextPage={hasNextPage}
+        isLoading={isLoading}
+        isFetchingNextPage={isFetchingNextPage}
+      />
     </PageLayout>
   );
 };
