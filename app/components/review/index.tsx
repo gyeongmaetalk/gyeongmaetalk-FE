@@ -8,10 +8,11 @@ import ReviewItem from "./review-item";
 import Divider from "../divider";
 
 function Review({ children, ...props }: React.ComponentProps<"div">) {
-  const className = cn("space-y-6 px-4", props.className);
+  const { className: propsClassName, ...rest } = props;
+  const className = cn("space-y-6 px-4", propsClassName);
 
   return (
-    <section className={className} {...props}>
+    <section className={className} {...rest}>
       {children}
     </section>
   );

@@ -41,7 +41,7 @@ const ConsultReviewsConsultantPage = () => {
       {isLoading ? (
         <Loader2 className="text-primary-normal mx-auto size-10 animate-spin" />
       ) : (
-        <Review>
+        <Review className="h-[calc(100%-182px)]">
           <ReviewHeader
             consultantId={consultantId}
             sort={sort}

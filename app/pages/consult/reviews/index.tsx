@@ -80,7 +80,7 @@ const ConsultReviewsPage = () => {
               </div>
             </section>
           )}
-          <Review>
+          <Review className="h-[calc(100%-52px)]">
             <ReviewHeader sort={sort} totalCount={reviews.length} />
             <ReviewList reviews={reviews} />
           </Review>
