@@ -5,6 +5,8 @@ import { Link } from "react-router";
 import Divider from "~/components/divider";
 import { Apple, Back, Kakao } from "~/components/icons";
 import { AuthProvider } from "~/constants/auth";
+import { WebviewEvent } from "~/constants/webview";
+import { useWebView } from "~/hooks/use-webview";
 import { useGetMyInfo } from "~/lib/tanstack/query/auth";
 import { cn } from "~/lib/utils";
 import LogoutModal from "~/routes/mypage._index/logout-modal";
@@ -13,6 +15,12 @@ const MyPagePage = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { data: myInfo, isError } = useGetMyInfo();
+
+  const { postMessage } = useWebView();
+
+  const onOpenServiceIntroduction = () => {
+    postMessage(WebviewEvent.OPEN_SERVICE_INTRODUCTION);
+  };
 
   if (isError) {
     return (
@@ -99,7 +107,10 @@ const MyPagePage = () => {
         {/* 안내 */}
         <div className="flex flex-col gap-2">
           <div className="font-label2-medium text-cool-neutral-50">안내</div>
-          <button className="font-body1-normal-regular text-label-normal cursor-pointer py-3 text-start">
+          <button
+            className="font-body1-normal-regular text-label-normal cursor-pointer py-3 text-start"
+            onClick={onOpenServiceIntroduction}
+          >
             서비스 소개
           </button>
           <Link
