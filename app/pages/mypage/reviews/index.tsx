@@ -31,7 +31,7 @@ export default function MyPageReviewsPage() {
   }
 
   return (
-    <div className="h-full">
+    <div className="h-full py-6">
       <Review className="h-full">
         <ReviewList reviews={data} />
       </Review>
