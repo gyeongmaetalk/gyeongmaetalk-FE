@@ -73,9 +73,12 @@ const MyPagePage = () => {
         {myInfo && (
           <div className="flex flex-col gap-2">
             <div className="font-label2-medium text-cool-neutral-50">후기 및 알림</div>
-            <div className="font-body1-normal-regular text-label-normal cursor-pointer py-3">
+            <Link
+              className="font-body1-normal-regular text-label-normal cursor-pointer py-3"
+              to="/mypage/reviews"
+            >
               작성한 후기
-            </div>
+            </Link>
             <Link
               className="font-body1-normal-regular text-label-normal cursor-pointer py-3"
               to="/mypage/alarm"
