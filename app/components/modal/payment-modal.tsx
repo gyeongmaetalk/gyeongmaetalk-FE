@@ -66,7 +66,7 @@ export default function PaymentModal({ id, isOpen, onClose }: PaymentModalProps)
       });
     } catch (error) {
       console.error("결제 요청 중 오류 발생:", error);
-      errorToast("결제에 실패했어요. 고객센터에 문의해주세요.");
+      errorToast("결제에 실패했어요. 다시 시도해주세요.");
     } finally {
       setIsLoading(false);
     }
