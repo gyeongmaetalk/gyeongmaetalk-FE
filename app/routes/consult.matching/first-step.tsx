@@ -7,6 +7,7 @@ import { WithCloseHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 import CancelApplyConsult from "~/components/modal/cancel-apply-consult";
 import { Button } from "~/components/ui/button";
+import { useGetMyInfo } from "~/lib/tanstack/query/auth";
 import type { MatchCounselResponse } from "~/models/counsel";
 import type { Mode } from "~/pages/consult/matching";
 
@@ -16,6 +17,8 @@ interface FirstStepProps {
 }
 
 const FirstStep = ({ consultant, onChangeMode }: FirstStepProps) => {
+  const { data: myInfo } = useGetMyInfo();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRematched, setIsRematched] = useState(false);
 
@@ -36,7 +39,7 @@ const FirstStep = ({ consultant, onChangeMode }: FirstStepProps) => {
         <div className="flex flex-col items-center gap-4 text-center">
           <img src={complete} alt="complete" className="size-[52px]" />
           <p className="text-cool-neutral-10 font-heading2-bold">
-            OO님께 딱 맞는
+            {myInfo?.name ?? "OO"}님께 딱 맞는
             <br />
             <span className="text-primary-normal">경매 전문 상담사</span>를 찾아드렸어요.
           </p>

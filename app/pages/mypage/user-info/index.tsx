@@ -10,7 +10,7 @@ import { AUTH } from "~/constants/auth";
 import { queryClient } from "~/lib/tanstack";
 import { useUpdateUserInfo } from "~/lib/tanstack/mutation/auth";
 import { useGetMyInfo } from "~/lib/tanstack/query/auth";
-import { type UpdateUserInfoForm,updateUserInfoFormSchema } from "~/routes/mypage.userinfo/schema";
+import { type UpdateUserInfoForm, updateUserInfoFormSchema } from "~/routes/mypage.userinfo/schema";
 import { errorToast, successToast } from "~/utils/toast";
 
 const UserInfoPage = () => {
