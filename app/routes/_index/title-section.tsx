@@ -2,21 +2,13 @@ import { useNavigate } from "react-router";
 
 import { Button } from "~/components/ui/button";
 
-import { statusMap } from "./constant";
+import { Status, statusMap } from "./constant";
 
-export interface StatusMapType {
-  [key: string]: {
-    title?: string;
-    highlightText?: string;
-    titleAfter?: string;
-    description: string;
-    hasButton: boolean;
-    buttonText?: string;
-    buttonLink?: string;
-  };
+interface TitleSectionProps {
+  status: Status;
 }
 
-export default function TitleSection({ status }: { status: string }) {
+export default function TitleSection({ status }: TitleSectionProps) {
   const navigate = useNavigate();
   const { title, highlightText, titleAfter, description, hasButton, buttonText, buttonLink } =
     statusMap[status];
