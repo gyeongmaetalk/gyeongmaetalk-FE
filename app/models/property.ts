@@ -31,6 +31,8 @@ export interface PropertyDetailResponse {
   buildingType: string;
   updateDate: string;
   purchased: boolean;
+}
+
 export interface ReadySubscribeResponse {
   subscriptionId: number;
   orderId: string;

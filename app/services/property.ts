@@ -1,10 +1,10 @@
 import { api } from "~/lib/ky";
 import type { BaseResponse, PaginationResponse } from "~/models";
-import type { 
-  PropertyDetailResponse, 
-  PropertyListResponse,
+import type {
   ConfirmSubscriptionRequest,
   ConfirmSubscriptionResponse,
+  PropertyDetailResponse,
+  PropertyListResponse,
   ReadySubscribeResponse,
 } from "~/models/property";
 
@@ -19,8 +19,7 @@ export const getPropertyDetail = async (
   id: string
 ): Promise<BaseResponse<PropertyDetailResponse>> => {
   return api.get(`properties/${id}`).json();
-import type {
-} from "~/models/property";
+};
 
 export const readySubscribe = async (
   counselorId: number
