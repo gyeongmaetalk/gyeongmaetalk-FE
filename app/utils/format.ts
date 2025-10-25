@@ -70,3 +70,9 @@ export const formatDate = ({
 
   return `${formattedYear}.${month}.${day}`;
 };
+
+export const formatArea = (pyeong: number): string => {
+  // 평을 제곱미터로 변환
+  const squareMeter = Math.round(pyeong * 3.3058 * 100) / 100;
+  return `${squareMeter}㎡ (${pyeong}평)`;
+};

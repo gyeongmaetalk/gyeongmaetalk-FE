@@ -5,20 +5,26 @@ import outsideBuilding from "~/assets/agency-recommend/outside-building.png";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { DragCarousel, DragCarouselItem } from "~/components/ui/carousel/drag-carousel";
-import { formatPrice } from "~/utils/format";
+import type { PropertyListItemProps } from "~/types/property";
+import { formatArea, formatDate, formatPrice } from "~/utils/format";
 
-interface AgencyRecommendItemProps {
-  status: "buy" | "not-buy";
-}
-
-export default function AgencyRecommendItem({ status }: AgencyRecommendItemProps) {
+export default function AgencyRecommendItem({
+  id,
+  address,
+  area,
+  biddingDate,
+  appraisedPrice,
+  minPrice,
+  images,
+  buildingType,
+  updateDate,
+  purchased,
+}: PropertyListItemProps) {
   const navigate = useNavigate();
 
-  const isBuy = status === "buy";
-
-  const onRouteToApplyRecommendDetail = (id: string) => {
+  const onRouteToApplyRecommendDetail = (id: number) => {
     // 구매하기 버튼이라면 토스 페이먼츠로 이동
-    if (!isBuy) return;
+    if (!purchased) return;
     navigate(`/agency/recommend/${id}`);
   };
 
@@ -26,13 +32,15 @@ export default function AgencyRecommendItem({ status }: AgencyRecommendItemProps
     <div className="space-y-3">
       <div className="space-y-1.5">
         <Badge size="xs" theme="accent">
-          아파트
+          {buildingType}
         </Badge>
-        <p className="font-headline1-bold text-label-strong">서울 역세권 30평 아파트</p>
+        <p className="font-headline1-bold text-label-strong">{address}</p>
         <div className="flex items-center justify-between">
-          <p className="font-caption1-regular text-label-alternative">25.6.23 업데이트 매물</p>
+          <p className="font-caption1-regular text-label-alternative">
+            {formatDate({ date: updateDate, shortYear: true })} 업데이트 매물
+          </p>
           <p className="font-caption1-bold text-primary-normal">
-            {isBuy ? "구매완료" : formatPrice(20000)}
+            {purchased ? "구매완료" : formatPrice(20000)}
           </p>
         </div>
       </div>
@@ -57,31 +65,37 @@ export default function AgencyRecommendItem({ status }: AgencyRecommendItemProps
       <div className="space-y-0.5">
         <div className="flex">
           <p className="font-caption1-bold w-14">지역</p>
-          <p className="font-label2-regular text-label-alternative">서울 도봉구</p>
+          <p className="font-label2-regular text-label-alternative">{address}</p>
         </div>
         <div className="flex">
           <p className="font-caption1-bold w-14">면적</p>
-          <p className="font-label2-regular text-label-alternative">101.28cm(30평)</p>
+          <p className="font-label2-regular text-label-alternative">{formatArea(area)}</p>
         </div>
         <div className="flex">
           <p className="font-caption1-bold w-14">입찰일</p>
-          <p className="font-label2-regular text-label-alternative">25.09.18</p>
+          <p className="font-label2-regular text-label-alternative">
+            {formatDate({ date: biddingDate })}
+          </p>
         </div>
         <div className="flex">
           <p className="font-caption1-bold w-14">감정가</p>
-          <p className="font-label2-regular text-label-alternative">3.2억</p>
+          <p className="font-label2-regular text-label-alternative">
+            {formatPrice(appraisedPrice, { showUnit: true })}
+          </p>
         </div>
         <div className="flex">
           <p className="font-caption1-bold w-14">최저가</p>
-          <p className="font-label2-regular text-label-alternative">2.4억</p>
+          <p className="font-label2-regular text-label-alternative">
+            {formatPrice(minPrice, { showUnit: true })}
+          </p>
         </div>
       </div>
       <Button
         className="w-full"
-        theme={isBuy ? "assistive" : "default"}
-        onClick={() => onRouteToApplyRecommendDetail("2024타경12345")}
+        theme={purchased ? "assistive" : "default"}
+        onClick={() => onRouteToApplyRecommendDetail(id)}
       >
-        {isBuy ? "자세히 보기" : "구매하기"}
+        {purchased ? "자세히 보기" : "구매하기"}
       </Button>
     </div>
   );

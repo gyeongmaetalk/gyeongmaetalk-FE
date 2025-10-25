@@ -9,7 +9,7 @@ import { queryClient } from "~/lib/tanstack";
 import MswProvider from "./msw-provider";
 
 const naverMapKey = import.meta.env.VITE_NAVER_MAP_KEY;
-const naverMapScriptUrl = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${naverMapKey}`;
+const naverMapScriptUrl = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${naverMapKey}&submodules=geocoder`;
 
 const RootProvider = () => {
   return (
