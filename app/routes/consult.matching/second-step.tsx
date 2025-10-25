@@ -5,6 +5,7 @@ import { Loader2 } from "lucide-react";
 import Divider from "~/components/divider";
 import { Verified } from "~/components/icons";
 import { Calendar as CalendarIcon, Person } from "~/components/icons";
+import Image from "~/components/image";
 import { Header } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 import CancelApplyConsult from "~/components/modal/cancel-apply-consult";
@@ -80,7 +81,7 @@ const SecondStep = ({ consultant, onChangeMode, setReservationResult }: SecondSt
             <p className="font-headline2-bold text-label-strong">상담사 정보</p>
           </div>
           <div className="bg-cool-neutral-98 flex items-center gap-3 rounded-lg p-3">
-            <div className="bg-cool-neutral-30 size-10 rounded-full" />
+            <Image className="size-10 rounded-full" />
             <div className="space-y-1">
               <div className="flex items-center gap-0.5">
                 <p className="font-label2-bold text-label-strong">

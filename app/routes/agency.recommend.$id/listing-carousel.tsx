@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 import insideBuilding from "~/assets/agency-recommend/inside-building.png";
 import outsideBuilding from "~/assets/agency-recommend/outside-building.png";
+import Image from "~/components/image";
 import Modal from "~/components/modal";
 import {
   Carousel,
@@ -77,7 +78,7 @@ export default function ListingCarousel() {
         <CarouselContent>
           {CAROUSEL_ITEMS.map((item, idx) => (
             <CarouselItem key={item.id}>
-              <img
+              <Image
                 src={item.image}
                 alt={item.title}
                 className="w-full cursor-pointer"
@@ -108,7 +109,7 @@ export default function ListingCarousel() {
             <CarouselContent>
               {CAROUSEL_ITEMS.map((item) => (
                 <CarouselItem key={item.id}>
-                  <img src={item.image} alt={item.title} className="w-full" />
+                  <Image src={item.image} alt={item.title} className="w-full" />
                 </CarouselItem>
               ))}
             </CarouselContent>

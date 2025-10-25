@@ -4,6 +4,10 @@ import { WithCloseHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 import SignupPage from "~/pages/signup";
 
+export function meta() {
+  return [{ title: "회원가입" }, { name: "description", content: "회원가입" }];
+}
+
 export default function SignupLayout() {
   const navigate = useNavigate();
 

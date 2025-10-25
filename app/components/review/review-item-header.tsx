@@ -1,4 +1,5 @@
 import { formatDate } from "~/utils/format";
+import { maskUserName } from "~/utils/format";
 
 import ReviewItemMenu from "./review-item-menu";
 import StarRating from "../star-rating";
@@ -28,7 +29,7 @@ const ReviewItemHeader = ({
               내글
             </Badge>
           )}
-          <p className="text-label-strong">{name}</p>
+          <p className="text-label-strong">{maskUserName(name)}</p>
           <p className="text-label-alternative text-[3px]">●</p>
           <p className="text-label-alternative">{formatDate({ date: createAt })}</p>
         </div>

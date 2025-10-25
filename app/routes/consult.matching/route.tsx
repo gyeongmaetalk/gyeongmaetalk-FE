@@ -1,8 +1,6 @@
 import ConsultMatchingPage from "~/pages/consult/matching";
 
-import type { Route } from "./+types/route";
-
-export function meta({}: Route.MetaArgs) {
+export function meta() {
   return [{ title: "상담사 매칭" }, { name: "description", content: "상담사 매칭" }];
 }
 

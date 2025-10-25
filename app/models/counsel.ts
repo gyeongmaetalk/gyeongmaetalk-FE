@@ -12,6 +12,7 @@ export interface MatchCounselResponse {
   counselorId: number;
   counselFormId: number;
   counselorName: string;
+  counselorImage: string;
   score: number;
   reviewCount: number;
   description: string;

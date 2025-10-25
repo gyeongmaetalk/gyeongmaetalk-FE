@@ -7,6 +7,7 @@ import ConsultantCard from "~/components/card/consultant-card";
 import ReservationInfoCard from "~/components/card/reservation-info-card";
 import FloatingContainer from "~/components/container/floating-container";
 import Divider from "~/components/divider";
+import Image from "~/components/image";
 import PageLayout from "~/components/layout/page-layout";
 import { Button } from "~/components/ui/button";
 import type { MatchCounselResponse, ReserveConsultResponse } from "~/models/counsel";
@@ -39,7 +40,7 @@ const LastStep = ({ consultant, reservationResult }: LastStepProps) => {
       >
         <section className="space-y-8 px-4 pb-6">
           <div className="flex flex-col items-center gap-3">
-            <img src={calendarCheck} alt="상담 일정 확정 아이콘" className="w-20" />
+            <Image src={calendarCheck} alt="상담 일정 확정 아이콘" className="w-20" />
             <p className="text-cool-neutral-10 font-heading2-bold">
               <span className="text-primary-normal">상담 일정</span>이 확정되었습니다.
             </p>

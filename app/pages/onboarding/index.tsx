@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { useNavigate, useSearchParams } from "react-router";
 
+import Image from "~/components/image";
 import { Header } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 import { Button } from "~/components/ui/button/index";
@@ -91,7 +92,7 @@ const OnboardingPage = () => {
                       {step.description}
                     </p>
                   </div>
-                  <img src={step.image} alt={step.title} className="aspect-square" />
+                  <Image src={step.image} alt={step.title} className="aspect-square" />
                 </div>
               </CarouselItem>
             ))}

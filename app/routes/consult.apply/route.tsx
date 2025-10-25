@@ -1,8 +1,6 @@
 import ConsultApplyPage from "~/pages/consult/apply";
 
-import type { Route } from "./+types/route";
-
-export function meta({}: Route.MetaArgs) {
+export function meta() {
   return [{ title: "상담 신청하기" }, { name: "description", content: "상담 신청하기" }];
 }
 

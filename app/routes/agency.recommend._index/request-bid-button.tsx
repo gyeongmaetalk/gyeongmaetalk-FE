@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 
 import complete from "~/assets/complete.png";
+import Image from "~/components/image";
 import Modal from "~/components/modal";
 import { Button } from "~/components/ui/button";
 import { useOutsideClick } from "~/hooks/use-outside-click";
@@ -34,7 +35,7 @@ export default function RequestBidButton() {
       {isOpen && (
         <Modal ref={modalRef}>
           <Modal.Header>
-            <img src={complete} alt="complete" className="mx-auto mb-1 size-[52px]" />
+            <Image src={complete} alt="complete" className="mx-auto mb-1 size-[52px]" />
             <p>
               <span className="text-primary-normal">이정훈 상담사</span>에게 입찰 요청을
               <br />
