@@ -1,4 +1,5 @@
 import { Loader2 } from "lucide-react";
+import { useNavigate } from "react-router";
 
 import ConsultantReviewCard from "~/components/card/consultant-review-card";
 import FloatingContainer from "~/components/container/floating-container";
@@ -18,6 +19,8 @@ interface ConsultReviewsDetailPageProps {
 const ConsultReviewsDetailPage = ({ reviewId }: ConsultReviewsDetailPageProps) => {
   const { data: review, isLoading, isError, error } = useGetReviewById(reviewId);
 
+  const navigate = useNavigate();
+
   const isNotFoundError = isError && error.response.status === 404;
 
   return (
@@ -36,14 +39,15 @@ const ConsultReviewsDetailPage = ({ reviewId }: ConsultReviewsDetailPageProps) =
         ) : (
           <section className="space-y-3 px-4 py-6">
             <ReviewItemHeader
-              isMyReview={review?.isMine || false}
+              isMyReview={review?.mine || false}
               reviewId={+reviewId}
               createAt={review?.createAt || new Date().toISOString()}
               name={review?.name || "닉네임"}
+              score={review?.score || 0}
             />
             <ConsultantReviewCard
               date={formatDate({
-                date: review?.counselDateTime || new Date().toISOString(),
+                date: review?.counselDate || new Date().toISOString(),
                 withTime: true,
               })}
               counselorName={review?.counselorName || "이름"}
@@ -51,7 +55,11 @@ const ConsultReviewsDetailPage = ({ reviewId }: ConsultReviewsDetailPageProps) =
               counselorImage={review?.counselorImage || ""}
             />
             {review?.images.length === 1 && (
-              <div className="aspect-image bg-cool-neutral-30 w-full rounded-[12px]" />
+              <img
+                src={review?.images[0]}
+                alt={`${review.name} 이미지`}
+                className="aspect-image w-full rounded-[12px] object-cover"
+              />
             )}
             {review?.images && review?.images.length > 1 && (
               <DragCarousel>
@@ -60,7 +68,7 @@ const ConsultReviewsDetailPage = ({ reviewId }: ConsultReviewsDetailPageProps) =
                     <img
                       src={image}
                       alt="review-image"
-                      className="aspect-image rounded-[12px] object-cover"
+                      className="aspect-image w-full rounded-[12px] object-cover"
                     />
                   </DragCarouselItem>
                 ))}
@@ -74,7 +82,12 @@ const ConsultReviewsDetailPage = ({ reviewId }: ConsultReviewsDetailPageProps) =
         )}
       </PageLayout>
       <FloatingContainer>
-        <Button className="w-full" variant="outlined" theme="assistive">
+        <Button
+          className="w-full"
+          variant="outlined"
+          theme="assistive"
+          onClick={() => navigate(-1)}
+        >
           후기 목록으로 이동
         </Button>
       </FloatingContainer>

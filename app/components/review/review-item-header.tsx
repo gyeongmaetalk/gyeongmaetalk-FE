@@ -9,9 +9,16 @@ interface ReviewItemHeaderProps {
   reviewId: number;
   createAt: string;
   name: string;
+  score: number;
 }
 
-const ReviewItemHeader = ({ isMyReview, reviewId, createAt, name }: ReviewItemHeaderProps) => {
+const ReviewItemHeader = ({
+  isMyReview,
+  reviewId,
+  createAt,
+  name,
+  score,
+}: ReviewItemHeaderProps) => {
   return (
     <div className="flex items-center justify-between">
       <div className="space-y-1.5">
@@ -22,10 +29,10 @@ const ReviewItemHeader = ({ isMyReview, reviewId, createAt, name }: ReviewItemHe
             </Badge>
           )}
           <p className="text-label-strong">{name}</p>
-          <div className="bg-label-alternative size-[3px]" />
+          <p className="text-label-alternative text-[3px]">●</p>
           <p className="text-label-alternative">{formatDate({ date: createAt })}</p>
         </div>
-        <StarRating rating={4} />
+        <StarRating rating={score} />
       </div>
       <ReviewItemMenu reviewId={reviewId} isMyReview={isMyReview} />
     </div>

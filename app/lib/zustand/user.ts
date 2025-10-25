@@ -26,7 +26,7 @@ export const useRefreshTokenStore = create<RefreshTokenStore>()(
     }),
     {
       name: "refresh-token",
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(() => sessionStorage),
     }
   )
 );

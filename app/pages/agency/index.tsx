@@ -25,9 +25,9 @@ const AgencyPage = () => {
       case CounselStatus.NONE:
         return <NotConsulted />;
       case CounselStatus.COUNSEL_BEFORE:
-        return <Consulted consultantInfo={reservedcCounselData.info} />;
+        return <Consulted info={reservedcCounselData.info} />;
       case CounselStatus.COUNSEL_AFTER:
-        return <NotPaid consultantInfo={reservedcCounselData.info} />;
+        return <NotPaid info={reservedcCounselData.info} />;
       case CounselStatus.SUBSCRIBE:
         return <Navigate to="/agency/recommend" replace />;
     }

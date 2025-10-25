@@ -8,6 +8,7 @@ import FloatingContainer from "~/components/container/floating-container";
 import Modal from "~/components/modal";
 import { Button } from "~/components/ui/button";
 import { useMatchCounsel } from "~/lib/tanstack/mutation/counsel";
+import { useGetMyInfo } from "~/lib/tanstack/query/auth";
 import { type ApplyConsultForm } from "~/routes/consult.apply/schema";
 import { errorToast } from "~/utils/toast";
 
@@ -19,6 +20,8 @@ interface LastStepProps {
 }
 
 const LastStep = ({ form }: LastStepProps) => {
+  const { data: myInfo } = useGetMyInfo();
+
   const [name, setName] = useState(form.getValues("name"));
   const [innerOption, setInnerOption] = useState("");
 
@@ -125,7 +128,7 @@ const LastStep = ({ form }: LastStepProps) => {
         <Modal className="flex flex-col items-center justify-center gap-7 bg-transparent">
           <Loader2 className="size-20 animate-spin text-white" />
           <Modal.Content className="font-heading1-bold text-white">
-            ‘OO’님에게 적합한
+            ‘{myInfo?.name ?? "사용자"}’님에게 적합한
             <br />
             경매 전문를 찾고 있어요
           </Modal.Content>

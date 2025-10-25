@@ -43,3 +43,9 @@ export interface ReservedCounselDataResponse {
   info: ReserveConsultResponse &
     Omit<MatchCounselResponse, "counselFormId"> & { isReviewed: boolean };
 }
+
+export interface CounselInfoResponse {
+  name: string;
+  experience: number;
+  counselDate: string;
+}

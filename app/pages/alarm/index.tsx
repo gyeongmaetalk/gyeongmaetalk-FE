@@ -19,7 +19,7 @@ const mockData = [
     createAt: "2025-10-08T09:00:00",
     isRead: true,
     reviewId: 1,
-    counselDateTime: "2025-10-08T09:00:00",
+    counselDate: "2025-10-08T09:00:00",
   },
   {
     type: "recommend" as const,
@@ -106,7 +106,7 @@ export default function AlarmPage() {
         mockData.map((item) => (
           <AlarmItem key={item.createAt} {...item}>
             {item.type === "review" ? (
-              <AlarmReviewItem reviewId={item.reviewId} counselDateTime={item.counselDateTime} />
+              <AlarmReviewItem reviewId={item.reviewId} counselDate={item.counselDate} />
             ) : (
               <AlarmRecommendItem
                 recommendId={item.recommendId}

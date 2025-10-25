@@ -22,12 +22,17 @@ import { Textarea } from "~/components/ui/textarea";
 import { REVIEW } from "~/constants/review";
 import { queryClient } from "~/lib/tanstack";
 import { useCreateReview, useUpdateReview } from "~/lib/tanstack/mutation/review";
-import { useGetReviewById } from "~/lib/tanstack/query/review";
+import { useGetCounselInfo } from "~/lib/tanstack/query/counsel";
+import type { ReviewDetailResponse } from "~/models/review";
 import {
   type WriteConsultReviewForm,
   writeConsultReviewFormSchema,
 } from "~/routes/consult.write/schema";
 import { errorToast, infoToast, successToast } from "~/utils/toast";
+
+interface ConsultWriteReviewPageProps {
+  review: ReviewDetailResponse | null;
+}
 
 const DEFAULT_VALUES = {
   rating: 0,
@@ -37,6 +42,7 @@ const DEFAULT_VALUES = {
 };
 
 const MAX_IMAGES = 5;
+const MIN_CONTENT_LENGTH = 20;
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
 const getRatingText = (rating: number) => {
@@ -47,7 +53,7 @@ const getRatingText = (rating: number) => {
   return "훌륭한 경험이었어요!";
 };
 
-export default function ConsultWriteReviewPage() {
+export default function ConsultWriteReviewPage({ review }: ConsultWriteReviewPageProps) {
   const [searchParams] = useSearchParams();
   const consultantId = searchParams.get("consultantId");
   const reviewId = searchParams.get("reviewId");
@@ -56,7 +62,15 @@ export default function ConsultWriteReviewPage() {
 
   const navigate = useNavigate();
 
-  const { data: review, isLoading: isReviewLoading } = useGetReviewById(reviewId || "");
+  const { data: counselInfoData, isLoading: isCounselInfoLoading } =
+    useGetCounselInfo(consultantId);
+
+  const counselorInfo = {
+    name: counselInfoData?.name || review?.counselorName || "",
+    experience: counselInfoData?.experience || review?.experience || 0,
+    counselDate:
+      counselInfoData?.counselDate || `${review?.counselDate}T${review?.counselTime}` || "",
+  };
 
   // 리뷰 생성 Mutation
   const { mutateAsync: createReview } = useCreateReview({
@@ -75,6 +89,7 @@ export default function ConsultWriteReviewPage() {
   const { mutateAsync: updateReview } = useUpdateReview({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [REVIEW.REVIEWS] });
+      queryClient.invalidateQueries({ queryKey: [REVIEW.REVIEW_DETAIL, reviewId] });
       successToast("리뷰가 수정되었어요.");
       navigate(-1);
     },
@@ -95,9 +110,8 @@ export default function ConsultWriteReviewPage() {
   const content = form.watch("content");
 
   const submitDisabled =
-    rating === 0 || content.length < 20 || !isAgree || form.formState.isSubmitting;
-  const isUpdateMode = Boolean(reviewId);
-  const statusText = isUpdateMode ? "수정" : "작성";
+    rating === 0 || content.length < MIN_CONTENT_LENGTH || !isAgree || form.formState.isSubmitting;
+  const statusText = reviewId ? "수정" : "작성";
 
   const onRatingChange = (newRating: number) => {
     if (rating === newRating) return;
@@ -149,13 +163,18 @@ export default function ConsultWriteReviewPage() {
   }
 
   const onSubmit = form.handleSubmit(async (data) => {
+    if (data.content.trim().length < MIN_CONTENT_LENGTH) {
+      errorToast("앞, 뒤 공백 제외 최소 20자 이상 작성해주세요.");
+      return;
+    }
+
     const formData = new FormData();
     const request = {
       score: data.rating,
       content: data.content,
     };
 
-    if (isUpdateMode) {
+    if (reviewId) {
       const existingImages: string[] = [];
       const reviewImages: File[] = [];
       data.images?.forEach((image) => {
@@ -165,12 +184,14 @@ export default function ConsultWriteReviewPage() {
           reviewImages.push(image);
         }
       });
-      Object.assign(request, { existingImages, reviewId });
+      Object.assign(request, { existingImages });
       formData.append("request", JSON.stringify(request));
-      reviewImages.forEach((image) => {
-        formData.append("reviewImages", image);
-      });
-      await updateReview(formData);
+      if (reviewImages.length > 0) {
+        reviewImages.forEach((image) => {
+          formData.append("reviewImages", image);
+        });
+      }
+      await updateReview({ formData, reviewId });
       return;
     }
     Object.assign(request, { consultantId });
@@ -178,16 +199,14 @@ export default function ConsultWriteReviewPage() {
 
     if (data.images) {
       data.images.forEach((image) => {
-        formData.append("images", image);
+        formData.append("reviewImages", image);
       });
     }
 
     await createReview(formData);
   });
 
-  // TODO: 연동할 때 loader 이용해서 처리해보기
   useEffect(() => {
-    if (isReviewLoading) return;
     if (review) {
       form.setValue("rating", review.score);
       form.setValue("content", review.content);
@@ -197,26 +216,26 @@ export default function ConsultWriteReviewPage() {
       );
       setImagePreviewUrls(review.images);
     }
-  }, [isReviewLoading]);
+  }, []);
 
   return (
     <>
       <PageLayout header={<WithBackHeader title={`상담후기 ${statusText}`} />} withFloating>
         <form className="space-y-5 px-4 py-6" onSubmit={onSubmit}>
-          <ConsultantReviewCard
-            date="25.6.23 18:00"
-            counselorName="이정훈"
-            experience={10}
-            counselorImage="https://i.namu.wiki/i/8mcZn4QTDZNSyG5LCLIltEOwSsrMoAG9TKsurgtD2zMPJWqQCYvZUsL_66BkJy3JmN4lhegQHg_A2iGdD-AWLw.webp"
-          />
+          {isCounselInfoLoading ? (
+            <div className="bg-cool-neutral-98 h-[6.5rem] animate-pulse rounded-lg" />
+          ) : (
+            <ConsultantReviewCard
+              date={counselorInfo.counselDate}
+              counselorName={counselorInfo.name}
+              experience={counselorInfo.experience}
+              counselorImage="https://i.namu.wiki/i/8mcZn4QTDZNSyG5LCLIltEOwSsrMoAG9TKsurgtD2zMPJWqQCYvZUsL_66BkJy3JmN4lhegQHg_A2iGdD-AWLw.webp"
+            />
+          )}
+
           <p className="font-body1-normal-bold">이정훈 상담사와 상담 경험은 어땠나요?</p>
           <div className="flex items-center gap-2">
-            <StarRating
-              rating={form.watch("rating")}
-              size="lg"
-              setRating={onRatingChange}
-              disabled={isReviewLoading}
-            />
+            <StarRating rating={form.watch("rating")} size="lg" setRating={onRatingChange} />
             {rating > 0 && (
               <p className="text-label-neutral font-label2-regular">{getRatingText(rating)}</p>
             )}
@@ -227,9 +246,8 @@ export default function ConsultWriteReviewPage() {
             onChange={(e) => form.setValue("content", e.target.value)}
             label="후기작성"
             placeholder="진행하신 상담 경험을 20자 이상 공유해 주시면, 다른 분들에게 도움이 됩니다."
-            minLength={20}
+            minLength={MIN_CONTENT_LENGTH}
             additionalText="최소 20자"
-            disabled={isReviewLoading}
           />
           <div className="flex flex-wrap gap-2">
             {imagePreviewUrls.length < MAX_IMAGES && (

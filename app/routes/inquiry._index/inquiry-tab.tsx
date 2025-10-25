@@ -1,43 +1,66 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { useForm } from "react-hook-form";
+
 import { Button } from "~/components/ui/button";
 import { Checkbox } from "~/components/ui/checkbox";
 import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
 import { Textfield } from "~/components/ui/textfield";
-import { infoToast } from "~/utils/toast";
+import { QNA } from "~/constants/qna";
+import { queryClient } from "~/lib/tanstack";
+import { useRequestQna } from "~/lib/tanstack/mutation/qna";
+import { infoToast, successToast } from "~/utils/toast";
+import { errorToast } from "~/utils/toast";
 
-interface FormData {
-  title: string;
-  content: string;
-  isAgree: string;
-}
+import { type InquiryForm, inquiryFormSchema } from "./schema";
+
+const DEFAULT_VALUES = {
+  title: "",
+  content: "",
+  isAgree: false,
+};
 
 export default function InquiryTab() {
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
-    const { title, content, isAgree } = Object.fromEntries(formData) as unknown as FormData;
+  const form = useForm<InquiryForm>({
+    resolver: zodResolver(inquiryFormSchema),
+    defaultValues: DEFAULT_VALUES,
+  });
 
-    if (!title || !content) {
+  const { mutateAsync: requestQna } = useRequestQna({
+    onSuccess: () => {
+      successToast("문의가 접수되었어요.");
+      queryClient.invalidateQueries({ queryKey: [QNA.MY_QNA] });
+      form.reset();
+    },
+    onError: (error) => {
+      errorToast("문의 접수에 실패했어요.");
+      console.error(error);
+    },
+  });
+
+  const onSubmit = form.handleSubmit(async (data: InquiryForm) => {
+    if (!data.title || !data.content) {
       return infoToast("모든 필수 항목을 입력해주세요.");
     }
-    if (!isAgree) {
+    if (!data.isAgree) {
       return infoToast("개인정보 수집 및 이용 동의를 동의해주세요.");
     }
 
-    // TODO: 문의하기 API 호출
-  };
+    await requestQna(data);
+  });
 
   return (
     <form className="flex h-full flex-col justify-between px-4 py-6" onSubmit={onSubmit}>
       <div className="space-y-6">
         <Textfield
-          name="title"
+          {...form.register("title")}
           required
           label="문의 제목"
           placeholder="문의 제목을 입력해 주세요."
         />
         <Textarea
-          name="content"
+          {...form.register("content")}
           required
           label="문의 내용"
           placeholder="문의 사항을 입력해 주세요."
@@ -47,12 +70,12 @@ export default function InquiryTab() {
       </div>
       <div className="flex flex-col items-center gap-5">
         <div className="flex items-center gap-2">
-          <Checkbox name="isAgree" id="isAgree" />
+          <Checkbox {...form.register("isAgree")} id="isAgree" />
           <Label htmlFor="isAgree" className="font-body2-normal-regular text-label-alternative">
             <p>개인정보 수집 및 이용 동의 (필수)</p>
           </Label>
         </div>
-        <Button type="submit" className="self-stretch">
+        <Button type="submit" className="self-stretch" disabled={form.formState.isSubmitting}>
           문의하기
         </Button>
       </div>

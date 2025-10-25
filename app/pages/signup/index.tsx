@@ -72,10 +72,10 @@ export default function SignupPage() {
   };
 
   const onSubmit = handleSubmit(async (data) => {
-    const year = data.birth.slice(0, 2);
-    const month = data.birth.slice(2, 4);
-    const day = data.birth.slice(4, 6);
-    const birth = `20${year}-${month}-${day}`;
+    const year = data.birth.slice(0, 4);
+    const month = data.birth.slice(4, 6);
+    const day = data.birth.slice(6, 8);
+    const birth = `${year}-${month}-${day}`;
 
     try {
       setIsPending(true);
@@ -123,8 +123,8 @@ export default function SignupPage() {
         <Textfield
           label="생년월일"
           required
-          placeholder="텍스트를 입력해주세요.(ex.900123)"
-          maxLength={6}
+          placeholder="텍스트를 입력해주세요.(ex.19900123)"
+          maxLength={8}
           value={birth}
           onChange={(e) => onChangeNumber(e, "birth")}
         />

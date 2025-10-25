@@ -1,6 +1,7 @@
 import { api } from "~/lib/ky";
 import type { BaseResponse } from "~/models";
 import type {
+  CounselInfoResponse,
   MatchCounselRequest,
   MatchCounselResponse,
   ReserveConsultRequest,
@@ -40,4 +41,10 @@ export const getReservedCounselData = async (): Promise<
   BaseResponse<ReservedCounselDataResponse>
 > => {
   return api.get("counsels/info").json();
+};
+
+export const getCounselInfo = async (
+  counselorId: string
+): Promise<BaseResponse<CounselInfoResponse>> => {
+  return api.get(`counselor/${counselorId}`).json();
 };

@@ -1,11 +1,12 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import { Outlet } from "react-router";
 import { Toaster } from "sonner";
 
-import MswProvider from "./msw-provider";
+import { queryClient } from "~/lib/tanstack";
 
-const queryClient = new QueryClient();
+import MswProvider from "./msw-provider";
 
 const naverMapKey = import.meta.env.VITE_NAVER_MAP_KEY;
 const naverMapScriptUrl = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${naverMapKey}&submodules=geocoder`;
@@ -17,6 +18,7 @@ const RootProvider = () => {
       <Outlet />
       <MswProvider />
       <Toaster position="bottom-center" duration={3000} closeButton />
+      <ReactQueryDevtools />
     </QueryClientProvider>
   );
 };
