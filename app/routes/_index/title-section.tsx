@@ -1,17 +1,18 @@
 import { useNavigate } from "react-router";
 
 import { Button } from "~/components/ui/button";
+import { CounselStatus } from "~/constants/counsel";
 
-import { Status, statusMap } from "./constant";
+import { getStatus } from "./constant";
 
 interface TitleSectionProps {
-  status: Status;
+  status: CounselStatus;
 }
 
 export default function TitleSection({ status }: TitleSectionProps) {
   const navigate = useNavigate();
   const { title, highlightText, titleAfter, description, hasButton, buttonText, buttonLink } =
-    statusMap[status];
+    getStatus(status);
 
   return (
     <div className="flex flex-col gap-5 px-5 py-10">

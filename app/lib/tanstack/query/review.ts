@@ -38,6 +38,7 @@ export const useGetReviews = (type: SortType) => {
     getNextPageParam: calculatePaigination,
     initialPageParam: 0,
     select: (data) => data.pages.flatMap((page) => page.result.reviews),
+    staleTime: 1000 * 60 * 5,
   });
 };
 
