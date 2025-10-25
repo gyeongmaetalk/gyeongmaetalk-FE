@@ -1,6 +1,7 @@
 import thumbnail1 from "~/assets/content-thumbnail1.png";
 import thumbnail2 from "~/assets/content-thumbnail2.png";
 import thumbnail3 from "~/assets/content-thumbnail3.png";
+import Image from "~/components/image";
 import { WithBackHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 
@@ -23,7 +24,7 @@ const ContentDetailPage = ({ id }: ContentDetailPageProps) => {
             {content?.title}
           </h1>
           <div className="w-full overflow-hidden rounded-[12px]">
-            <img src={content?.contentImage} alt="이미지 섬네일" />
+            <Image src={content?.contentImage} alt="이미지 섬네일" />
           </div>
           <div className="font-body1-normal-regular text-label-normal">{content?.content}</div>
         </section>

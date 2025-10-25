@@ -4,7 +4,8 @@ import type { ConsultantReviewListItemDTO, ReviewListItemDTO } from "~/models/re
 import { formatDate } from "~/utils/format";
 
 import ReviewItemHeader from "./review-item-header";
-import { LogoIcon, Verified } from "../icons";
+import { Verified } from "../icons";
+import Image from "../image";
 
 type ReviewItemProps = ConsultantReviewListItemDTO | ReviewListItemDTO;
 
@@ -37,15 +38,11 @@ const ReviewItem = (props: ReviewItemProps) => {
           {props.content}
         </p>
         <div className="size-20 shrink-0 rounded-[12px]">
-          {props.thumbnail ? (
-            <img
-              src={props.thumbnail}
-              alt="리뷰 이미지"
-              className="w-full rounded-[12px] object-cover"
-            />
-          ) : (
-            <LogoIcon className="size-full" />
-          )}
+          <Image
+            src={props.thumbnail}
+            alt="리뷰 이미지"
+            className="w-full rounded-[12px] object-cover"
+          />
         </div>
       </Link>
     </div>

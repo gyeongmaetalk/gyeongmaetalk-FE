@@ -1,13 +1,14 @@
 import { useNavigate } from "react-router";
 
 import hasNoConsult from "~/assets/has-no-consult.png";
+import Image from "~/components/image";
 import { Button } from "~/components/ui/button";
 
 export const ConsultEmpty = () => {
   const navigate = useNavigate();
   return (
     <div className="flex h-full flex-col items-center justify-center px-4">
-      <img
+      <Image
         src={hasNoConsult}
         alt="consult-empty"
         className="mb-3 aspect-[83/78] h-[234px] w-[249px] shrink-0"

@@ -5,6 +5,7 @@ import { cn } from "~/lib/utils";
 import type { MatchCounselResponse, ReservedCounselDataResponse } from "~/models/counsel";
 
 import { Star, Verified } from "../icons";
+import Image from "../image";
 
 interface ConsultantCardProps {
   consultant: ReservedCounselDataResponse["info"] | MatchCounselResponse;
@@ -39,7 +40,7 @@ const ConsultantCard = ({ status, consultant }: ConsultantCardProps) => {
           </div>
         )}
         <div className="flex w-full flex-col items-center gap-4">
-          <div className="bg-cool-neutral-30 size-[72px] rounded-full" />
+          <Image className="size-[72px] rounded-full" />
           <div className="flex flex-col items-center gap-1">
             <div className="flex items-center gap-1">
               <p className="font-heading2-bold">{consultant.counselorName} 상담사</p>

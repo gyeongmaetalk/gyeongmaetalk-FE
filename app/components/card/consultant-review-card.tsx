@@ -1,5 +1,6 @@
 import Divider from "../divider";
 import { Verified } from "../icons";
+import Image from "../image";
 
 interface ConsultantReviewCardProps {
   date?: string;
@@ -18,7 +19,11 @@ const ConsultantReviewCard = ({
     <div className="bg-cool-neutral-99 space-y-2.5 rounded-lg p-3">
       <div className="flex items-center gap-3">
         <div className="size-10 overflow-hidden rounded-full">
-          <img src={counselorImage} alt="counselor-image" className="h-full w-full object-cover" />
+          <Image
+            src={counselorImage}
+            alt="counselor-image"
+            className="h-full w-full object-cover"
+          />
         </div>
         <div className="space-y-1">
           <div className="flex items-center gap-0.5">

@@ -2,6 +2,7 @@ import { useNavigate } from "react-router";
 
 import insideBuilding from "~/assets/agency-recommend/inside-building.png";
 import outsideBuilding from "~/assets/agency-recommend/outside-building.png";
+import Image from "~/components/image";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { DragCarousel, DragCarouselItem } from "~/components/ui/carousel/drag-carousel";
@@ -47,7 +48,7 @@ export default function AgencyRecommendItem({
       <DragCarousel>
         <DragCarouselItem className="w-4/5">
           <div className="relative overflow-hidden rounded-[12px]">
-            <img src={outsideBuilding} alt="건물 외관" className="w-full" />
+            <Image src={outsideBuilding} alt="건물 외관" className="w-full" />
             <div className="bg-label-neutral font-caption1-bold absolute top-0 left-0 flex items-center justify-center rounded-br-[12px] px-2.5 py-2 text-white">
               외관
             </div>
@@ -55,7 +56,7 @@ export default function AgencyRecommendItem({
         </DragCarouselItem>
         <DragCarouselItem className="w-4/5">
           <div className="relative overflow-hidden rounded-[12px]">
-            <img src={insideBuilding} alt="건물 내부" className="w-full" />
+            <Image src={insideBuilding} alt="건물 내부" className="w-full" />
             <div className="bg-label-neutral font-caption1-bold absolute top-0 left-0 flex items-center justify-center rounded-br-[12px] px-2.5 py-2 text-white">
               도면
             </div>

@@ -1,4 +1,5 @@
 import Dot from "~/components/icons/Dot";
+import Image from "~/components/image";
 import StarRating from "~/components/star-rating";
 import type { ReviewListItemDTO } from "~/models/review";
 import { maskUserName } from "~/utils/format";
@@ -12,7 +13,6 @@ const ReviewPreview = ({
   content,
   name,
   createAt,
-  imageCount,
   thumbnail,
   onClick,
 }: ReviewPreviewProps) => {
@@ -29,9 +29,9 @@ const ReviewPreview = ({
           <p className="font-label2-regular text-label-alternative">{createAt}</p>
         </div>
       </div>
-      {imageCount > 0 && (
-        <div className="bg-cool-neutral-70 size-20 shrink-0 rounded-[12px]">
-          {thumbnail && <img src={thumbnail} alt="리뷰 이미지" className="w-full object-cover" />}
+      {thumbnail && (
+        <div className="size-20 shrink-0 rounded-[12px]">
+          <Image src={thumbnail} alt="리뷰 이미지" className="w-full rounded-[12px] object-cover" />
         </div>
       )}
     </div>

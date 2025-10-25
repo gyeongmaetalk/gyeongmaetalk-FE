@@ -10,6 +10,7 @@ import ConsultantReviewCard from "~/components/card/consultant-review-card";
 import FloatingContainer from "~/components/container/floating-container";
 import Divider from "~/components/divider";
 import { Close } from "~/components/icons";
+import Image from "~/components/image";
 import { WithBackHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 import Modal from "~/components/modal";
@@ -267,7 +268,7 @@ export default function ConsultWriteReviewPage({ review }: ConsultWriteReviewPag
               {imagePreviewUrls.map((url, index) => (
                 <DragCarouselItem key={`${url}-${index}`}>
                   <div className="relative">
-                    <img
+                    <Image
                       src={url}
                       alt={`업로드된 이미지 ${index + 1}`}
                       className="size-20 rounded-lg object-cover"

@@ -1,5 +1,7 @@
 import { Link } from "react-router";
 
+import Image from "~/components/image";
+
 interface AlarmRecommendItemProps {
   title: string;
   counselorName: string;
@@ -21,7 +23,7 @@ export default function AlarmRecommendItem({
           {counselorName} 상담사님이 추천 매물을 올려주셨어요.
         </p>
       </div>
-      <img src={thumbnail} alt="추천 매물 이미지" className="size-16 rounded-lg object-cover" />
+      <Image src={thumbnail} alt="추천 매물 이미지" className="size-16 rounded-lg object-cover" />
     </Link>
   );
 }

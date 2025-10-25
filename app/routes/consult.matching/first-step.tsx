@@ -3,6 +3,7 @@ import { useState } from "react";
 import complete from "~/assets/complete.png";
 import ConsultantCard from "~/components/card/consultant-card";
 import FloatingContainer from "~/components/container/floating-container";
+import Image from "~/components/image";
 import { WithCloseHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 import CancelApplyConsult from "~/components/modal/cancel-apply-consult";
@@ -37,7 +38,7 @@ const FirstStep = ({ consultant, onChangeMode }: FirstStepProps) => {
         className="from-blue-gradient-start bg-gradient-to-b to-white to-10%"
       >
         <div className="flex flex-col items-center gap-4 text-center">
-          <img src={complete} alt="complete" className="size-[52px]" />
+          <Image src={complete} alt="complete" className="size-[52px]" />
           <p className="text-cool-neutral-10 font-heading2-bold">
             {myInfo?.name ?? "OO"}님께 딱 맞는
             <br />

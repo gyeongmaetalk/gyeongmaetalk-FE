@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 
 import ConsultantReviewCard from "~/components/card/consultant-review-card";
 import FloatingContainer from "~/components/container/floating-container";
+import Image from "~/components/image";
 import { WithBackHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 import ReviewItemHeader from "~/components/review/review-item-header";
@@ -55,7 +56,7 @@ const ConsultReviewsDetailPage = ({ reviewId }: ConsultReviewsDetailPageProps) =
               counselorImage={review?.counselorImage || ""}
             />
             {review?.images.length === 1 && (
-              <img
+              <Image
                 src={review?.images[0]}
                 alt={`${review.name} 이미지`}
                 className="aspect-image w-full rounded-[12px] object-cover"
@@ -65,7 +66,7 @@ const ConsultReviewsDetailPage = ({ reviewId }: ConsultReviewsDetailPageProps) =
               <DragCarousel>
                 {review?.images.map((image, index) => (
                   <DragCarouselItem key={index} className="w-4/5">
-                    <img
+                    <Image
                       src={image}
                       alt="review-image"
                       className="aspect-image w-full rounded-[12px] object-cover"

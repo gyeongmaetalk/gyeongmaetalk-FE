@@ -6,6 +6,7 @@ import { useSearchParams } from "react-router";
 import ConsultantReviewCard from "~/components/card/consultant-review-card";
 import Divider from "~/components/divider";
 import { Document } from "~/components/icons";
+import { useCheckCounselStatus } from "~/lib/tanstack/query/counsel";
 import { useGetPropertyList } from "~/lib/tanstack/query/property";
 import AgencyRecommendItem from "~/routes/agency.recommend._index/agency-recommend-item";
 import StatusNav from "~/routes/agency.recommend._index/status-nav";
@@ -30,6 +31,7 @@ const AgencyRecommendPage = () => {
   const status = searchParams.get("status") || "";
 
   const { data = [], isLoading } = useGetPropertyList();
+  const { data: counselStatus } = useCheckCounselStatus();
 
   if (isLoading) {
     return (
@@ -43,9 +45,9 @@ const AgencyRecommendPage = () => {
     <div className="h-full">
       <section className="px-4 pt-6 pb-[18px]">
         <ConsultantReviewCard
-          counselorName="이정훈"
-          experience={10}
-          counselorImage="https://i.namu.wiki/i/8mcZn4QTDZNSyG5LCLIltEOwSsrMoAG9TKsurgtD2zMPJWqQCYvZUsL_66BkJy3JmN4lhegQHg_A2iGdD-AWLw.webp"
+          counselorName={counselStatus?.info.counselorName || ""}
+          experience={counselStatus?.info.experience || 0}
+          counselorImage={counselStatus?.info.counselorImage || ""}
         />
       </section>
       <StatusNav statusList={STATUS_LIST} status={status} />
