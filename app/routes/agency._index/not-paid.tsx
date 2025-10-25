@@ -1,7 +1,26 @@
-import ConsultantReviewCard from "~/components/card/consultant-review-card";
-import { Button } from "~/components/ui/button";
+import { useState } from "react";
 
-export default function NotPaid() {
+import ConsultantReviewCard from "~/components/card/consultant-review-card";
+import PaymentModal from "~/components/modal/payment-modal";
+import { Button } from "~/components/ui/button";
+import type { ReservedCounselDataResponse } from "~/models/counsel";
+import { formatDate } from "~/utils/format";
+
+interface NotPaidProps {
+  info: ReservedCounselDataResponse["info"];
+}
+
+export default function NotPaid({ info }: NotPaidProps) {
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState<boolean>(false);
+
+  const onStartAuction = () => {
+    setIsPaymentModalOpen(true);
+  };
+
+  const onPaymentModalClose = () => {
+    setIsPaymentModalOpen(false);
+  };
+
   return (
     <div className="space-y-4">
       <div className="space-y-1">
@@ -11,12 +30,20 @@ export default function NotPaid() {
         </p>
       </div>
       <ConsultantReviewCard
-        date="25.6.23 18:00"
-        counselorName="이정훈"
-        experience={10}
+        date={formatDate({ date: info.counselDate, withTime: true, shortYear: true })}
+        counselorName={info.counselorName}
+        experience={info.experience}
         counselorImage="https://i.namu.wiki/i/8mcZn4QTDZNSyG5LCLIltEOwSsrMoAG9TKsurgtD2zMPJWqQCYvZUsL_66BkJy3JmN4lhegQHg_A2iGdD-AWLw.webp"
       />
-      <Button className="w-full">결제 후 대행 시작하기</Button>
+      <Button className="w-full" onClick={onStartAuction} aria-label="경매 대행 서비스 결제하기">
+        결제 후 대행 시작하기
+      </Button>
+
+      <PaymentModal
+        id={info.counselorId}
+        isOpen={isPaymentModalOpen}
+        onClose={onPaymentModalClose}
+      />
     </div>
   );
 }
