@@ -2,9 +2,7 @@ import { WithBackHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 import LoginPage from "~/pages/login";
 
-import type { Route } from "./+types/login";
-
-export function meta({}: Route.MetaArgs) {
+export function meta() {
   return [
     { title: "경매톡 - 로그인" },
     { name: "description", content: "소셜 로그인으로 경매톡 시작하기" },

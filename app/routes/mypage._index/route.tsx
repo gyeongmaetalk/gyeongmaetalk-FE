@@ -2,13 +2,8 @@ import { WithLeftTitleHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 import MyPagePage from "~/pages/mypage";
 
-import type { Route } from "./+types/route";
-
-export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
-  ];
+export function meta() {
+  return [{ title: "마이 페이지" }, { name: "description", content: "마이 페이지" }];
 }
 
 export default function MyPageLayout() {

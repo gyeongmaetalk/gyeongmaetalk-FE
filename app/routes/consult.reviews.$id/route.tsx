@@ -4,7 +4,7 @@ import ConsultReviewsDetailPage from "~/pages/consult/reviews/detail";
 
 import type { Route } from "./+types/route";
 
-export function meta({}: Route.MetaArgs) {
+export function meta() {
   return [{ title: "상담 리뷰 상세" }, { name: "description", content: "상담 리뷰 상세" }];
 }
 

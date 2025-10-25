@@ -2,7 +2,7 @@ import ContentDetailPage from "~/pages/content";
 
 import type { Route } from "./+types/route";
 
-export function meta({}: Route.MetaArgs) {
+export function meta() {
   return [{ title: "콘텐츠 상세" }, { name: "description", content: "콘텐츠 상세" }];
 }
 

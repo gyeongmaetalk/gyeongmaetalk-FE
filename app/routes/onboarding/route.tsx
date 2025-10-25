@@ -1,8 +1,6 @@
 import OnboardingPage from "~/pages/onboarding";
 
-import type { Route } from "./+types/route";
-
-export function meta({}: Route.MetaArgs) {
+export function meta() {
   return [{ title: "경매톡 시작하기" }, { name: "description", content: "경매톡 시작하기" }];
 }
 

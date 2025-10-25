@@ -2,12 +2,10 @@ import { WithLeftTitleHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 import AgencyRecommendPage from "~/pages/agency/recommend";
 
-import type { Route } from "./+types/route";
-
-export function meta({}: Route.MetaArgs) {
+export function meta() {
   return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "경매대행 - 추천 매물" },
+    { name: "description", content: "경매대행 - 추천 매물" },
   ];
 }
 

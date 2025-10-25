@@ -1,8 +1,6 @@
 import ConsultPage from "~/pages/consult";
 
-import type { Route } from "./+types/route";
-
-export function meta({}: Route.MetaArgs) {
+export function meta() {
   return [{ title: "무료 상담" }, { name: "description", content: "무료 상담" }];
 }
 

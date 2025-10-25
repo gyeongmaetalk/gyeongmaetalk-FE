@@ -2,13 +2,8 @@ import { WithLeftTitleHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 import AgencyPage from "~/pages/agency";
 
-import type { Route } from "./+types/route";
-
-export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
-  ];
+export function meta() {
+  return [{ title: "경매대행" }, { name: "description", content: "경매대행" }];
 }
 
 export default function AgencyLayout() {
