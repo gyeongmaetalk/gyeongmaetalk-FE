@@ -71,6 +71,7 @@ export default function ConsultWriteReviewPage({ review }: ConsultWriteReviewPag
     experience: counselInfoData?.experience || review?.experience || 0,
     counselDate:
       counselInfoData?.counselDate || `${review?.counselDate}T${review?.counselTime}` || "",
+    counselorImage: counselInfoData?.counselorImage || review?.counselorImage || "",
   };
 
   // 리뷰 생성 Mutation
@@ -230,7 +231,7 @@ export default function ConsultWriteReviewPage({ review }: ConsultWriteReviewPag
               date={counselorInfo.counselDate}
               counselorName={counselorInfo.name}
               experience={counselorInfo.experience}
-              counselorImage="https://i.namu.wiki/i/8mcZn4QTDZNSyG5LCLIltEOwSsrMoAG9TKsurgtD2zMPJWqQCYvZUsL_66BkJy3JmN4lhegQHg_A2iGdD-AWLw.webp"
+              counselorImage={counselorInfo.counselorImage}
             />
           )}
 

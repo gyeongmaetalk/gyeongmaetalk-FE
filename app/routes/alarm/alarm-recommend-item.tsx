@@ -16,7 +16,10 @@ export default function AlarmRecommendItem({
   recommendId,
 }: AlarmRecommendItemProps) {
   return (
-    <Link className="flex items-center gap-3" to={`/agency/recommend/${recommendId}`}>
+    <Link
+      className="flex items-center justify-between gap-3"
+      to={`/agency/recommend/${recommendId}`}
+    >
       <div className="space-y-1">
         <p className="font-body2-normal-bold">{title}</p>
         <p className="font-body2-normal-normal">

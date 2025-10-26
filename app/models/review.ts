@@ -13,6 +13,7 @@ export interface ConsultantReviewListResponse {
   counselorInfo: {
     experience: number;
     name: string;
+    counselorImage: string;
   };
   reviews: ConsultantReviewListItemDTO[];
 }

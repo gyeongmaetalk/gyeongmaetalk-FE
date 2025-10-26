@@ -8,7 +8,8 @@ import { Badge } from "~/components/ui/badge";
 import { useGetPropertyDetail } from "~/lib/tanstack/query/property";
 import RequestBidButton from "~/routes/agency.recommend._index/request-bid-button";
 import GyeongmaeMap from "~/routes/agency.recommend.$id/gyeongmae-map";
-import ListingCarousel from "~/routes/agency.recommend.$id/listing-carousel";
+// TODO: 내,외부 이미지 로직 반영되면 추가하기
+// import ListingCarousel from "~/routes/agency.recommend.$id/listing-carousel";
 import { formatArea, formatDate, formatPrice } from "~/utils/format";
 import { errorToast, successToast } from "~/utils/toast";
 
@@ -55,7 +56,7 @@ const AgencyRecommendDetailPage = () => {
       }
       withFloating
     >
-      <ListingCarousel />
+      {/* <ListingCarousel /> */}
       <section className="space-y-3 px-4 py-6">
         <div className="space-y-1">
           <Badge size="xs" theme="accent">

@@ -33,7 +33,7 @@ export default function NotPaid({ info }: NotPaidProps) {
         date={formatDate({ date: info.counselDate, withTime: true, shortYear: true })}
         counselorName={info.counselorName}
         experience={info.experience}
-        counselorImage="https://i.namu.wiki/i/8mcZn4QTDZNSyG5LCLIltEOwSsrMoAG9TKsurgtD2zMPJWqQCYvZUsL_66BkJy3JmN4lhegQHg_A2iGdD-AWLw.webp"
+        counselorImage={info.counselorImage}
       />
       <Button className="w-full" onClick={onStartAuction} aria-label="경매 대행 서비스 결제하기">
         결제 후 대행 시작하기

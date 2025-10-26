@@ -1,3 +1,5 @@
+import { formatDate } from "~/utils/format";
+
 import Divider from "../divider";
 import { Verified } from "../icons";
 import Image from "../image";
@@ -38,7 +40,9 @@ const ConsultantReviewCard = ({
           <Divider className="bg-cool-neutral-50/22" />
           <div className="flex items-center gap-1">
             <p className="font-caption1-bold w-12">진행일</p>
-            <p className="font-label2-regular text-label-alternative">{date} 상담완료</p>
+            <p className="font-label2-regular text-label-alternative">
+              {formatDate({ date, withTime: true })} 상담완료
+            </p>
           </div>
         </>
       )}

@@ -49,4 +49,5 @@ export interface CounselInfoResponse {
   name: string;
   experience: number;
   counselDate: string;
+  counselorImage: string;
 }

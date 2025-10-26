@@ -136,7 +136,7 @@ const MyPagePage = () => {
           {myInfo && (
             <>
               <button
-                className="font-body1-normal-regular text-label-normal cursor-pointer py-3"
+                className="font-body1-normal-regular text-label-normal cursor-pointer py-3 text-start"
                 onClick={() => setIsOpen(true)}
               >
                 로그아웃

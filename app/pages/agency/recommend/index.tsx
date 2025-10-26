@@ -1,13 +1,14 @@
 import { Fragment } from "react";
 
 import { Loader2 } from "lucide-react";
-import { useSearchParams } from "react-router";
+import { Navigate, useSearchParams } from "react-router";
 
 import ConsultantReviewCard from "~/components/card/consultant-review-card";
 import Divider from "~/components/divider";
 import { Document } from "~/components/icons";
 import { useCheckCounselStatus } from "~/lib/tanstack/query/counsel";
 import { useGetPropertyList } from "~/lib/tanstack/query/property";
+import { useRefreshTokenStore } from "~/lib/zustand/user";
 import AgencyRecommendItem from "~/routes/agency.recommend._index/agency-recommend-item";
 import StatusNav from "~/routes/agency.recommend._index/status-nav";
 
@@ -29,9 +30,14 @@ const STATUS_LIST = [
 const AgencyRecommendPage = () => {
   const [searchParams] = useSearchParams();
   const status = searchParams.get("status") || "";
+  const isAuthenticated = useRefreshTokenStore.getState().refreshToken !== null;
 
   const { data = [], isLoading } = useGetPropertyList();
   const { data: counselStatus } = useCheckCounselStatus();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/agency" replace />;
+  }
 
   if (isLoading) {
     return (

@@ -17,7 +17,7 @@ export default function Consulted({ info }: ConsultedProps) {
         date={formatDate({ date: info.counselDate, withTime: true, shortYear: true })}
         counselorName={info.counselorName}
         experience={info.experience}
-        counselorImage="https://i.namu.wiki/i/8mcZn4QTDZNSyG5LCLIltEOwSsrMoAG9TKsurgtD2zMPJWqQCYvZUsL_66BkJy3JmN4lhegQHg_A2iGdD-AWLw.webp"
+        counselorImage={info.counselorImage}
       />
     </div>
   );

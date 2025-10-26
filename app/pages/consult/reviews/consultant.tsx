@@ -35,7 +35,7 @@ const ConsultReviewsConsultantPage = () => {
         <ConsultantReviewCard
           counselorName={data.counselorInfo?.name || ""}
           experience={data.counselorInfo?.experience || 0}
-          counselorImage="https://i.namu.wiki/i/8mcZn4QTDZNSyG5LCLIltEOwSsrMoAG9TKsurgtD2zMPJWqQCYvZUsL_66BkJy3JmN4lhegQHg_A2iGdD-AWLw.webp"
+          counselorImage={data.counselorInfo?.counselorImage || ""}
         />
       </section>
       {isLoading ? (
