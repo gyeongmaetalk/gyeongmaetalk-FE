@@ -2,6 +2,7 @@ import { Close } from "~/components/icons";
 import Modal from "~/components/modal";
 import { Button } from "~/components/ui/button";
 import { useOutsideClick } from "~/hooks/use-outside-click";
+import { resetUserQueries } from "~/lib/tanstack";
 import { useAccessTokenStore, useRefreshTokenStore } from "~/lib/zustand/user";
 
 interface LogoutModalProps {
@@ -21,6 +22,7 @@ export default function LogoutModal({ isOpen, onCancel }: LogoutModalProps) {
     setRefreshToken(null);
     setAccessToken(null);
     localStorage.clear();
+    resetUserQueries();
     onCancel();
   };
 

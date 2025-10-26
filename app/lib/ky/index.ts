@@ -5,6 +5,7 @@ import type { BaseResponse } from "~/models";
 import type { UserResponse } from "~/models/auth";
 import { baseUrl } from "~/utils/env";
 
+import { resetUserQueries } from "../tanstack";
 import { useAccessTokenStore, useRefreshTokenStore } from "../zustand/user";
 
 const API_TIMEOUT = 10000; // 10초
@@ -48,6 +49,7 @@ export const api = ky.create({
               useAccessTokenStore.setState({ accessToken: null });
               useRefreshTokenStore.setState({ refreshToken: null });
               localStorage.clear();
+              resetUserQueries();
               redirect("/login");
             }
           }
