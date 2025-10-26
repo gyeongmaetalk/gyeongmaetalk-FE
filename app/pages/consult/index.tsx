@@ -34,7 +34,7 @@ const ConsultPage = () => {
 
   const navigate = useNavigate();
 
-  if (isLoading || !reservedcCounselData) {
+  if (isLoading) {
     return (
       <PageLayout header={<WithLeftTitleHeader title="무료상담" />} showNav>
         <div className="flex h-full flex-col items-center justify-center">
@@ -44,7 +44,7 @@ const ConsultPage = () => {
     );
   }
 
-  if (reservedcCounselData?.status === CounselStatus.NONE) {
+  if (!reservedcCounselData || reservedcCounselData.status === CounselStatus.NONE) {
     return (
       <PageLayout header={<WithLeftTitleHeader title="무료상담" />} showNav>
         <ConsultEmpty />
@@ -58,7 +58,7 @@ const ConsultPage = () => {
       theme: "assistive",
       label: "리뷰 작성",
       value: "review",
-      review: reservedcCounselData.info.isReviewed,
+      review: reservedcCounselData?.info.isReviewed,
     },
     {
       variant: "outlined",
@@ -75,7 +75,7 @@ const ConsultPage = () => {
       theme: "assistive",
       label: "리뷰 작성",
       value: "review",
-      review: reservedcCounselData.info.isReviewed,
+      review: reservedcCounselData?.info.isReviewed,
     },
     {
       variant: "outlined",
@@ -101,7 +101,7 @@ const ConsultPage = () => {
       // TODO: 예약 변경 API 호출
     }
     if (value === "review") {
-      navigate(`/consult/write?consultantId=${reservedcCounselData.info.counselorId}`);
+      navigate(`/consult/write?consultantId=${reservedcCounselData?.info.counselorId}`);
     }
     if (value === "auction") {
       navigate("/agency");
@@ -119,13 +119,13 @@ const ConsultPage = () => {
           <div className="px-4 py-6">
             <ConsultantCard
               status={reservedcCounselData.status}
-              consultant={reservedcCounselData.info}
+              consultant={reservedcCounselData?.info}
             />
           </div>
           <Divider className="bg-cool-neutral-99 h-2" />
 
           {/* 예약 정보 */}
-          <ReservationInfoCard reservation={reservedcCounselData.info} />
+          <ReservationInfoCard reservation={reservedcCounselData?.info} />
           <Divider className="bg-cool-neutral-99 h-2" />
           {/* 상담 정보 */}
           <ConsultInfoCard

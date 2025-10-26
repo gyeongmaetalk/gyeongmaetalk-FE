@@ -12,7 +12,7 @@ import NotPaid from "~/routes/agency._index/not-paid";
 const AgencyPage = () => {
   const { data: reservedcCounselData, isLoading } = useCheckCounselStatus();
 
-  if (isLoading || !reservedcCounselData) {
+  if (isLoading) {
     return (
       <div className="flex h-full items-center">
         <Loader2 className="text-primary-normal mx-auto size-10 animate-spin" />
@@ -21,6 +21,10 @@ const AgencyPage = () => {
   }
 
   const renderConsultStatus = () => {
+    if (!reservedcCounselData) {
+      return <NotConsulted />;
+    }
+
     switch (reservedcCounselData.status) {
       case CounselStatus.NONE:
         return <NotConsulted />;
