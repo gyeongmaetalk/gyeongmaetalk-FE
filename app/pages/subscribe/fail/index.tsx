@@ -2,7 +2,7 @@ import { X } from "lucide-react";
 import { Navigate, useNavigate, useSearchParams } from "react-router";
 
 import { Button } from "~/components/ui/button";
-import { PAYMENT_FAIL_CODES } from "~/constants/payment";
+import { PAYMENT_FAIL_CODES } from "~/constants";
 
 const getErrorCode = (code: string) => {
   switch (code) {

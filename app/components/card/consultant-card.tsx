@@ -1,6 +1,6 @@
 import { Quote } from "lucide-react";
 
-import { CounselStatus } from "~/constants/counsel";
+import { CounselStatus } from "~/constants";
 import { cn } from "~/lib/utils";
 import type { MatchCounselResponse, ReservedCounselDataResponse } from "~/models/counsel";
 

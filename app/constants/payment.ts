@@ -14,6 +14,4 @@ export const PAYMENT_FAIL_CODES = {
     code: "REJECT_CARD_COMPANY	",
     message: "결제 승인이 거절되었습니다.",
   },
-} as const;
-
-export type PaymentFailCode = (typeof PAYMENT_FAIL_CODES)[keyof typeof PAYMENT_FAIL_CODES];
+};

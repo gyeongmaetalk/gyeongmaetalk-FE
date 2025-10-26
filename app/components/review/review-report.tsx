@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { REVIEW } from "~/constants/review";
+import { REVIEW } from "~/constants";
 import { queryClient } from "~/lib/tanstack";
 import { useReportReview } from "~/lib/tanstack/mutation/review";
 import { errorToast, successToast } from "~/utils/toast";

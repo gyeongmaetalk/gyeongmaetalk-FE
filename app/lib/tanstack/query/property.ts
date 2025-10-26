@@ -2,7 +2,7 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 import type { HTTPError } from "ky";
 
-import { PROPERTY } from "~/constants/property";
+import { PROPERTY } from "~/constants";
 import type { BaseResponse } from "~/models";
 import type { PropertyDetailResponse } from "~/models/property";
 import { getPropertyDetail, getPropertyList } from "~/services/property";

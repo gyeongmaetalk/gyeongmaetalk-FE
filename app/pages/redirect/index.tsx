@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { Loader2 } from "lucide-react";
 import { Navigate, useNavigate, useSearchParams } from "react-router";
 
-import { WebviewEvent } from "~/constants/webview";
+import { WebviewEvent } from "~/constants";
 import { useWebView } from "~/hooks/use-webview";
 import { api } from "~/lib/ky";
 import { useAccessTokenStore, useRefreshTokenStore } from "~/lib/zustand/user";

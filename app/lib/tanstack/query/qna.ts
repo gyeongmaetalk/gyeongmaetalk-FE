@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import type { HTTPError } from "ky";
 
-import { QNA } from "~/constants/qna";
+import { QNA } from "~/constants";
 import type { BaseResponse } from "~/models";
 import type { FaqResponse, QnaResponse } from "~/models/qna";
 import { getFaq, getMyQna } from "~/services/qna";

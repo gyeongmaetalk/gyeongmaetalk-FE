@@ -1,4 +1,4 @@
-import type { AuthProvider } from "~/constants/auth";
+import type { AuthProvider } from "~/constants";
 
 export interface UserResponse {
   memberId: number;

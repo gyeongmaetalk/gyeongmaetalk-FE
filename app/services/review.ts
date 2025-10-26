@@ -1,4 +1,4 @@
-import type { SortType } from "~/constants/api";
+import type { SortType } from "~/constants";
 import { api } from "~/lib/ky";
 import type { BaseResponse, PaginationResponse } from "~/models";
 import type {

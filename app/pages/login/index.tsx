@@ -1,6 +1,6 @@
 import { Apple, Kakao as KakaoIcon, LogoIcon, LogoText } from "~/components/icons";
 import { Button } from "~/components/ui/button";
-import { AuthProvider } from "~/constants/auth";
+import { AuthProvider } from "~/constants";
 import { baseUrl } from "~/utils/env";
 
 const LoginPage = () => {

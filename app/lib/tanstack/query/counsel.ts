@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import type { HTTPError } from "ky";
 
-import { COUNSEL } from "~/constants/counsel";
+import { COUNSEL } from "~/constants";
 import { useRefreshTokenStore } from "~/lib/zustand/user";
 import type { BaseResponse } from "~/models";
 import type { AvailableTimesRequest, CounselInfoResponse } from "~/models/counsel";

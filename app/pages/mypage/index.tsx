@@ -4,8 +4,7 @@ import { Link } from "react-router";
 
 import Divider from "~/components/divider";
 import { Apple, Back, Kakao } from "~/components/icons";
-import { AuthProvider } from "~/constants/auth";
-import { WebviewEvent } from "~/constants/webview";
+import { AuthProvider, WebviewEvent } from "~/constants";
 import { useWebView } from "~/hooks/use-webview";
 import { useGetMyInfo } from "~/lib/tanstack/query/auth";
 import { cn } from "~/lib/utils";

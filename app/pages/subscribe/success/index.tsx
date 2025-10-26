@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { Loader2 } from "lucide-react";
 import { Navigate, useSearchParams } from "react-router";
 
-import { COUNSEL } from "~/constants/counsel";
+import { COUNSEL } from "~/constants";
 import { queryClient } from "~/lib/tanstack";
 import { useConfirmSubscription } from "~/lib/tanstack/mutation/property";
 import { errorToast, successToast } from "~/utils/toast";

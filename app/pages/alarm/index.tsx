@@ -6,7 +6,7 @@ import { AlarmFill } from "~/components/icons";
 import { Header } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 import { Button } from "~/components/ui/button";
-import { WebviewEvent } from "~/constants/webview";
+import { WebviewEvent } from "~/constants";
 import { useWebView } from "~/hooks/use-webview";
 import AlarmItem from "~/routes/alarm/alarm-item";
 import AlarmRecommendItem from "~/routes/alarm/alarm-recommend-item";

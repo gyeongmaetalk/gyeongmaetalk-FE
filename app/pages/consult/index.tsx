@@ -8,7 +8,7 @@ import Divider from "~/components/divider";
 import { WithLeftTitleHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 import { Button } from "~/components/ui/button";
-import { CounselStatus } from "~/constants/counsel";
+import { CounselStatus } from "~/constants";
 import { useCheckCounselStatus } from "~/lib/tanstack/query/counsel";
 import { ConsultEmpty } from "~/routes/consult._index/consultEmpty";
 

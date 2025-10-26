@@ -1,4 +1,4 @@
-import { CounselStatus } from "~/constants/counsel";
+import { CounselStatus } from "~/constants";
 
 export const HOME_SECTION_TITLES = {
   RESERVATION: "예정된 상담",

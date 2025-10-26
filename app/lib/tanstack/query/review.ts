@@ -2,8 +2,7 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 import type { HTTPError } from "ky";
 
-import type { SortType } from "~/constants/api";
-import { REVIEW } from "~/constants/review";
+import { REVIEW, type SortType } from "~/constants";
 import type { BaseResponse } from "~/models";
 import type { ReviewDetailResponse } from "~/models/review";
 import { getConsultantReviews, getMyReviews, getReviewById, getReviews } from "~/services/review";

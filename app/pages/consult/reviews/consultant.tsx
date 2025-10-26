@@ -6,7 +6,7 @@ import { WithBackHeader } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 import { Review, ReviewHeader, ReviewList } from "~/components/review";
 import SentinelSpinner from "~/components/sentinel-spinner";
-import { SortType } from "~/constants/api";
+import { SortType } from "~/constants";
 import { useGetConsultantReviews } from "~/lib/tanstack/query/review";
 
 const ConsultReviewsConsultantPage = () => {

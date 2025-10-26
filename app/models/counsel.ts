@@ -1,4 +1,4 @@
-import type { CounselStatus } from "~/constants/counsel";
+import type { CounselStatus } from "~/constants";
 
 export interface MatchCounselRequest {
   purpose: string;

@@ -1,8 +1,6 @@
 import { QueryClient } from "@tanstack/react-query";
 
-import { AUTH } from "~/constants/auth";
-import { COUNSEL } from "~/constants/counsel";
-import { QNA } from "~/constants/qna";
+import { AUTH, COUNSEL, QNA } from "~/constants";
 
 export const queryClient = new QueryClient({
   defaultOptions: {

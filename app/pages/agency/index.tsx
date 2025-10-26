@@ -2,7 +2,7 @@ import { Loader2 } from "lucide-react";
 import { Navigate } from "react-router";
 
 import Divider from "~/components/divider";
-import { CounselStatus } from "~/constants/counsel";
+import { CounselStatus } from "~/constants";
 import { useCheckCounselStatus } from "~/lib/tanstack/query/counsel";
 import AuctionExample from "~/routes/agency._index/auction-example";
 import Consulted from "~/routes/agency._index/consulted";

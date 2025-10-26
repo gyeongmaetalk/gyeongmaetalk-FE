@@ -20,7 +20,7 @@ import { DragCarousel, DragCarouselItem } from "~/components/ui/carousel/drag-ca
 import { Checkbox } from "~/components/ui/checkbox";
 import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
-import { REVIEW } from "~/constants/review";
+import { REVIEW } from "~/constants";
 import { queryClient } from "~/lib/tanstack";
 import { useCreateReview, useUpdateReview } from "~/lib/tanstack/mutation/review";
 import { useGetCounselInfo } from "~/lib/tanstack/query/counsel";

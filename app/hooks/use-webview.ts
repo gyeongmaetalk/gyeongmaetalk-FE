@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import { WebviewEvent } from "~/constants/webview";
+import { WebviewEvent } from "~/constants";
 
 type OnMessage = (data: { type: string; data: unknown }) => void;
 

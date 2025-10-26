@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { useNavigate } from "react-router";
 
-import { REVIEW } from "~/constants/review";
+import { REVIEW } from "~/constants";
 import { useOutsideClick } from "~/hooks/use-outside-click";
 import { queryClient } from "~/lib/tanstack";
 import { useRemoveReview } from "~/lib/tanstack/mutation/review";

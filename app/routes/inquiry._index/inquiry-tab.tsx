@@ -7,7 +7,7 @@ import { Checkbox } from "~/components/ui/checkbox";
 import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
 import { Textfield } from "~/components/ui/textfield";
-import { QNA } from "~/constants/qna";
+import { QNA } from "~/constants";
 import { queryClient } from "~/lib/tanstack";
 import { useRequestQna } from "~/lib/tanstack/mutation/qna";
 import { infoToast, successToast } from "~/utils/toast";

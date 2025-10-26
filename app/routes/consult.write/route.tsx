@@ -1,7 +1,7 @@
 import { Loader2 } from "lucide-react";
 import { Navigate } from "react-router";
 
-import { REVIEW } from "~/constants/review";
+import { REVIEW } from "~/constants";
 import { queryClient } from "~/lib/tanstack";
 import ConsultWriteReviewPage from "~/pages/consult/write";
 import { getReviewById } from "~/services/review";
