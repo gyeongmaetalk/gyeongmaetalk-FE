@@ -98,12 +98,14 @@ const MyPagePage = () => {
           >
             자주 묻는 질문
           </Link>
-          <Link
-            className="font-body1-normal-regular text-label-normal cursor-pointer py-3"
-            to="/inquiry"
-          >
-            1:1 문의
-          </Link>
+          {myInfo && (
+            <Link
+              className="font-body1-normal-regular text-label-normal cursor-pointer py-3"
+              to="/inquiry"
+            >
+              1:1 문의
+            </Link>
+          )}
           <Divider className="bg-cool-neutral-98 my-4" />
         </div>
 

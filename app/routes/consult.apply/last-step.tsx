@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 
 import FloatingContainer from "~/components/container/floating-container";
 import Modal from "~/components/modal";
+import SuggestLogin from "~/components/modal/suggest-login";
 import { Button } from "~/components/ui/button";
 import { useMatchCounsel } from "~/lib/tanstack/mutation/counsel";
 import { useGetMyInfo } from "~/lib/tanstack/query/auth";
@@ -24,10 +25,11 @@ const LastStep = ({ form }: LastStepProps) => {
 
   const [name, setName] = useState(form.getValues("name"));
   const [innerOption, setInnerOption] = useState("");
+  const [isShowLoginModal, setIsShowLoginModal] = useState(false);
 
   const navigate = useNavigate();
 
-  const { mutateAsync: matchCounsel } = useMatchCounsel({
+  const { mutate: matchCounsel } = useMatchCounsel({
     onSuccess: (data) => {
       navigate("/consult/matching", { replace: true, state: data.result });
     },
@@ -62,9 +64,11 @@ const LastStep = ({ form }: LastStepProps) => {
 
   const onComplete = form.handleSubmit(
     async (data) => {
+      if (!myInfo) return setIsShowLoginModal(true);
+
       const selectedValue = name === "개인" ? `개인,${innerOption}` : name;
 
-      await matchCounsel({
+      matchCounsel({
         purpose: data.purpose,
         area: data.region,
         serviceType: data.service,
@@ -134,6 +138,7 @@ const LastStep = ({ form }: LastStepProps) => {
           </Modal.Content>
         </Modal>
       )}
+      <SuggestLogin isOpen={isShowLoginModal} />
     </>
   );
 };
