@@ -1,27 +1,18 @@
 import { Link } from "react-router";
 
 import Image from "~/components/image";
-
-interface AlarmRecommendItemProps {
-  title: string;
-  counselorName: string;
-  thumbnail: string;
-  recommendId: string;
-}
+import type { NotificationItem } from "~/types/fcm";
 
 export default function AlarmRecommendItem({
-  title,
+  contentId,
+  propertyName,
   counselorName,
   thumbnail,
-  recommendId,
-}: AlarmRecommendItemProps) {
+}: NotificationItem) {
   return (
-    <Link
-      className="flex items-center justify-between gap-3"
-      to={`/agency/recommend/${recommendId}`}
-    >
+    <Link className="flex items-center justify-between gap-3" to={`/agency/recommend/${contentId}`}>
       <div className="space-y-1">
-        <p className="font-body2-normal-bold">{title}</p>
+        <p className="font-body2-normal-bold">{propertyName}</p>
         <p className="font-body2-normal-normal">
           {counselorName} 상담사님이 추천 매물을 올려주셨어요.
         </p>

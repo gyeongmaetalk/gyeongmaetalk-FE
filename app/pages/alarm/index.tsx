@@ -1,39 +1,25 @@
 import { useState } from "react";
 
+import { Loader2 } from "lucide-react";
 import { useNavigate } from "react-router";
 
 import { AlarmFill } from "~/components/icons";
 import { Header } from "~/components/layout/header/header";
 import PageLayout from "~/components/layout/page-layout";
 import { Button } from "~/components/ui/button";
-import { WebviewEvent } from "~/constants";
+import { NotificationType, WebviewEvent } from "~/constants";
 import { useWebView } from "~/hooks/use-webview";
+import { useGetNotifications } from "~/lib/tanstack/query/fcm";
+import { useRefreshTokenStore } from "~/lib/zustand/user";
 import AlarmItem from "~/routes/alarm/alarm-item";
 import AlarmRecommendItem from "~/routes/alarm/alarm-recommend-item";
 import AlarmReviewItem from "~/routes/alarm/alarm-review-item";
 
-const mockData = [
-  {
-    type: "review" as const,
-    createAt: "2025-10-08T09:00:00",
-    isRead: true,
-    reviewId: 1,
-    counselDate: "2025-10-08T09:00:00",
-  },
-  {
-    type: "recommend" as const,
-    createAt: "2025-10-07T08:00:00",
-    isRead: false,
-    title: "서울 역세권 30평 아파트",
-    counselorName: "이정훈",
-    recommendId: "2024타경12345",
-    thumbnail:
-      "https://i.namu.wiki/i/8mcZn4QTDZNSyG5LCLIltEOwSsrMoAG9TKsurgtD2zMPJWqQCYvZUsL_66BkJy3JmN4lhegQHg_A2iGdD-AWLw.webp",
-  },
-];
-
 export default function AlarmPage() {
   const [isAlarmEnabled, setIsAlarmEnabled] = useState<boolean | null>(null);
+  const isAuthenticated = useRefreshTokenStore((state) => state.refreshToken) !== null;
+
+  const { data: notifications = [], isPending } = useGetNotifications();
 
   const navigate = useNavigate();
 
@@ -55,6 +41,10 @@ export default function AlarmPage() {
     postMessage(WebviewEvent.OPEN_SETTING);
   };
 
+  const onNavigateLogin = () => {
+    navigate("/login");
+  };
+
   return (
     <PageLayout
       header={
@@ -66,14 +56,16 @@ export default function AlarmPage() {
             <Header.Title>알림센터</Header.Title>
           </Header.Center>
           <Header.Right>
-            <Button
-              variant="text"
-              theme="assistive"
-              className="p-0 active:bg-transparent"
-              onClick={onNavigateSetting}
-            >
-              설정
-            </Button>
+            {notifications && (
+              <Button
+                variant="text"
+                theme="assistive"
+                className="p-0 active:bg-transparent"
+                onClick={onNavigateSetting}
+              >
+                설정
+              </Button>
+            )}
           </Header.Right>
         </Header.Container>
       }
@@ -95,21 +87,41 @@ export default function AlarmPage() {
           </Button>
         </div>
       )}
-      {mockData.length > 0 ? (
-        mockData.map((item) => (
-          <AlarmItem key={item.createAt} {...item}>
-            {item.type === "review" ? (
-              <AlarmReviewItem reviewId={item.reviewId} counselDate={item.counselDate} />
-            ) : (
-              <AlarmRecommendItem
-                recommendId={item.recommendId}
-                title={item.title}
-                counselorName={item.counselorName}
-                thumbnail={item.thumbnail}
-              />
-            )}
-          </AlarmItem>
-        ))
+
+      {isAuthenticated && isPending ? (
+        <div className="flex h-full flex-col items-center justify-center px-6">
+          <Loader2 className="text-primary-normal mx-auto size-10 animate-spin" />
+        </div>
+      ) : !isAuthenticated ? (
+        <div className="flex h-full flex-col items-center justify-center px-6">
+          <div className="bg-cool-neutral-97 mb-2 flex size-16 items-center justify-center rounded-full">
+            <AlarmFill className="text-label-neutral size-8" />
+          </div>
+          <h3 className="font-title3-bold text-label-strong mb-2">알림을 받아보세요</h3>
+          <p className="font-body2-normal-regular text-label-neutral mb-4 text-center">
+            로그인하시면 상담 후기 작성, 매물 추천 등<br />
+            다양한 알림을 받아보실 수 있어요
+          </p>
+          <Button className="w-full" onClick={onNavigateLogin}>
+            로그인하고 알림 받기
+          </Button>
+        </div>
+      ) : notifications.length > 0 ? (
+        <>
+          {notifications.map((item) => (
+            <AlarmItem key={item.id} {...item}>
+              {item.type === NotificationType.COUNSEL_FINISHED ? (
+                <AlarmReviewItem {...item} />
+              ) : (
+                <AlarmRecommendItem {...item} />
+              )}
+            </AlarmItem>
+          ))}
+
+          <p className="font-label2-regular text-label-alternative mt-11 text-center">
+            30일 전 알림까지 확인할 수 있어요
+          </p>
+        </>
       ) : (
         <div className="flex h-full flex-col items-center justify-center">
           <p className="font-body2-normal-regular text-label-neutral">알림이 없어요.</p>
