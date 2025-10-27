@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router";
 
 import { Bubble, Company } from "~/components/icons";
-import { NotificationType } from "~/constants";
+import { FCM, NotificationType } from "~/constants";
+import { queryClient } from "~/lib/tanstack";
+import { useReadNotification } from "~/lib/tanstack/mutation/fcm";
 import { cn } from "~/lib/utils";
 import type { NotificationItem } from "~/types/fcm";
 import { getTimeDisplay } from "~/utils/format";
@@ -10,8 +12,24 @@ interface AlarmItemProps extends NotificationItem {
   children: React.ReactNode;
 }
 
-export default function AlarmItem({ type, contentId, createdAt, read, children }: AlarmItemProps) {
+export default function AlarmItem({
+  type,
+  id,
+  contentId,
+  createdAt,
+  read,
+  children,
+}: AlarmItemProps) {
   const navigate = useNavigate();
+
+  const { mutate: readNotification } = useReadNotification({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [FCM.NOTIFICATIONS] });
+    },
+    onError: (error) => {
+      console.error("알림 읽음 처리 실패", error);
+    },
+  });
 
   const isReview = type === NotificationType.COUNSEL_FINISHED;
 
@@ -20,8 +38,12 @@ export default function AlarmItem({ type, contentId, createdAt, read, children }
   const Icon = isReview ? Bubble : Company;
 
   const onNavTo = () => {
+    if (!read) {
+      readNotification(id);
+    }
+
     if (isReview) {
-      return navigate(`/consult/write?reviewId=${contentId}`);
+      return navigate(`/consult/write?consultantId=${contentId}`);
     }
     navigate(`/agency/recommend/${contentId}`);
   };
