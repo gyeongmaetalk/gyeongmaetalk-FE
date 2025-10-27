@@ -16,7 +16,7 @@ import { errorToast } from "~/utils/toast";
 
 import Modal from ".";
 
-interface PaymentModalProps {
+interface SubscribePaymentModalProps {
   id: number;
   isOpen: boolean;
   onClose: () => void;
@@ -25,7 +25,7 @@ interface PaymentModalProps {
 const AMOUNT = 300000;
 const TOSS_PAYMENTS_CLIENT_KEY = import.meta.env.VITE_TOSS_PAYMENTS_CLIENT_KEY;
 
-export default function PaymentModal({ id, isOpen, onClose }: PaymentModalProps) {
+export default function SubscribePaymentModal({ id, isOpen, onClose }: SubscribePaymentModalProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [isPaymentWidgetLoading, setIsPaymentWidgetLoading] = useState(true);
   const [tossPayments, setTossPayments] = useState<TossPaymentsWidgets | null>(null);
@@ -59,7 +59,7 @@ export default function PaymentModal({ id, isOpen, onClose }: PaymentModalProps)
 
       // 결제 요청
       await tossPayments.requestPayment({
-        orderId: generateOrderId(),
+        orderId: readyResponse.result.orderId,
         orderName: "경매 대행 서비스",
         successUrl: `${window.location.origin}/subscribe/success?subscriptionId=${readyResponse.result.subscriptionId}`,
         failUrl: `${window.location.origin}/subscribe/fail`,
@@ -70,11 +70,6 @@ export default function PaymentModal({ id, isOpen, onClose }: PaymentModalProps)
     } finally {
       setIsLoading(false);
     }
-  };
-
-  // 주문 ID 생성 함수
-  const generateOrderId = (): string => {
-    return `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   };
 
   // 토스페이먼츠 초기화
