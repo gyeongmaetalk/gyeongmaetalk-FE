@@ -47,10 +47,24 @@ export interface ConfirmSubscriptionRequest {
   amount: string;
 }
 
-export interface ConfirmSubscriptionResponse {
+export interface ConfirmPaymentResponse {
   status: string;
   paymentKey: string;
   orderId: string;
   totalAmount: number;
   failureReason: string;
+}
+
+export interface ReadyPurchaseResponse {
+  propertyId: number;
+  orderId: string;
+  amount: number;
+  orderName: string;
+}
+
+export interface ConfirmPurchaseRequest {
+  propertyId: string;
+  paymentKey: string;
+  orderId: string;
+  amount: string;
 }

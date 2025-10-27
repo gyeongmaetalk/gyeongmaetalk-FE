@@ -4,11 +4,18 @@ import type { HTTPError } from "ky";
 
 import type { BaseResponse } from "~/models";
 import type {
+  ConfirmPaymentResponse,
+  ConfirmPurchaseRequest,
   ConfirmSubscriptionRequest,
-  ConfirmSubscriptionResponse,
+  ReadyPurchaseResponse,
   ReadySubscribeResponse,
 } from "~/models/property";
-import { confirmSubscription, readySubscribe } from "~/services/property";
+import {
+  confirmPurchase,
+  confirmSubscription,
+  readyPurchase,
+  readySubscribe,
+} from "~/services/property";
 
 export const useReadySubscribe = (
   options?: UseMutationOptions<BaseResponse<ReadySubscribeResponse>, HTTPError, number>
@@ -21,17 +28,35 @@ export const useReadySubscribe = (
 
 export const useConfirmSubscription = (
   options?: UseMutationOptions<
-    BaseResponse<ConfirmSubscriptionResponse>,
+    BaseResponse<ConfirmPaymentResponse>,
     HTTPError,
     ConfirmSubscriptionRequest
   >
 ) => {
-  return useMutation<
-    BaseResponse<ConfirmSubscriptionResponse>,
-    HTTPError,
-    ConfirmSubscriptionRequest
-  >({
+  return useMutation<BaseResponse<ConfirmPaymentResponse>, HTTPError, ConfirmSubscriptionRequest>({
     mutationFn: confirmSubscription,
+    ...options,
+  });
+};
+
+export const useReadyPurchase = (
+  options?: UseMutationOptions<BaseResponse<ReadyPurchaseResponse>, HTTPError, number>
+) => {
+  return useMutation<BaseResponse<ReadyPurchaseResponse>, HTTPError, number>({
+    mutationFn: readyPurchase,
+    ...options,
+  });
+};
+
+export const useConfirmPurchase = (
+  options?: UseMutationOptions<
+    BaseResponse<ConfirmPaymentResponse>,
+    HTTPError,
+    ConfirmPurchaseRequest
+  >
+) => {
+  return useMutation<BaseResponse<ConfirmPaymentResponse>, HTTPError, ConfirmPurchaseRequest>({
+    mutationFn: confirmPurchase,
     ...options,
   });
 };
