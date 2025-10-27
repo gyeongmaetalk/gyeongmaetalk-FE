@@ -1,16 +1,13 @@
-import { Link } from "react-router";
-
 import Image from "~/components/image";
 import type { NotificationItem } from "~/types/fcm";
 
 export default function AlarmRecommendItem({
-  contentId,
   propertyName,
   counselorName,
   thumbnail,
 }: NotificationItem) {
   return (
-    <Link className="flex items-center justify-between gap-3" to={`/agency/recommend/${contentId}`}>
+    <div className="flex items-center justify-between gap-3">
       <div className="space-y-1">
         <p className="font-body2-normal-bold">{propertyName}</p>
         <p className="font-body2-normal-normal">
@@ -18,6 +15,6 @@ export default function AlarmRecommendItem({
         </p>
       </div>
       <Image src={thumbnail} alt="추천 매물 이미지" className="size-16 rounded-lg object-cover" />
-    </Link>
+    </div>
   );
 }
