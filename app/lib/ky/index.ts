@@ -1,5 +1,4 @@
 import ky from "ky";
-import { redirect } from "react-router";
 
 import type { BaseResponse } from "~/models";
 import type { UserResponse } from "~/models/auth";
@@ -31,26 +30,27 @@ export const api = ky.create({
           const refreshToken = useRefreshTokenStore.getState().refreshToken;
 
           if (refreshToken) {
-            const refreshResponse = await ky
-              .post<BaseResponse<UserResponse>>(baseUrl + "/auth/refresh", {
-                headers: { RefreshToken: refreshToken },
-                retry: 0,
-              })
-              .json();
+            try {
+              const refreshResponse = await ky
+                .post<BaseResponse<UserResponse>>(baseUrl + "/auth/refresh", {
+                  headers: { RefreshToken: refreshToken },
+                  retry: 0,
+                })
+                .json();
 
-            if (refreshResponse.isSuccess) {
               useRefreshTokenStore.setState({ refreshToken: refreshResponse.result.refreshToken });
               useAccessTokenStore.setState({ accessToken: refreshResponse.result.accessToken });
 
               // 새로운 토큰으로 기존 요청 재시도
               request.headers.set("Authorization", `Bearer ${refreshResponse.result.accessToken}`);
               return ky(request);
-            } else {
+            } catch (error) {
+              console.error("Refresh 실패", error);
               useAccessTokenStore.setState({ accessToken: null });
               useRefreshTokenStore.setState({ refreshToken: null });
               localStorage.clear();
               resetUserQueries();
-              redirect("/login");
+              window.location.href = "/login";
             }
           }
         }
