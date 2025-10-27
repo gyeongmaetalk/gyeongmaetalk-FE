@@ -1,17 +1,13 @@
-import { useState } from "react";
-
 import { cn } from "~/lib/utils";
 
 import { LogoIcon } from "./icons";
 
 export default function Image(props: React.ImgHTMLAttributes<HTMLImageElement>) {
-  const [isError, setIsError] = useState(false);
-
   const onError = () => {
-    setIsError(true);
+    props.src = undefined;
   };
 
-  if (!props.src || isError) {
+  if (!props.src) {
     return <LogoIcon className={cn("size-full", props.className)} />;
   }
 

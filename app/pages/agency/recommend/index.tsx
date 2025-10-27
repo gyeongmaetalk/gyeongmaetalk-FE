@@ -30,7 +30,7 @@ const STATUS_LIST = [
 const AgencyRecommendPage = () => {
   const [searchParams] = useSearchParams();
   const status = searchParams.get("status") || "";
-  const isAuthenticated = useRefreshTokenStore.getState().refreshToken !== null;
+  const isAuthenticated = useRefreshTokenStore((state) => state.refreshToken) !== null;
 
   const { data = [], isLoading } = useGetPropertyList();
   const { data: counselStatus } = useCheckCounselStatus();
