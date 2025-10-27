@@ -63,8 +63,8 @@ export interface ReadyPurchaseResponse {
 }
 
 export interface ConfirmPurchaseRequest {
-  propertyId: string;
+  propertyId: number;
   paymentKey: string;
   orderId: string;
-  amount: string;
+  amount: number;
 }
