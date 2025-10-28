@@ -58,7 +58,7 @@ const ConsultPage = () => {
       theme: "assistive",
       label: "리뷰 작성",
       value: "review",
-      review: reservedcCounselData?.info.isReviewed,
+      review: reservedcCounselData?.info.reviewed,
     },
     {
       variant: "outlined",
@@ -75,7 +75,7 @@ const ConsultPage = () => {
       theme: "assistive",
       label: "리뷰 작성",
       value: "review",
-      review: reservedcCounselData?.info.isReviewed,
+      review: reservedcCounselData?.info.reviewed,
     },
     {
       variant: "outlined",
