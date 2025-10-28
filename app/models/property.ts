@@ -41,10 +41,10 @@ export interface ReadySubscribeResponse {
 }
 
 export interface ConfirmSubscriptionRequest {
-  subscriptionId: string;
+  subscriptionId: number;
   paymentKey: string;
   orderId: string;
-  amount: string;
+  amount: number;
 }
 
 export interface ConfirmPaymentResponse {
