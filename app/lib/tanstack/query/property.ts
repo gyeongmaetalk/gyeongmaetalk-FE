@@ -8,10 +8,10 @@ import type { PropertyDetailResponse } from "~/models/property";
 import { getPropertyDetail, getPropertyList } from "~/services/property";
 import { calculatePaigination } from "~/utils/api";
 
-export const useGetPropertyList = () => {
+export const useGetPropertyList = (status: string | null) => {
   return useInfiniteQuery({
-    queryKey: [PROPERTY.PROPERTY_LIST],
-    queryFn: ({ pageParam = 0 }) => getPropertyList(pageParam),
+    queryKey: [PROPERTY.PROPERTY_LIST, status],
+    queryFn: ({ pageParam = 0 }) => getPropertyList(pageParam, status),
     getNextPageParam: calculatePaigination,
     initialPageParam: 0,
     select: (data) => data.pages.flatMap((page) => page.result.properties),

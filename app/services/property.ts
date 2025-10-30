@@ -11,9 +11,16 @@ import type {
 } from "~/models/property";
 
 export const getPropertyList = async (
-  page: number
+  page: number,
+  status: string | null
 ): Promise<PaginationResponse<PropertyListResponse>> => {
-  const searchParams = new URLSearchParams({ page: page.toString(), size: "10" });
+  const searchParams = new URLSearchParams({
+    page: page.toString(),
+    size: "10",
+  });
+  if (status) {
+    searchParams.set("status", status);
+  }
   return api.get("properties/list", { searchParams }).json();
 };
 
