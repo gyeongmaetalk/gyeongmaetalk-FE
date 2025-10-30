@@ -145,20 +145,20 @@ const contents = [
         <br />
 
         <div>
-          <li>
+          <li className="ml-5">
             <strong>경매 개시 결정</strong>
             <br />
-            <p className="ml-5">
+            <p>
               법원이 채권자의 신청을 받아 경매 절차를 시작하겠다고 공식적으로 선언하는 것을
               의미합니다. 이 결정과 함께 해당 부동산은 압류됩니다.
             </p>
           </li>
           <br />
 
-          <li>
+          <li className="ml-5">
             <strong>감정가</strong>
             <br />
-            <p className="ml-5">
+            <p>
               감정평가사가 해당 부동산의 가치를 평가하여 정한 금액입니다. 경매 시작 가격인
               &apos;최저가&apos;의 기준이 됩니다.
             </p>
@@ -166,40 +166,40 @@ const contents = [
 
           <br />
 
-          <li>
+          <li className="ml-5">
             <strong>유찰</strong>
             <br />
-            <p className="ml-5">
+            <p>
               경매 당일 입찰자가 한 명도 없거나 아무도 최저가 이상을 써내지 않아 경매가 성립되지
               않은 상태를 의미합니다. 유찰되면 보통 20~30% 낮아진 가격으로 다음 경매가 진행됩니다.
             </p>
           </li>
           <br />
 
-          <li>
+          <li className="ml-5">
             <strong>입찰</strong>
             <br />
-            <p className="ml-5">
+            <p>
               경매에 참여하여 사고 싶은 금액을 써내는 행위를 의미합니다. 정해진 입찰 금액을 봉투에
               넣어 제출합니다.
             </p>
           </li>
           <br />
 
-          <li>
+          <li className="ml-5">
             <strong>최고가 매수 신고인</strong>
             <br />
-            <p className="ml-5">
+            <p>
               경매에서 가장 높은 금액을 써내 낙찰받은 사람을 의미합니다. 최종적으로 법원의 허가를
               받으면 부동산의 주인이 됩니다.
             </p>
           </li>
           <br />
 
-          <li>
+          <li className="ml-5">
             <strong>차순위 매수 신고</strong>
             <br />
-            <p className="ml-5">
+            <p>
               최고가 매수 신고인이 잔금을 내지 못할 경우를 대비해, 두 번째로 높은 금액을 쓴 사람이
               매수할 기회를 갖는 것을 의미합니다. 최고가 입찰가에서 입찰 보증금을 뺀 금액보다 높은
               경우에만 가능합니다.
@@ -215,68 +215,66 @@ const contents = [
         <br />
 
         <div>
-          <li>
+          <li className="ml-5">
             <strong>채권자</strong>
             <br />
-            <p className="ml-5">
-              채무자에게 돈을 빌려준 사람이나 기관을 의미합니다. 경매를 신청하는 주체가 됩니다.
-            </p>
+            <p>채무자에게 돈을 빌려준 사람이나 기관을 의미합니다. 경매를 신청하는 주체가 됩니다.</p>
           </li>
           <br />
 
-          <li>
+          <li className="ml-5">
             <strong>채무자</strong>
             <br />
-            <p className="ml-5">
+            <p>
               채권자에게 돈을 빌린 사람을 의미합니다. 빚을 갚지 못해 부동산이 경매에 넘어갑니다.
             </p>
           </li>
           <br />
 
-          <li>
+          <li className="ml-5">
             <strong>임차인</strong>
             <br />
-            <p className="ml-5">
+            <p>
               경매 물건을 빌려서 사용하고 있는 세입자를 의미합니다. 임대차 계약 내용을 잘 파악해야
               합니다.
             </p>
           </li>
           <br />
 
-          <li>
+          <li className="ml-5">
             <strong>대항력</strong>
             <br />
-            <p className="ml-5">
+            <p>
               임차인이 제3자(새로운 집주인 등)에게 자신의 임차권을 주장할 수 있는 법적 효력을
               의미합니다. 보통 전입신고와 확정일자를 갖추면 대항력이 생깁니다.
             </p>
           </li>
           <br />
 
-          <li>
+          <li className="ml-5">
             <strong>근저당권</strong>
             <br />
-            <p className="ml-5">
+            <p>
               돈을 빌려준 대가로 부동산을 담보로 잡는 것을 의미합니다. 경매 낙찰 시 대부분 사라지는
               권리입니다.
             </p>
           </li>
           <br />
 
-          <li>
+          <li className="ml-5">
             <strong>가압류</strong>
             <br />
-            <p className="ml-5">
+            <p>
               돈을 갚지 않을 것에 대비해 채무자의 재산을 임시로 묶어두는 것을 의미합니다. 역시
               경매로 소멸되는 권리입니다.
             </p>
           </li>
           <br />
 
-          <li>
+          <li className="ml-5">
             <strong>명도</strong>
             <br />
-            <p className="ml-5">
+            <p>
               낙찰자가 경매 부동산의 점유를 확보하는 과정을 의미합니다. 기존 거주자가 나가지 않을
               경우, 법적인 절차를 통해 강제로 내보내는 &apos;강제집행&apos;도 가능합니다.
             </p>
