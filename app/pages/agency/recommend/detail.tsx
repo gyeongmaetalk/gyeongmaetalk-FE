@@ -180,7 +180,7 @@ const AgencyRecommendDetailPage = () => {
           <p className="font-body1-normal-regular text-label-alternative">{data.address}</p>
           <GyeongmaeMap address={data.address} />
         </div>
-        <RequestBidButton />
+        <RequestBidButton id={id} purchased={data.purchased} />
       </section>
     </PageLayout>
   );

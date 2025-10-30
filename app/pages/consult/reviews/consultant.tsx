@@ -30,7 +30,7 @@ const ConsultReviewsConsultantPage = () => {
   });
 
   return (
-    <PageLayout header={<WithBackHeader title="이정훈 상담사 후기" />}>
+    <PageLayout header={<WithBackHeader title={`${data.counselorInfo?.name || ""} 상담사 후기`} />}>
       <section className="px-4 pt-3 pb-6">
         <ConsultantReviewCard
           counselorName={data.counselorInfo?.name || ""}
@@ -38,18 +38,20 @@ const ConsultReviewsConsultantPage = () => {
           counselorImage={data.counselorInfo?.counselorImage || ""}
         />
       </section>
-      {isLoading ? (
-        <Loader2 className="text-primary-normal mx-auto size-10 animate-spin" />
-      ) : (
-        <Review className="h-[calc(100%-182px)]">
-          <ReviewHeader
-            consultantId={consultantId}
-            sort={sort}
-            totalCount={data.consultantReviews.length}
-          />
+      <Review className="h-[calc(100%-182px)]">
+        <ReviewHeader
+          consultantId={consultantId}
+          sort={sort}
+          totalCount={data.consultantReviews.length}
+        />
+        {isLoading ? (
+          <div className="flex h-full items-center">
+            <Loader2 className="text-primary-normal mx-auto size-10 animate-spin" />
+          </div>
+        ) : (
           <ReviewList reviews={data.consultantReviews} />
-        </Review>
-      )}
+        )}
+      </Review>
       <SentinelSpinner
         fetchNextPage={fetchNextPage}
         hasNextPage={hasNextPage}

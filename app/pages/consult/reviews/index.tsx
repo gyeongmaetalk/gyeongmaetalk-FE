@@ -48,50 +48,48 @@ const ConsultReviewsPage = () => {
 
   return (
     <PageLayout header={<WithBackHeader title="상담후기" />}>
-      {isLoading ? (
-        <div className="flex h-full items-center">
-          <Loader2 className="text-primary-normal mx-auto size-10 animate-spin" />
-        </div>
-      ) : isError ? (
-        <div className="flex h-full items-center justify-center">
-          <p className="font-label1-normal-medium text-label-neutral">오류가 발생했습니다.</p>
-        </div>
-      ) : (
-        <>
-          {isShowModal && (
-            <section className="px-4 pt-3 pb-6">
-              <div
-                className="space-y-1.5 rounded-[12px] bg-cover bg-center bg-no-repeat px-5 py-[15px]"
-                style={{ backgroundImage: `url(${homeBg})` }}
-              >
-                <div className="flex items-center justify-between">
-                  <p className="font-body1-normal-bold">{reservationText?.title}</p>
-                  <button onClick={() => setIsShowModal(false)}>
-                    <Close />
-                  </button>
-                </div>
-                <Link
-                  to={reservationText?.to || ""}
-                  className="text-primary-normal flex items-center gap-1"
-                >
-                  <p className="font-body2-normal-medium">{reservationText?.toText}</p>
-                  <Back className="size-3 rotate-180" />
-                </Link>
-              </div>
-            </section>
-          )}
-          <Review className="h-[calc(100%-52px)]">
-            <ReviewHeader sort={sort} totalCount={reviews.length} />
-            <ReviewList reviews={reviews} />
-          </Review>
-          <SentinelSpinner
-            fetchNextPage={fetchNextPage}
-            hasNextPage={hasNextPage}
-            isLoading={isLoading}
-            isFetchingNextPage={isFetchingNextPage}
-          />
-        </>
+      {isShowModal && (
+        <section className="px-4 pt-3 pb-6">
+          <div
+            className="space-y-1.5 rounded-[12px] bg-cover bg-center bg-no-repeat px-5 py-[15px]"
+            style={{ backgroundImage: `url(${homeBg})` }}
+          >
+            <div className="flex items-center justify-between">
+              <p className="font-body1-normal-bold">{reservationText?.title}</p>
+              <button onClick={() => setIsShowModal(false)}>
+                <Close />
+              </button>
+            </div>
+            <Link
+              to={reservationText?.to || ""}
+              className="text-primary-normal flex items-center gap-1"
+            >
+              <p className="font-body2-normal-medium">{reservationText?.toText}</p>
+              <Back className="size-3 rotate-180" />
+            </Link>
+          </div>
+        </section>
       )}
+      <Review className="h-[calc(100%-52px)]">
+        <ReviewHeader sort={sort} totalCount={reviews.length} />
+        {isLoading ? (
+          <div className="flex h-full items-center">
+            <Loader2 className="text-primary-normal mx-auto size-10 animate-spin" />
+          </div>
+        ) : isError ? (
+          <div className="flex h-full items-center justify-center">
+            <p className="font-label1-normal-medium text-label-neutral">오류가 발생했습니다.</p>
+          </div>
+        ) : (
+          <ReviewList reviews={reviews} />
+        )}
+      </Review>
+      <SentinelSpinner
+        fetchNextPage={fetchNextPage}
+        hasNextPage={hasNextPage}
+        isLoading={isLoading}
+        isFetchingNextPage={isFetchingNextPage}
+      />
     </PageLayout>
   );
 };

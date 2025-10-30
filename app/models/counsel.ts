@@ -42,7 +42,7 @@ export interface ReserveConsultResponse extends MatchCounselRequest {
 export interface ReservedCounselDataResponse {
   status: CounselStatus;
   info: ReserveConsultResponse &
-    Omit<MatchCounselResponse, "counselFormId"> & { isReviewed: boolean };
+    Omit<MatchCounselResponse, "counselFormId"> & { reviewed: boolean };
 }
 
 export interface CounselInfoResponse {

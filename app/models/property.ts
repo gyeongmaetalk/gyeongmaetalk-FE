@@ -41,16 +41,34 @@ export interface ReadySubscribeResponse {
 }
 
 export interface ConfirmSubscriptionRequest {
-  subscriptionId: string;
+  subscriptionId: number;
   paymentKey: string;
   orderId: string;
-  amount: string;
+  amount: number;
 }
 
-export interface ConfirmSubscriptionResponse {
+export interface ConfirmPaymentResponse {
   status: string;
   paymentKey: string;
   orderId: string;
   totalAmount: number;
   failureReason: string;
+}
+
+export interface ReadyPurchaseResponse {
+  propertyId: number;
+  orderId: string;
+  amount: number;
+  orderName: string;
+}
+
+export interface ConfirmPurchaseRequest {
+  propertyId: number;
+  paymentKey: string;
+  orderId: string;
+  amount: number;
+}
+
+export interface RequestBidResponse {
+  id: number;
 }

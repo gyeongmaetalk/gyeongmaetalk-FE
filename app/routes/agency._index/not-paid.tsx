@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import ConsultantReviewCard from "~/components/card/consultant-review-card";
-import PaymentModal from "~/components/modal/payment-modal";
+import SubscribePaymentModal from "~/components/modal/subscribe-payment-modal";
 import { Button } from "~/components/ui/button";
 import type { ReservedCounselDataResponse } from "~/models/counsel";
 import { formatDate } from "~/utils/format";
@@ -39,7 +39,7 @@ export default function NotPaid({ info }: NotPaidProps) {
         결제 후 대행 시작하기
       </Button>
 
-      <PaymentModal
+      <SubscribePaymentModal
         id={info.counselorId}
         isOpen={isPaymentModalOpen}
         onClose={onPaymentModalClose}

@@ -27,24 +27,27 @@ const STATUS_LIST = [
   },
 ];
 
+const getStatus = (status: string) => {
+  switch (status) {
+    case "buy":
+      return "true";
+    case "not-buy":
+      return "false";
+    default:
+      return null;
+  }
+};
+
 const AgencyRecommendPage = () => {
   const [searchParams] = useSearchParams();
   const status = searchParams.get("status") || "";
   const isAuthenticated = useRefreshTokenStore((state) => state.refreshToken) !== null;
 
-  const { data = [], isLoading } = useGetPropertyList();
+  const { data = [], isLoading } = useGetPropertyList(getStatus(status));
   const { data: counselStatus } = useCheckCounselStatus();
 
   if (!isAuthenticated) {
     return <Navigate to="/agency" replace />;
-  }
-
-  if (isLoading) {
-    return (
-      <div className="flex h-full items-center">
-        <Loader2 className="text-primary-normal mx-auto size-10 animate-spin" />
-      </div>
-    );
   }
 
   return (
@@ -57,7 +60,11 @@ const AgencyRecommendPage = () => {
         />
       </section>
       <StatusNav statusList={STATUS_LIST} status={status} />
-      {data.length === 0 ? (
+      {isLoading ? (
+        <div className="flex h-[calc(100%-200px)] items-center">
+          <Loader2 className="text-primary-normal mx-auto size-10 animate-spin" />
+        </div>
+      ) : data.length === 0 ? (
         <section className="mt-44 flex flex-col justify-center space-y-3">
           <Document />
           <div className="space-y-1 text-center">
