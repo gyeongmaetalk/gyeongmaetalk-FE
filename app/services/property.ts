@@ -8,6 +8,7 @@ import type {
   PropertyListResponse,
   ReadyPurchaseResponse,
   ReadySubscribeResponse,
+  RequestBidResponse,
 } from "~/models/property";
 
 export const getPropertyList = async (
@@ -56,4 +57,9 @@ export const confirmPurchase = async (
 ): Promise<BaseResponse<ConfirmPaymentResponse>> => {
   const { propertyId, ...restProps } = props;
   return api.post(`properties/${propertyId}/confirm`, { json: restProps }).json();
+};
+
+// 입찰 요청
+export const requestBid = async (propertyId: string): Promise<BaseResponse<RequestBidResponse>> => {
+  return api.post(`properties/${propertyId}/purchase`).json();
 };

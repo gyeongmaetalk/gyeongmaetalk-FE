@@ -68,3 +68,7 @@ export interface ConfirmPurchaseRequest {
   orderId: string;
   amount: number;
 }
+
+export interface RequestBidResponse {
+  id: number;
+}

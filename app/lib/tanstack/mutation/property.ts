@@ -9,12 +9,14 @@ import type {
   ConfirmSubscriptionRequest,
   ReadyPurchaseResponse,
   ReadySubscribeResponse,
+  RequestBidResponse,
 } from "~/models/property";
 import {
   confirmPurchase,
   confirmSubscription,
   readyPurchase,
   readySubscribe,
+  requestBid,
 } from "~/services/property";
 
 export const useReadySubscribe = (
@@ -57,6 +59,15 @@ export const useConfirmPurchase = (
 ) => {
   return useMutation<BaseResponse<ConfirmPaymentResponse>, HTTPError, ConfirmPurchaseRequest>({
     mutationFn: confirmPurchase,
+    ...options,
+  });
+};
+
+export const useRequestBid = (
+  options?: UseMutationOptions<BaseResponse<RequestBidResponse>, HTTPError, string>
+) => {
+  return useMutation<BaseResponse<RequestBidResponse>, HTTPError, string>({
+    mutationFn: requestBid,
     ...options,
   });
 };

@@ -6,11 +6,29 @@ import complete from "~/assets/complete.png";
 import Image from "~/components/image";
 import Modal from "~/components/modal";
 import { Button } from "~/components/ui/button";
+import { PROPERTY } from "~/constants";
 import { useOutsideClick } from "~/hooks/use-outside-click";
-import { successToast } from "~/utils/toast";
+import { queryClient } from "~/lib/tanstack";
+import { useRequestBid } from "~/lib/tanstack/mutation/property";
+import { useCheckCounselStatus } from "~/lib/tanstack/query/counsel";
 
-export default function RequestBidButton() {
+interface RequestBidButtonProps {
+  id: string;
+  purchased: boolean;
+}
+
+export default function RequestBidButton({ id, purchased }: RequestBidButtonProps) {
+  const { data: counselInfoData } = useCheckCounselStatus();
+  const counselorName = counselInfoData?.info.counselorName || "";
+
   const [isOpen, setIsOpen] = useState(false);
+
+  const { mutate: requestBid, isPending } = useRequestBid({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [PROPERTY.PROPERTY_DETAIL, id] });
+      setIsOpen(true);
+    },
+  });
 
   const navigate = useNavigate();
 
@@ -18,9 +36,10 @@ export default function RequestBidButton() {
     setIsOpen(false);
   });
 
+  const isDisabled = purchased || isPending;
+
   const onRequestBid = () => {
-    setIsOpen(true);
-    successToast("입찰 요청이 완료 되었습니다.");
+    requestBid(id);
   };
 
   const onRouteToRecommendList = () => {
@@ -29,7 +48,7 @@ export default function RequestBidButton() {
 
   return (
     <>
-      <Button className="mt-5 w-full" onClick={onRequestBid}>
+      <Button className="mt-5 w-full" onClick={onRequestBid} disabled={isDisabled}>
         입찰 요청하기
       </Button>
       {isOpen && (
@@ -37,7 +56,7 @@ export default function RequestBidButton() {
           <Modal.Header>
             <Image src={complete} alt="complete" className="mx-auto mb-1 size-[52px]" />
             <p>
-              <span className="text-primary-normal">이정훈 상담사</span>에게 입찰 요청을
+              <span className="text-primary-normal">{counselorName} 상담사</span>에게 입찰 요청을
               <br />
               완료했습니다.
             </p>
