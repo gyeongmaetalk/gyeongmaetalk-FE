@@ -31,6 +31,5 @@ export const useGetNotificationSetting = () => {
     queryFn: getNotificationSetting,
     select: (data) => data.result,
     enabled: !!refreshToken,
-    staleTime: 1000 * 60,
   });
 };

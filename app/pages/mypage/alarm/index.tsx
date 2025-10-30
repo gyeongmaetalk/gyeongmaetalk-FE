@@ -1,45 +1,56 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import { Label } from "~/components/ui/label";
 import { Switch } from "~/components/ui/switch";
-import { FCM } from "~/constants";
 import { useDebounce } from "~/hooks/use-debounce";
-import { queryClient } from "~/lib/tanstack";
 import { useUpdateNotificationSetting } from "~/lib/tanstack/mutation/auth";
 import { useGetNotificationSetting } from "~/lib/tanstack/query/fcm";
 
+interface AlarmState {
+  reviewNotificationEnabled: boolean;
+  propertyNotificationEnabled: boolean;
+}
+
 const MyPageAlarmPage = () => {
-  const firstRenderRef = useRef(true);
+  // 사용자가 직접 변경한 값들만 저장 (override)
+  const [overrides, setOverrides] = useState<Partial<AlarmState>>({});
 
   const { data: notificationSetting } = useGetNotificationSetting();
 
-  const [alarmState, setAlarmState] = useState({
-    reviewNotificationEnabled: notificationSetting?.reviewNotificationEnabled ?? false,
-    propertyNotificationEnabled: notificationSetting?.propertyNotificationEnabled ?? false,
-  });
-
-  const debouncedAlarmState = useDebounce(alarmState, 500);
-
-  const onChangeAlarmState = (key: keyof typeof alarmState, value: boolean) => {
-    setAlarmState({ ...alarmState, [key]: value });
+  // 실제 표시될 상태: override가 있으면 override 값, 없으면 서버 값
+  const alarmState = {
+    reviewNotificationEnabled:
+      overrides.reviewNotificationEnabled ??
+      notificationSetting?.reviewNotificationEnabled ??
+      false,
+    propertyNotificationEnabled:
+      overrides.propertyNotificationEnabled ??
+      notificationSetting?.propertyNotificationEnabled ??
+      false,
   };
 
-  const { mutate: updateNotificationSetting } = useUpdateNotificationSetting({
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [FCM.NOTIFICATION_SETTING] });
-    },
-  });
+  const debouncedAlarmState = useDebounce(alarmState, 500);
+  const prevDebouncedStateRef = useRef(debouncedAlarmState);
 
-  useEffect(() => {
-    if (firstRenderRef.current) {
-      firstRenderRef.current = false;
-      return;
+  const onChangeAlarmState = (key: keyof typeof alarmState, value: boolean) => {
+    setOverrides((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const { mutate: updateNotificationSetting } = useUpdateNotificationSetting();
+
+  // debounced 값이 변경되면 API 호출
+  if (
+    prevDebouncedStateRef.current.reviewNotificationEnabled !==
+      debouncedAlarmState.reviewNotificationEnabled ||
+    prevDebouncedStateRef.current.propertyNotificationEnabled !==
+      debouncedAlarmState.propertyNotificationEnabled
+  ) {
+    // override가 있을 때만 API 호출 (초기 렌더링 방지)
+    if (Object.keys(overrides).length > 0) {
+      updateNotificationSetting(debouncedAlarmState);
     }
-    updateNotificationSetting(debouncedAlarmState);
-  }, [
-    debouncedAlarmState.propertyNotificationEnabled,
-    debouncedAlarmState.reviewNotificationEnabled,
-  ]);
+    prevDebouncedStateRef.current = debouncedAlarmState;
+  }
 
   return (
     <div className="px-4 py-6">
