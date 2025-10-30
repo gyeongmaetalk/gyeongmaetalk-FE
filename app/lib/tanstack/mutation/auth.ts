@@ -3,15 +3,24 @@ import { useMutation, type UseMutationOptions } from "@tanstack/react-query";
 import type { HTTPError } from "ky";
 
 import type { BaseResponse } from "~/models";
-import type { SignupResponse } from "~/models/auth";
+import type { SignupResponse, UpdateNotificationSettingRequest } from "~/models/auth";
 import type { UpdateUserInfoForm } from "~/routes/mypage.userinfo/schema";
-import { updateUserInfo } from "~/services/auth";
+import { updateNotificationSetting, updateUserInfo } from "~/services/auth";
 
 export const useUpdateUserInfo = (
   options?: UseMutationOptions<BaseResponse<SignupResponse>, HTTPError, UpdateUserInfoForm>
 ) => {
   return useMutation<BaseResponse<SignupResponse>, HTTPError, UpdateUserInfoForm>({
     mutationFn: updateUserInfo,
+    ...options,
+  });
+};
+
+export const useUpdateNotificationSetting = (
+  options?: UseMutationOptions<BaseResponse<void>, HTTPError, UpdateNotificationSettingRequest>
+) => {
+  return useMutation<BaseResponse<void>, HTTPError, UpdateNotificationSettingRequest>({
+    mutationFn: updateNotificationSetting,
     ...options,
   });
 };

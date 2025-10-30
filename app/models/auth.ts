@@ -17,3 +17,8 @@ export interface MyInfoResponse {
   birth: string;
   auctionStatus: boolean;
 }
+
+export interface UpdateNotificationSettingRequest {
+  reviewNotificationEnabled: boolean;
+  propertyNotificationEnabled: boolean;
+}
