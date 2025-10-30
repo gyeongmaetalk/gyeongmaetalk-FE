@@ -5,4 +5,5 @@ export enum NotificationType {
 
 export const FCM = {
   NOTIFICATIONS: "notifications",
+  NOTIFICATION_SETTING: "notification-setting",
 };

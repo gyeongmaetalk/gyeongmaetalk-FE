@@ -2,15 +2,20 @@ import { useEffect, useRef, useState } from "react";
 
 import { Label } from "~/components/ui/label";
 import { Switch } from "~/components/ui/switch";
+import { FCM } from "~/constants";
 import { useDebounce } from "~/hooks/use-debounce";
+import { queryClient } from "~/lib/tanstack";
 import { useUpdateNotificationSetting } from "~/lib/tanstack/mutation/auth";
+import { useGetNotificationSetting } from "~/lib/tanstack/query/fcm";
 
 const MyPageAlarmPage = () => {
   const firstRenderRef = useRef(true);
 
+  const { data: notificationSetting } = useGetNotificationSetting();
+
   const [alarmState, setAlarmState] = useState({
-    reviewNotificationEnabled: false,
-    propertyNotificationEnabled: false,
+    reviewNotificationEnabled: notificationSetting?.reviewNotificationEnabled ?? false,
+    propertyNotificationEnabled: notificationSetting?.propertyNotificationEnabled ?? false,
   });
 
   const debouncedAlarmState = useDebounce(alarmState, 500);
@@ -19,7 +24,11 @@ const MyPageAlarmPage = () => {
     setAlarmState({ ...alarmState, [key]: value });
   };
 
-  const { mutate: updateNotificationSetting } = useUpdateNotificationSetting();
+  const { mutate: updateNotificationSetting } = useUpdateNotificationSetting({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [FCM.NOTIFICATION_SETTING] });
+    },
+  });
 
   useEffect(() => {
     if (firstRenderRef.current) {
